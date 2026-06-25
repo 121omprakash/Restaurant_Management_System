@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Restaraunt Management System";
+}
+@model Restaurant_Management_System.Models.AccountModel
+
+<div class="text-center">
+    <h1 class="display-4">Login Page</h1>
+</div>
+
+<form asp-action="Login" asp-controller="Account">
+    <label>User Id:</label>
+    <input class="form-control mb-2" type="text" required asp-controller="Home" placeholder="Enter your user id" asp-for="AccountId"/>
+    <label>Password</label>
+    <input class="form-control mb-2" type="password" placeholder="Enter your password" asp-for="password" />
+    <button class="form-control mt-4 btn btn-primary" type="submit">Login IN</button>
+</form>
