@@ -1,3 +1,4 @@
+/* CSS for login_layout view */
 /* Modern UI/UX Theme Variables */
 :root {
     --bg-primary: #12141c;
@@ -20,12 +21,17 @@
 
 body {
     background-color: var(--bg-primary) !important;
+    background-size: inherit;
     color: var(--text-main) !important;
     transition: background-color 0.3s ease, color 0.3s ease;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
+    body img {
+        width: 100%;
+    }
 
 /* Navbar Custom Styling */
 .custom-navbar {
@@ -40,6 +46,10 @@ body {
     color: var(--accent-color) !important;
 }
 
+    .navbar-brand img {
+        height: 50px;
+        width: 100px;
+    }
 /* Main Content Wrapper Alignment */
 .main-wrapper {
     flex: 1;

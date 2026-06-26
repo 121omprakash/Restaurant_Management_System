@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace Restaurant_Management_System.Controllers
 {
-    //[Authorize(Roles = "Waiter")]
-    public class OrderController : Controller
+    //[Authorize(Roles = "Admin")]
+    public class AdminController:Controller
     {
         public IActionResult Index()
         {
