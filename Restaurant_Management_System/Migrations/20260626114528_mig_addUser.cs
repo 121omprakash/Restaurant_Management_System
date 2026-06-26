@@ -7,7 +7,7 @@
 namespace Restaurant_Management_System.Migrations
 {
     /// <inheritdoc />
-    public partial class m_Add_User : Migration
+    public partial class mig_addUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,8 @@ namespace Restaurant_Management_System.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,15 +29,15 @@ namespace Restaurant_Management_System.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "UserId", "password" },
+                columns: new[] { "Id", "Role", "UserId", "password" },
                 values: new object[,]
                 {
-                    { 1, "AD01", "AD01@123" },
-                    { 2, "CH01", "CH01@123" },
-                    { 3, "MN01", "MN01@123" },
-                    { 4, "WA01", "WA01@123" },
-                    { 5, "CS01", "CS01@123" },
-                    { 6, "IC01", "IC01@123" }
+                    { 1, "Admin", "AD01", "AD01@123" },
+                    { 2, "Chef", "CH01", "CH01@123" },
+                    { 3, "Manager", "MN01", "MN01@123" },
+                    { 4, "Waiter", "WA01", "WA01@123" },
+                    { 5, "Cashier", "CS01", "CS01@123" },
+                    { 6, "Inventory Clerk", "IC01", "IC01@123" }
                 });
         }
 

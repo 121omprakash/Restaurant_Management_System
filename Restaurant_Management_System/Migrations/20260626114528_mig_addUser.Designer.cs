@@ -11,8 +11,8 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-    [Migration("20260625171520_m_Modify_user_add_role")]
-    partial class m_Modify_user_add_role
+    [Migration("20260626114528_mig_addUser")]
+    partial class mig_addUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
