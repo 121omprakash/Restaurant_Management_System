@@ -1,0 +1,264 @@
+﻿Preparing Orders
+@{
+    ViewData["Title"] = "Preparing Orders";
+    Layout = "~/Views/Shared/_ChefLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="page-header">
+
+        <h2>Preparing Orders</h2>
+
+        <input type="text"
+               class="form-control search-box"
+               placeholder="Search Order..." />
+
+    </div>
+
+    <div class="table-container">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+
+                    <th>Table</th>
+
+                    <th>Items</th>
+
+                    <th>Quantity</th>
+
+                    <th>Started At</th>
+
+                    <th>ETA</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>ORD201</td>
+
+                    <td>T-04</td>
+
+                    <td>Pizza + Coke</td>
+
+                    <td>3</td>
+
+                    <td>10:30 AM</td>
+
+                    <td>15 min</td>
+
+                    <td>
+                        <span class="badge bg-primary">
+                            Preparing
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-info btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#preparingRecipe">
+
+                            View Recipe
+
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+
+                            Mark Prepared
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD202</td>
+
+                    <td>T-07</td>
+
+                    <td>Chicken Biryani</td>
+
+                    <td>2</td>
+
+                    <td>10:40 AM</td>
+
+                    <td>20 min</td>
+
+                    <td>
+                        <span class="badge bg-primary">
+                            Preparing
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-info btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#preparingRecipe">
+
+                            View Recipe
+
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+
+                            Mark Prepared
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD203</td>
+
+                    <td>T-02</td>
+
+                    <td>Pasta</td>
+
+                    <td>2</td>
+
+                    <td>10:45 AM</td>
+
+                    <td>12 min</td>
+
+                    <td>
+                        <span class="badge bg-primary">
+                            Preparing
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-info btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#preparingRecipe">
+
+                            View Recipe
+
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+
+                            Mark Prepared
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+ 
+<!-- Recipe Modal -->
+
+<div class="modal fade"
+     id="preparingRecipe"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-dark text-white">
+
+                <h4 class="modal-title">
+
+                    Recipe Details
+
+                </h4>
+
+                <button class="btn-close btn-close-white"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <h4>Pizza Recipe</h4>
+
+                <hr>
+
+                <h5>Ingredients</h5>
+
+                <ul>
+
+                    <li>Pizza Dough</li>
+
+                    <li>Tomato Sauce</li>
+
+                    <li>Mozzarella Cheese</li>
+
+                    <li>Olive Oil</li>
+
+                    <li>Fresh Basil</li>
+
+                </ul>
+
+                <h5>Preparation Steps</h5>
+
+                <ol>
+
+                    <li>Spread tomato sauce.</li>
+
+                    <li>Add mozzarella cheese.</li>
+
+                    <li>Add basil leaves.</li>
+
+                    <li>Bake for 12 minutes.</li>
+
+                    <li>Serve hot.</li>
+
+                </ol>
+
+                <div class="alert alert-warning mt-3">
+
+                    Special Instruction:
+                    Extra Cheese
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

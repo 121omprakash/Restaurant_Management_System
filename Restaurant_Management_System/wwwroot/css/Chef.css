@@ -1,0 +1,408 @@
+﻿body {
+    background-image: url('/images/kitchen-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+}
+
+.sidebar {
+    position: fixed;
+    width: 260px;
+    height: 100vh;
+    background: #2b1b17;
+    color: white;
+    padding-top: 20px;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .logo i {
+        font-size: 40px;
+        color: orange;
+    }
+
+    .logo h3 {
+        margin-top: 10px;
+    }
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+}
+
+    .nav-menu li {
+        margin: 10px 15px;
+    }
+
+        .nav-menu li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+            .nav-menu li a i {
+                margin-right: 10px;
+            }
+
+            .nav-menu li a:hover {
+                background: orange;
+                color: white;
+            }
+
+.logout {
+    position: absolute;
+    bottom: 20px;
+    width: 90%;
+}
+
+.content {
+    margin-left: 260px;
+    padding: 30px;
+}
+
+
+
+/*     DASHBOARD      */
+body {
+    background: #F8F5F2;
+}
+
+/* Dashboard */
+
+.dashboard-title {
+    font-weight: bold;
+    color: #3E2723;
+    margin-bottom: 25px;
+}
+
+/* Cards */
+
+.dashboard-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+    transition: .3s;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+    }
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px;
+}
+
+.pending {
+    background: #F59E0B;
+}
+
+.preparing {
+    background: #2563EB;
+}
+
+.delayed {
+    background: #DC2626;
+}
+
+.card-details {
+    text-align: right;
+}
+
+    .card-details h2 {
+        margin: 0;
+        color: #3E2723;
+        font-size: 38px;
+        font-weight: bold;
+    }
+
+    .card-details h5 {
+        color: #6B4F4F;
+        margin-bottom: 5px;
+    }
+
+    .card-details p {
+        margin: 0;
+        color: gray;
+    }
+
+/* Table */
+
+.table-section {
+    background: white;
+    margin-top: 30px;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+/* Information Boxes */
+
+.info-box {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+    height: 100%;
+}
+
+    .info-box h4 {
+        margin-bottom: 20px;
+        color: #3E2723;
+    }
+
+    .info-box ul {
+        padding-left: 20px;
+    }
+
+        .info-box ul li {
+            margin-bottom: 12px;
+        }
+
+
+
+/*     PENDING ORDERS     */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+    .page-header h2 {
+        color: #3E2723;
+        font-weight: bold;
+    }
+
+.search-box {
+    width: 280px;
+    border-radius: 10px;
+}
+
+.table-container {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.table thead {
+    background: #2C1810;
+    color: white;
+}
+
+    .table thead th {
+        padding: 15px;
+    }
+
+.table tbody td {
+    vertical-align: middle;
+}
+
+.btn-info {
+    background: #2563EB;
+    color: white;
+    border: none;
+}
+
+    .btn-info:hover {
+        background: #1D4ED8;
+        color: white;
+    }
+
+.btn-success {
+    background: #16A34A;
+    border: none;
+}
+
+    .btn-success:hover {
+        background: #15803D;
+    }
+
+.table tbody tr:hover {
+    background: #FFF8EE;
+}
+
+/* PREPARING ORDERS */
+
+
+
+.badge.bg-primary {
+    background: #2563EB !important;
+}
+
+.btn-info {
+    background: #2563EB;
+    color: white;
+    border: none;
+}
+
+    .btn-info:hover {
+        background: #1D4ED8;
+        color: white;
+    }
+
+.btn-success {
+    background: #16A34A;
+    border: none;
+}
+
+    .btn-success:hover {
+        background: #15803D;
+    }
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header {
+    background: #2C1810 !important;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.modal-body h4 {
+    color: #2C1810;
+}
+
+.modal-body h5 {
+    color: #D97706;
+    margin-top: 15px;
+}
+
+.modal-body ul li {
+    margin-bottom: 8px;
+}
+
+.modal-body ol li {
+    margin-bottom: 8px;
+}
+
+}
+
+/* DELAYED ORDERS */
+
+.badge.bg-danger {
+    background: #DC2626 !important;
+}
+
+.btn-warning {
+    background: #D97706;
+    color: white;
+    border: none;
+}
+
+    .btn-warning:hover {
+        background: #B45309;
+        color: white;
+    }
+
+.modal-header.bg-danger {
+    background: #B91C1C !important;
+}
+
+/* COMPLETED ORDERS */
+
+.badge.bg-success {
+    background: #16A34A !important;
+}
+
+.modal-header.bg-success {
+    background: #15803D !important;
+}
+
+.alert-success {
+    border-radius: 10px;
+}
+
+/* ============================= */
+/* Chef Profile */
+/* ============================= */
+
+.chef-profile {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-image {
+    width: 60px;
+    height: 60px;
+    background: #D97706;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+    .profile-image i {
+        font-size: 30px;
+        color: white;
+    }
+
+.profile-details h5 {
+    color: white;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.profile-details p {
+    color: #d9d9d9;
+    margin: 3px 0 0 0;
+    font-size: 14px;
+}
+
+.sidebar hr {
+    border: 1px solid rgba(255,255,255,0.15);
+    margin: 10px 20px;
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 18px;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+        .nav-link:hover {
+            background: #D97706;
+            color: white;
+        }
+
+    .active-menu {
+        background: #D97706;
+        color: white !important;
+        font-weight: bold;
+    }
+
+    .nav-link i {
+        width: 20px;
+    }

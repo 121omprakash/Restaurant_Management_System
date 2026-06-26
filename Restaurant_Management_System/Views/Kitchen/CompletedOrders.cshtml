@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "Completed Orders";
+    Layout = "~/Views/Shared/_ChefLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="page-header">
+
+        <h2>Completed Orders</h2>
+
+        <input type="text"
+               class="form-control search-box"
+               placeholder="Search Completed Orders..." />
+
+    </div>
+
+    <div class="table-container">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+
+                    <th>Table</th>
+
+                    <th>Items</th>
+
+                    <th>Completed Time</th>
+
+                    <th>Cooking Time</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>ORD401</td>
+
+                    <td>T-05</td>
+
+                    <td>Pizza + Garlic Bread</td>
+
+                    <td>11:15 AM</td>
+
+                    <td>18 Minutes</td>
+
+                    <td>
+                        <span class="badge bg-success">
+                            Completed
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#completedModal">
+
+                            View Details
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD402</td>
+
+                    <td>T-03</td>
+
+                    <td>Burger Meal</td>
+
+                    <td>11:22 AM</td>
+
+                    <td>14 Minutes</td>
+
+                    <td>
+                        <span class="badge bg-success">
+                            Completed
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#completedModal">
+
+                            View Details
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD403</td>
+
+                    <td>T-08</td>
+
+                    <td>Chicken Biryani</td>
+
+                    <td>11:35 AM</td>
+
+                    <td>25 Minutes</td>
+
+                    <td>
+                        <span class="badge bg-success">
+                            Completed
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#completedModal">
+
+                            View Details
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- Completed Order Details Modal -->
+
+<div class="modal fade"
+     id="completedModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+
+                <h4 class="modal-title">
+
+                    Completed Order Details
+
+                </h4>
+
+                <button class="btn-close btn-close-white"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <h5>Order Information</h5>
+
+                <hr />
+
+                <p><strong>Order ID :</strong> ORD401</p>
+
+                <p><strong>Table :</strong> T-05</p>
+
+                <p><strong>Completed At :</strong> 11:15 AM</p>
+
+                <p><strong>Total Cooking Time :</strong> 18 Minutes</p>
+
+                <hr />
+
+                <h5>Prepared Items</h5>
+
+                <ul>
+
+                    <li>Pizza ×2</li>
+
+                    <li>Garlic Bread ×1</li>
+
+                    <li>Coke ×2</li>
+
+                </ul>
+
+                <hr />
+
+                <h5>Special Instructions</h5>
+
+                <div class="alert alert-success">
+
+                    Extra Cheese<br />
+                    Less Spicy
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
