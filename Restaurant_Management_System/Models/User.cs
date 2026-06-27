@@ -7,6 +7,11 @@ namespace Restaurant_Management_System.Models
         [Required]
         [Key]
         public int Id { get; set; }
+
+        [Required]
+        [NotNull]
+        public string Name { get; set; }
+
         [Required]
         [NotNull]
         public string UserId { get; set; }
@@ -16,5 +21,7 @@ namespace Restaurant_Management_System.Models
         [Required]
         [NotNull]
         public string Role { get; set; }
+     //   [Required]
+        //public string Status { get; set; } = "Active";
     }
 }

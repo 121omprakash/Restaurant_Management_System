@@ -5,66 +5,66 @@
 namespace Restaurant_Management_System.Migrations
 {
     /// <inheritdoc />
-    public partial class m_Modify_user_add_role : Migration
+    public partial class AddNameSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Role",
+                name: "Name",
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "Temp Name");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "Role",
-                value: "Admin");
+                column: "Name",
+                value: "Shaik");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 2,
-                column: "Role",
-                value: "Chef");
+                column: "Name",
+                value: "Sai");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 3,
-                column: "Role",
-                value: "Manager");
+                column: "Name",
+                value: "Satya");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 4,
-                column: "Role",
-                value: "Waiter");
+                column: "Name",
+                value: "Anusha");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 5,
-                column: "Role",
-                value: "Cashier");
+                column: "Name",
+                value: "Om Prakash");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 6,
-                column: "Role",
-                value: "Inventory Clerk");
+                column: "Name",
+                value: "Rishab");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Role",
+                name: "Name",
                 table: "Users");
         }
     }
