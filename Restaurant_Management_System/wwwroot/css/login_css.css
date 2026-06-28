@@ -29,9 +29,9 @@ body {
     min-height: 100vh;
 }
 
-    body img {
+/* body img {
         width: 100%;
-    }
+    }*/
 
 /* Navbar Custom Styling */
 .custom-navbar {
@@ -49,8 +49,8 @@ body {
 }
 
     .navbar-brand img {
-        height: 50px;
-        width: auto; /* Fixed layout constraint aspect distortion */
+        height: 50px !important;
+        width: auto !important; /* Fixed layout constraint aspect distortion */
         object-fit: contain;
     }
 

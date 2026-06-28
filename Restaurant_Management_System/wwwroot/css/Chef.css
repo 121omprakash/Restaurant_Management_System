@@ -1,4 +1,12 @@
-﻿body {
+﻿:root {
+    --bg-primary: #12141c;
+    --bg-card: rgba(30, 33, 48, 0.75); /* Added transparency for glass effect over background */
+    --text-main: #ffffff;
+    --text-muted: #a0aec0;
+    --accent-color: #ffc107; /* Warm Amber for Culinary operations */
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+body {
     background-image: url('/images/kitchen-bg.jpg');
     background-size: cover;
     background-position: center;
@@ -7,15 +15,19 @@
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background: #f4f6f9;
+    padding:70px;
 }
 
 .sidebar {
     position: fixed;
+    top:70px;
+    left:0;
     width: 260px;
-    height: 100vh;
+    height: calc(100vh - 70px);
     background: #2b1b17;
     color: white;
     padding-top: 20px;
+    overflow-y:auto;
 }
 
 .logo {
@@ -67,6 +79,7 @@
 
 .content {
     margin-left: 260px;
+    margin-top:70px;
     padding: 30px;
 }
 
@@ -406,3 +419,47 @@ body {
     .nav-link i {
         width: 20px;
     }
+    /* Navbar Custom Styling */
+    .custom-navbar {
+        background-color: #222 !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        padding: 0.75rem 1.5rem;
+        height:70px;
+        z-index:1050;
+    }
+
+    .navbar-brand {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: var(--accent-color) !important;
+    }
+
+        .navbar-brand img {
+            height: 50px;
+            width: auto; /* Fixed layout constraint aspect distortion */
+            object-fit: contain;
+        }
+    /* Night/Day Mode Button Components */
+    .theme-toggle-btn {
+        background: none;
+        border: 1px solid var(--border-color);
+        color: var(--text-muted);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+        .theme-toggle-btn:hover {
+            color: var(--text-main);
+            border-color: var(--text-muted);
+        }
