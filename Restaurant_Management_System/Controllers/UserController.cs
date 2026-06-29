@@ -125,7 +125,7 @@ public class UserController : Controller
         }
         else if (role == "Waiter")
         {
-            return RedirectToAction("Index", "Waiter");
+            return RedirectToAction("Dashboard", "Waiter");
         }
         else if (role == "Cashier")
         {

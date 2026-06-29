@@ -1,0 +1,237 @@
+﻿@{
+    ViewData["Title"] = "Order Status";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<style>
+    .page-container {
+        padding: 25px;
+        background: #f6f1eb;
+    }
+
+    /* HEADER */
+    .header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .page-subtitle {
+        color: #8b6f5c;
+    }
+
+    /* FILTER BUTTONS */
+    .filter-bar {
+        margin-top: 15px;
+    }
+
+    .filter-btn, .filter-active {
+        padding: 8px 15px;
+        margin-right: 5px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .filter-btn {
+        background: #e6ddd4;
+    }
+
+    .filter-active {
+        background: #e8611c;
+        color: white;
+    }
+
+    /* NOTIFY */
+    .notify-green {
+        margin-top: 15px;
+        padding: 10px;
+        background: #d4edda;
+        border-radius: 10px;
+    }
+
+    /* CARD */
+    .order-card {
+        background: #efe7df;
+        padding: 20px;
+        border-radius: 20px;
+        margin-top: 15px;
+    }
+
+    /* STATUS */
+    .status {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .new {
+        background: #e0e0e0;
+    }
+
+    .preparing {
+        background: #fff3cd;
+    }
+
+    .ready {
+        background: #d4edda;
+    }
+
+    .served {
+        background: #cce5ff;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+
+<div class="page-container">
+
+    <!-- ✅ HEADER -->
+    <div class="header">
+        <div>
+            <div class="page-title">Order Status</div>
+            <div class="page-subtitle">Track kitchen progress for all orders.</div>
+        </div>
+
+        <div>
+            <span id="shiftText"></span><br />
+            <small id="dateText"></small>
+        </div>
+    </div>
+
+    <!-- ✅ FILTER -->
+    <div class="filter-bar">
+        <button class="filter-active" onclick="filterOrders('ALL')">All</button>
+        <button class="filter-btn" onclick="filterOrders('NEW')">New</button>
+        <button class="filter-btn" onclick="filterOrders('PREPARING')">Preparing</button>
+        <button class="filter-btn" onclick="filterOrders('READY')">Ready</button>
+        <button class="filter-btn" onclick="filterOrders('SERVED')">Served</button>
+    </div>
+
+    <!-- ✅ NOTIFICATION -->
+    <div id="notifyBox" class="notify-green"></div>
+
+    <!-- ✅ ORDERS -->
+    <div id="orderContainer"></div>
+
+</div>
+
+
+<script>
+
+    // ✅ SAMPLE DATA
+    let orders = [
+        {
+            table: 1,
+            name: "Rahul Sharma",
+            status: "PREPARING",
+            items: "Margherita x2, Chicken Dominator x1",
+            time: "12:35 PM"
+        },
+        {
+            table: 3,
+            name: "Priya Mehta",
+            status: "READY",
+            items: "Farmhouse x1, Paneer Tikka x2",
+            time: "12:48 PM"
+        },
+        {
+            table: 6,
+            name: "Sneha Iyer",
+            status: "NEW",
+            items: "BBQ Chicken x2",
+            time: "1:02 PM"
+        },
+        {
+            table: 10,
+            name: "Meera Pillai",
+            status: "SERVED",
+            items: "Veggie Delight x1, Pepper Chicken x1",
+            time: "12:10 PM"
+        }
+    ];
+
+    let currentFilter = "ALL";
+
+    // ✅ RENDER
+    function renderOrders() {
+
+        const container = document.getElementById("orderContainer");
+        container.innerHTML = "";
+
+        // filter
+        let filtered = orders.filter(o =>
+            currentFilter === "ALL" || o.status === currentFilter
+        );
+
+        filtered.forEach(order => {
+
+            container.innerHTML += `
+            <div class="order-card">
+
+                <div class="order-header">
+                    <div>
+                        <b>Table ${order.table} - ${order.name}</b>
+                    </div>
+
+                    <span class="status ${order.status.toLowerCase()}">
+                        ${order.status}
+                    </span>
+                </div>
+
+                <p>${order.items}</p>
+                <p>${order.time}</p>
+
+            </div>
+            `;
+        });
+
+        updateNotification();
+    }
+
+    // ✅ FILTER
+    function filterOrders(status) {
+        currentFilter = status;
+
+        // update button styles
+        document.querySelectorAll(".filter-btn, .filter-active")
+            .forEach(btn => btn.classList.remove("filter-active"));
+
+        event.target.classList.add("filter-active");
+
+        renderOrders();
+    }
+
+    // ✅ READY COUNT
+    function updateNotification() {
+        const readyCount = orders.filter(o => o.status === "READY").length;
+
+        document.getElementById("notifyBox").innerText =
+            `${readyCount} order(s) ready to serve`;
+    }
+
+    // ✅ SHIFT + DATE
+    function updateShift() {
+        let h = new Date().getHours();
+        let shift = h < 14 ? "Morning" : h < 22 ? "Afternoon" : "Night";
+
+        document.getElementById("shiftText").innerText = "Shift: " + shift;
+        document.getElementById("dateText").innerText =
+            new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short' });
+    }
+
+    // INIT
+    updateShift();
+    renderOrders();
+
+</script>

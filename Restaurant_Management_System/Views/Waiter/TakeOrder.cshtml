@@ -1,0 +1,274 @@
+﻿@{
+    ViewData["Title"] = "Take Order";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<style>
+    .page-container {
+        padding: 25px;
+        background: #f6f1eb;
+    }
+
+    /* HEADER */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .page-subtitle {
+        color: #8b6f5c;
+    }
+
+    /* BELL */
+    .bell {
+        width: 40px;
+        height: 40px;
+        background: #efe7df;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .red-dot {
+        position: absolute;
+        top: 5px;
+        right: 6px;
+        width: 8px;
+        height: 8px;
+        background: red;
+        border-radius: 50%;
+    }
+
+    /* CARD */
+    .card {
+        background: #efe7df;
+        border-radius: 20px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    /* MENU ITEM */
+    .menu-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .add-btn {
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        border: 1px solid #e8611c;
+        color: #e8611c;
+        cursor: pointer;
+    }
+
+    /* CATEGORY */
+    .tag {
+        background: #e6ddd4;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+
+    /* CART */
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .empty-cart {
+        text-align: center;
+        margin-top: 30px;
+        color: #8b6f5c;
+    }
+</style>
+
+<div class="page-container">
+
+    <!-- ✅ HEADER -->
+    <div class="header">
+        <div>
+            <div class="page-title">Take Order</div>
+            <div class="page-subtitle">Select a table and add items to place an order.</div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <div class="bell">🔔<span class="red-dot"></span></div>
+            <div>
+                <div id="shiftText"></div>
+                <small id="dateText"></small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ SELECT TABLE -->
+    <div class="card">
+        <h3>Select Table</h3>
+        <select id="tableSelect" class="input-box">
+            <option>Select table</option>
+        </select>
+    </div>
+
+    <!-- ✅ MENU -->
+    <div class="card">
+        <h3>Veg Pizzas <span class="tag">VEG</span></h3>
+
+        <div class="menu-item">
+            <div>
+                <b>Margherita</b><br />₹299
+            </div>
+            <button class="add-btn" onclick="addItem('Margherita',299)">+</button>
+        </div>
+
+        <div class="menu-item">
+            <div>
+                <b>Farmhouse</b><br />₹349
+            </div>
+            <button class="add-btn" onclick="addItem('Farmhouse',349)">+</button>
+        </div>
+
+        <div class="menu-item">
+            <div>
+                <b>Paneer Tikka</b><br />₹379
+            </div>
+            <button class="add-btn" onclick="addItem('Paneer Tikka',379)">+</button>
+        </div>
+    </div>
+
+    <!-- ✅ NON VEG -->
+    <div class="card">
+        <h3>Non‑Veg Pizzas <span class="tag">NON‑VEG</span></h3>
+
+        <div class="menu-item">
+            <div>
+                <b>Chicken Dominator</b><br />₹449
+            </div>
+            <button class="add-btn" onclick="addItem('Chicken Dominator',449)">+</button>
+        </div>
+
+        <div class="menu-item">
+            <div>
+                <b>BBQ Chicken</b><br />₹419
+            </div>
+            <button class="add-btn" onclick="addItem('BBQ Chicken',419)">+</button>
+        </div>
+    </div>
+
+    <!-- ✅ CART -->
+    <div class="card">
+        <h3>Order Cart</h3>
+
+        <div id="cartItems"></div>
+
+        <div id="emptyCart" class="empty-cart">
+            Cart is empty<br />
+            Add items from the menu to start an order
+        </div>
+
+        <h4 id="totalPrice"></h4>
+
+        <button onclick="placeOrder()" class="add-btn" style="width:100%;margin-top:10px;">
+            Place Order
+        </button>
+    </div>
+
+</div>
+
+<script>
+
+    // ✅ CART
+    let cart = [];
+
+    function addItem(name, price) {
+        cart.push({ name, price });
+        renderCart();
+    }
+
+    function renderCart() {
+        const container = document.getElementById("cartItems");
+        const empty = document.getElementById("emptyCart");
+
+        container.innerHTML = "";
+
+        if (cart.length === 0) {
+            empty.style.display = "block";
+            return;
+        }
+
+        empty.style.display = "none";
+
+        let total = 0;
+
+        cart.forEach(item => {
+            total += item.price;
+
+            container.innerHTML += `
+                <div class="cart-item">
+                    ${item.name} - ₹${item.price}
+                </div>`;
+        });
+
+        document.getElementById("totalPrice").innerText = "Total: ₹" + total;
+    }
+
+    // ✅ PLACE ORDER
+    function placeOrder() {
+        const table = document.getElementById("tableSelect").value;
+
+        fetch('/Order/createOrder', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                tableNumber: table,
+                items: cart
+            })
+        }).then(() => {
+            alert("✅ Order placed!");
+            cart=[];
+            renderCart();
+        });
+    }
+
+    // ✅ LOAD TABLES
+    function loadTables(){
+        fetch('/Order/GetTables')
+        .then(res=>res.json())
+        .then(data=>{
+            const dd=document.getElementById("tableSelect");
+            dd.innerHTML="<option>Select table</option>";
+
+            data.forEach(t=>{
+                dd.innerHTML+=`<option value="${t.tableNumber}">
+                    Table ${t.tableNumber}
+                </option>`;
+            });
+        });
+    }
+
+    // ✅ SHIFT
+    function updateShift(){
+        let h=new Date().getHours();
+        let shift=h<14?"Morning":h<22?"Afternoon":"Night";
+
+        document.getElementById("shiftText").innerText="Shift: "+shift;
+        document.getElementById("dateText").innerText=
+            new Date().toLocaleDateString("en-IN",{day:'2-digit',month:'short'});
+    }
+
+    // INIT
+    loadTables();
+    updateShift();
+
+</script>
+``

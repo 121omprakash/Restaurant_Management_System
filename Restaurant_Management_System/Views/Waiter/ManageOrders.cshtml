@@ -1,0 +1,273 @@
+﻿@{
+    ViewData["Title"] = "Manage Orders";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<style>
+    .page-container {
+        padding: 25px;
+        background: #f6f1eb;
+    }
+
+    /* HEADER */
+    .header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .page-subtitle {
+        color: #8b6f5c;
+    }
+
+    /* CARD */
+    .order-card {
+        background: #efe7df;
+        border-radius: 20px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    /* HEADER ROW */
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* TABLE BADGE */
+    .table-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e6ddd4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    /* STATUS */
+    .status {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .new {
+        background: #e0e0e0;
+    }
+
+    .preparing {
+        background: #fff3cd;
+    }
+
+    .ready {
+        background: #d4edda;
+    }
+
+    /* ITEM */
+    .item-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    /* BUTTONS */
+    .btn {
+        padding: 10px 15px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .add-btn {
+        background: #e6ddd4;
+    }
+
+    .cancel-btn {
+        border: 1px solid red;
+        color: red;
+        background: white;
+    }
+
+    .footer-btns {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+</style>
+
+
+<div class="page-container">
+
+    <!-- ✅ HEADER -->
+    <div class="header">
+        <div>
+            <div class="page-title">Manage Orders</div>
+            <div class="page-subtitle">Edit, add, or cancel items on active orders.</div>
+        </div>
+
+        <div>
+            <span id="shiftText"></span><br />
+            <small id="dateText"></small>
+        </div>
+    </div>
+
+    <!-- ✅ ORDER LIST -->
+    <div id="ordersContainer"></div>
+
+</div>
+
+
+<script>
+
+    // ✅ SAMPLE STATIC DATA
+    let orders = [];
+
+    // ✅ LOAD SAMPLE DATA
+    function loadOrders() {
+
+        orders = [
+            {
+                orderId: 1,
+                tableNumber: 1,
+                customerName: "Rahul Sharma",
+                orderTime: "12:35 PM",
+                orderStatus: "PREPARING",
+                items: [
+                    { name: "Margherita", quantity: 2, price: 299 },
+                    { name: "Chicken Dominator", quantity: 1, price: 449 }
+                ]
+            },
+            {
+                orderId: 2,
+                tableNumber: 3,
+                customerName: "Priya Mehta",
+                orderTime: "12:48 PM",
+                orderStatus: "READY",
+                items: [
+                    { name: "Farmhouse", quantity: 1, price: 349 },
+                    { name: "Paneer Tikka", quantity: 2, price: 379 }
+                ]
+            },
+            {
+                orderId: 3,
+                tableNumber: 6,
+                customerName: "Sneha Iyer",
+                orderTime: "1:02 PM",
+                orderStatus: "NEW",
+                items: [
+                    { name: "BBQ Chicken", quantity: 2, price: 419 }
+                ]
+            }
+        ];
+
+        renderOrders();
+    }
+
+    // ✅ RENDER UI
+    function renderOrders() {
+
+        const container = document.getElementById("ordersContainer");
+        container.innerHTML = "";
+
+        orders.forEach(order => {
+
+            let itemsHTML = "";
+            let total = 0;
+
+            order.items.forEach(i => {
+                total += i.price * i.quantity;
+
+                itemsHTML += `
+                    <div class="item-row">
+                        ${i.name} x${i.quantity}
+                        <div>₹${i.price * i.quantity}</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML += `
+                <div class="order-card">
+
+                    <div class="order-header">
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <div class="table-circle">T${order.tableNumber}</div>
+                            <div>
+                                <b>${order.customerName}</b><br/>
+                                ORD-${order.orderId} • ${order.orderTime}
+                            </div>
+                        </div>
+
+                        <div class="status ${order.orderStatus.toLowerCase()}">
+                            ${order.orderStatus}
+                        </div>
+                    </div>
+
+                    ${itemsHTML}
+
+                    <div class="total-row">
+                        Total
+                        <div>₹${total}</div>
+                    </div>
+
+                    <div class="footer-btns">
+                        <button class="btn add-btn"
+                            onclick="addItem(${order.orderId})">
+                            Add Item
+                        </button>
+
+                        <button class="btn cancel-btn"
+                            onclick="cancelOrder(${order.orderId})">
+                            Cancel
+                        </button>
+                    </div>
+
+                </div>
+            `;
+        });
+    }
+
+    // ✅ CANCEL ORDER (LOCAL ONLY)
+    function cancelOrder(id) {
+
+        orders = orders.filter(o => o.orderId !== id);
+
+        alert("✅ Order Cancelled");
+
+        renderOrders();
+    }
+
+    // ✅ ADD ITEM (DEMO)
+    function addItem(orderId) {
+        alert("Go to Take Order to add items (demo)");
+    }
+
+    // ✅ SHIFT + DATE
+    function updateShift(){
+        let h = new Date().getHours();
+        let shift = h < 14 ? "Morning" : h < 22 ? "Afternoon" : "Night";
+
+        document.getElementById("shiftText").innerText = "Shift: " + shift;
+        document.getElementById("dateText").innerText =
+            new Date().toLocaleDateString("en-IN",{day:'2-digit',month:'short'});
+    }
+
+    // INIT
+    updateShift();
+    loadOrders();
+
+</script>

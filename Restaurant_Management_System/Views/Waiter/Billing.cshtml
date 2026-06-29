@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Billing";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<h1>Billing & Payment</h1>
+<p>Generate bills, add tips and complete payment.</p>
+
+
+<div class="card">
+    <h3>Order Summary</h3>
+
+    <p>Veggie Delight x1 <span style="float:right;">₹319</span></p>
+    <p>Pepper Chicken x1 <span style="float:right;">₹399</span></p>
+
+    <hr />
+
+    <p>Subtotal <span style="float:right;">₹718</span></p>
+    <p>GST (5%) <span style="float:right;">₹36</span></p>
+
+    <h3>Total <span style="float:right;">₹754</span></h3>
+</div>
+
+
+<div class="card">
+    <h3>Add Tip</h3>
+
+    <button class="tip-btn">No Tip</button>
+    <button class="tip-btn">₹10</button>
+    <button class="tip-btn">₹20</button>
+    <button class="tip-btn">₹50</button>
+
+    <br /><br />
+
+    <input class="input-box" placeholder="Enter custom tip" />
+</div>
+
+
+<div class="card">
+    <h3>Split Bill</h3>
+
+    <button>-</button>
+    <span style="margin: 0 20px;">1 Person</span>
+    <button>+</button>
+</div>
+
+
+<button class="btn-light" style="width:100%; margin-bottom:10px;">
+    Generate Bill
+</button>
+
+<button class="btn-orange" style="width:100%;">
+    Pay Now ₹754
+</button>
