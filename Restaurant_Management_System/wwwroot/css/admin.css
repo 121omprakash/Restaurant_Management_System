@@ -232,6 +232,24 @@ body {
     color: var(--text-muted) !important;
 }
 
+/* Force the typeable text inside your input box to follow your theme color variables */
+#userSearch {
+    color: var(--text-main) !important;
+}
+
+/* 🌟 DYNAMIC FIX FOR DROPDOWN ITEM VISIBILITY IN BOTH THEMES */
+.dropdown-menu .dropdown-item {
+    color: var(--text-main) !important; /* Dynamically flips text color between light/dark automatically */
+    background: transparent !important;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+    /* Beautiful hover response state that stays highly legible */
+    .dropdown-menu .dropdown-item:hover {
+        background-color: var(--border-color) !important;
+        color: var(--text-main) !important;
+    }
+
 /* ==========================================================================
    6. INTERACTIVE MODALS & CRUD FORMS
    ========================================================================== */
@@ -282,7 +300,7 @@ body:not([data-theme="light"]) .modal-content .btn-close {
 /* Sidebar sizing changes when collapsed state turns active */
 .sidebar.collapsed {
     width: 75px !important;
-    padding: 15px 10px !important;
+    padding: 15px 0 !important;
 }
 
     /* Hide text labels entirely in compressed viewport */
@@ -294,13 +312,21 @@ body:not([data-theme="light"]) .modal-content .btn-close {
 
     /* Center icons inside menus when collapsed */
     .sidebar.collapsed ul li a {
-        justify-content: center;
-        padding: 10px 0;
+        justify-content: center !important;
+        width: 50px; /* Forces a uniform circular/square clickable zone */
+        height: 50px;
+        padding: 0 !important; /* Clears any internal padding pushing icons right */
+        margin: 0 auto !important;
     }
 
         .sidebar.collapsed ul li a i {
             margin: 0 !important;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
         }
 
     /* Reposition toggle icon when layout collapses */
