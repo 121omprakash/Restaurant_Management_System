@@ -8,18 +8,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const themeText = document.getElementById('themeText');
 
     if (themeToggleBtn) {
-        // Fallback to dark theme if no preference is saved
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        updateToggleUI(currentTheme);
+        // MATCHING FALLBACK: Use "day" (light) as default to match your layout
+        const currentTheme = localStorage.getItem('theme') || 'day';
+
+        // Sync attributes and classes on initial load
+        if (currentTheme === 'dark' || currentTheme === 'night') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.classList.add('dark-theme');
+            updateToggleUI('dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.classList.remove('dark-theme');
+            updateToggleUI('light');
+        }
 
         themeToggleBtn.addEventListener('click', () => {
-            let targetTheme = 'dark';
-            if (document.documentElement.getAttribute('data-theme') === 'dark') {
-                targetTheme = 'light';
-            }
+            const isCurrentlyDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            let targetTheme = isCurrentlyDark ? 'light' : 'dark';
+
+            // Apply updates dynamically on click
             document.documentElement.setAttribute('data-theme', targetTheme);
-            localStorage.setItem('theme', targetTheme);
+
+            if (targetTheme === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'day');
+            }
+
             updateToggleUI(targetTheme);
         });
     }

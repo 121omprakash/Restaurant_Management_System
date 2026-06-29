@@ -29,6 +29,10 @@ namespace Restaurant_Management_System.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -49,6 +53,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             Id = 1,
+                            Name = "Shaik",
                             Role = "Admin",
                             UserId = "AD01",
                             password = "AD01@123"
@@ -56,6 +61,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             Id = 2,
+                            Name = "Sai",
                             Role = "Chef",
                             UserId = "CH01",
                             password = "CH01@123"
@@ -63,6 +69,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             Id = 3,
+                            Name = "Satya",
                             Role = "Manager",
                             UserId = "MN01",
                             password = "MN01@123"
@@ -70,6 +77,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             Id = 4,
+                            Name = "Anusha",
                             Role = "Waiter",
                             UserId = "WA01",
                             password = "WA01@123"
@@ -77,6 +85,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             Id = 5,
+                            Name = "Om Prakash",
                             Role = "Cashier",
                             UserId = "CS01",
                             password = "CS01@123"
@@ -84,6 +93,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             Id = 6,
+                            Name = "Rishab",
                             Role = "Inventory Clerk",
                             UserId = "IC01",
                             password = "IC01@123"
