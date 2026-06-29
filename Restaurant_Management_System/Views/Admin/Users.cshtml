@@ -1,0 +1,283 @@
+﻿@model IEnumerable<Restaurant_Management_System.Models.User>
+@{
+    ViewData["Title"] = "Employee Management";
+    Layout = "_AdminLayout";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="page-title mb-1" style="font-size: 1.6rem;">Employee Management</h3>
+        <p class="page-subtitle small mb-0" style="font-size: 0.85rem;">Create and manage staff accounts and role assignments.</p>
+    </div>
+    <button class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <i class="fa-solid fa-user-plus me-2"></i> Add Employee
+    </button>
+</div>
+
+<!-- Card 1 -->
+<div class="row g-3 mb-4">
+    <!-- Card 1: Total Accounts -->
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <!-- FIXED: Swapped text-muted for var(--text-muted) -->
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Total Profiles</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <!-- FIXED: Tied color directly to main text variable -->
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">@Model.Count()</h3>
+                        <small class="fw-semibold" style="font-size: 0.8rem; color: #10b981;"><i class="fa-solid fa-circle-check me-1"></i>Active</small>
+                    </div>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(245, 158, 11, 0.15); color: #d97706;">
+                    <i class="fa-solid fa-users fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2: Administrators -->
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <!-- FIXED: Swapped text-muted for var(--text-muted) -->
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Security Admins</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <!-- FIXED: Tied color directly to main text variable -->
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">@Model.Count(u => u.Role == "Admin")</h3>
+                        <small style="font-size: 0.75rem; color: var(--text-muted);">Full Control</small>
+                    </div>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(59, 130, 246, 0.15); color: #2563eb;">
+                    <i class="fa-solid fa-user-shield fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: Staff Personnel -->
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <!-- FIXED: Swapped text-muted for var(--text-muted) -->
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Operational Staff</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <!-- FIXED: Tied color directly to main text variable -->
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">@Model.Count(u => u.Role != "Admin")</h3>
+                        <small style="font-size: 0.75rem; color: var(--text-muted);">Floor/Kitchen</small>
+                    </div>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(16, 185, 129, 0.15); color: #059669;">
+                    <i class="fa-solid fa-utensils fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card p-4 border border-secondary shadow-sm" style="background-color: var(--bg-card); border-radius: 16px;">
+
+    <div class="mb-4">
+        <h4 class="h5 mb-0 text-light fw-bold">Staff Members</h4>
+    </div>
+
+    <div class="d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-3 mb-4">
+        <div class="search-box position-relative" style="max-width: 320px; width: 100%;">
+            <input type="text" id="userSearch" class="form-control bg-transparent border-secondary ps-5 rounded-pill py-2" placeholder="Search by name or ID..." />
+            <i class="fa-solid fa-magnifying-glass position-absolute start-0 top-50 translate-middle-y ms-3 text-muted"></i>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle rounded-pill px-3 py-2  border-secondary" type="button" id="roleFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-filter me-2"></i> Filter by Role
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="roleFilterDropdown" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+                <li><a class="dropdown-item filter-role-opt" href="#" data-role="all">All Roles</a></li>
+                <li><hr class="dropdown-divider border-secondary"></li>
+                <li><a class="dropdown-item filter-role-opt" href="#" data-role="Admin">Administrator</a></li>
+                <li><a class="dropdown-item filter-role-opt" href="#" data-role="Manager">Manager</a></li>
+                <li><a class="dropdown-item filter-role-opt" href="#" data-role="Chef">Chef</a></li>
+                <li><a class="dropdown-item filter-role-opt" href="#" data-role="Waiter">Waiter</a></li>
+                <li><a class="dropdown-item filter-role-opt" href="#" data-role="Cashier">Cashier</a></li>
+                <li><a class="dropdown-item filter-role-opt" href="#" data-role="Inventory Clerk">Inventory Clerk</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table align-middle text-nowrap table-hover table-bordered border-secondary mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-3 text-uppercase tracking-wider fw-bold" style="font-size: 0.82rem; letter-spacing: 0.5px;">Employee Name</th>
+                    <th class="text-uppercase tracking-wider fw-bold" style="font-size: 0.82rem; letter-spacing: 0.5px;">Employee ID</th>
+                    <th class="text-uppercase tracking-wider fw-bold" style="font-size: 0.82rem; letter-spacing: 0.5px;">Role Designation</th>
+                    <th class="text-end pe-3 text-uppercase tracking-wider fw-bold" style="font-size: 0.82rem; letter-spacing: 0.5px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td class="ps-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="avatar-circle">
+                                    @(string.IsNullOrEmpty(user.Name) ? "U" : user.Name.Substring(0, 1).ToUpper())
+                                </div>
+                                <div>
+                                    <span class="d-block text-light" style="font-size: 0.95rem; font-weight: 500;">@user.Name</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="emp-id-badge" style="font-size: 0.95rem;">@user.UserId</span>
+                        </td>
+                        <td>
+                            @if (user.Role == "Admin")
+                            {
+                                <span class="badge badge-role badge-admin">@user.Role</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-role badge-staff">@user.Role</span>
+                            }
+                        </td>
+                        <td class="text-end pe-3">
+                            <div class="btn-group">
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-warning rounded-start px-3"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editUserModal"
+                                        data-id="@user.Id"
+                                        data-userid="@user.UserId"
+                                        data-name="@user.Name"
+                                        data-role="@user.Role"
+                                        title="Edit Account">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-danger rounded-end px-3"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteConfirmModal"
+                                        data-id="@user.Id"
+                                        data-name="@user.Name"
+                                        data-url="@Url.Action("Delete", "Admin", new { id = user.Id })"
+                                        title="Delete Account">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border border-secondary" style="background-color: var(--bg-card); backdrop-filter: blur(16px); border-radius: 16px;">
+            <div class="modal-header border-bottom border-secondary px-4">
+                <h5 class="modal-title modal-theme-title" id="addUserModalLabel">Create Staff Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Create" method="post">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Full Name</label>
+                        <input type="text" name="Name" class="form-control rounded-3 py-2" required placeholder="Ex: John Doe" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Employee ID</label>
+                        <input type="text" name="UserId" class="form-control rounded-3 py-2" required placeholder="Ex: 1001" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Password</label>
+                        <input type="password" name="password" class="form-control rounded-3 py-2" required placeholder="••••••••" />
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label small text-muted">Authorized System Role</label>
+                        <select name="Role" class="form-select rounded-3 py-2">
+                            <option value="">-- SELECT ROLE --</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Admin">Administrator</option>
+                            <option value="Cashier">Cashier</option>
+                            <option value="Waiter">Waiter</option>
+                            <option value="Chef">Chef</option>
+                            <option value="Inventory Clerk">Inventory Clerk</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary px-4">
+                    <button type="button" class="btn btn-sm btn-outline-secondary modal-btn-discard px-3 py-2 rounded-3" data-bs-dismiss="modal">Discard</button>
+                    <button type="submit" class="btn btn-sm btn-warning text-dark fw-bold px-4 py-2 rounded-3">Save Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border border-secondary" style="background-color: var(--bg-card); backdrop-filter: blur(16px); border-radius: 16px;">
+            <div class="modal-header border-bottom border-secondary px-4">
+                <h5 class="modal-title modal-theme-title" id="editUserModalLabel">Modify Staff Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Edit" method="post">
+                <input type="hidden" name="Id" id="edit_Id" />
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Employee ID </label>
+                        <input type="text" id="edit_UserId" class="form-control rounded-3 py-2 opacity-75 text-muted bg-dark-subtle" readonly style="cursor: not-allowed;" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Full Name</label>
+                        <input type="text" name="Name" id="edit_Name" class="form-control rounded-3 py-2" required />
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label small text-muted">Authorized System Role</label>
+                        <select name="Role" id="edit_Role" class="form-select rounded-3 py-2">
+                            <option value="Manager">Manager</option>
+                            <option value="Admin">Administrator</option>
+                            <option value="Cashier">Cashier</option>
+                            <option value="Waiter">Waiter</option>
+                            <option value="Chef">Chef</option>
+                            <option value="Inventory Clerk">Inventory Clerk</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary px-4">
+                    <button type="button" class="btn btn-sm btn-outline-secondary modal-btn-discard px-3 py-2 rounded-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-warning text-dark fw-bold px-4 py-2 rounded-3">Update Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content border border-danger shadow-lg" style="background-color: var(--bg-card); border-radius: 14px;">
+            <div class="modal-body text-center p-4">
+                <div class="text-danger mb-3" style="font-size: 2.5rem;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h6 class="text-light mb-1 fw-bold">Permanently Remove?</h6>
+                <p class="text-muted small mb-4" id="deleteModalMessage">Are you sure you want to delete this staff user profile account ?</p>
+
+                <form asp-action="Delete" method="post" id="deleteModalForm">
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-sm btn-outline-secondary px-3 py-2 rounded-3 flex-grow-1" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-sm btn-danger fw-bold px-3 py-2 rounded-3 flex-grow-1">Yes, Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/admin-users.js" asp-append-version="true"></script>
+}

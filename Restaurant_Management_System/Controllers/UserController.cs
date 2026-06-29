@@ -112,7 +112,7 @@ public class UserController : Controller
 
         if (role == "Admin")
         {
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("Dashboard", "Admin");
         }
         else if (role == "Chef")
         {
