@@ -1,0 +1,37 @@
+@model Restaurant_Management_System.Models.BillInvoice
+@{
+    ViewData["Title"] = "Invoice Receipt Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5 text-center" style="max-width: 400px;">
+    <div class="alert alert-success border-0 shadow-sm fw-bold">
+        ✔ Transaction Processed Successfully!
+    </div>
+
+    <div class="card p-4 border border-secondary text-start font-monospace shadow-sm bg-white">
+        <h4 class="text-center fw-bold mb-0">METRO BISTRO</h4>
+        <p class="text-muted text-center small mb-3">POS TERMINAL SYSTEM RECEIPT</p>
+
+        <div class="d-flex justify-content-between small"><span class="text-muted">Invoice No:</span> <strong>#@Model.InvoiceId</strong></div>
+        <div class="d-flex justify-content-between small"><span class="text-muted">Order Ref:</span> <strong>#@Model.OrderId</strong></div>
+        <div class="d-flex justify-content-between small"><span class="text-muted">Status:</span> <span class="badge bg-success">@Model.PaymentStatus</span></div>
+        <hr class="my-2">
+
+        <div class="d-flex justify-content-between"><span>Subtotal Amount:</span> <span>@Model.SubtotalAmount.ToString("C")</span></div>
+        <div class="d-flex justify-content-between"><span>Tax (State/Local):</span> <span>@Model.TaxAmount.ToString("C")</span></div>
+        <div class="d-flex justify-content-between text-success"><span>Tip Allocation:</span> <span>+@Model.TipAmount.ToString("C")</span></div>
+        <hr class="my-2">
+
+        <div class="d-flex justify-content-between fw-bold fs-5 pt-1 border-top border-dark">
+            <span>Grand Total:</span>
+            <span>@Model.TotalAmount.ToString("C")</span>
+        </div>
+
+        <p class="text-center text-muted small mt-4 mb-0">Thank you for dining with us!</p>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-primary w-100 py-2">Back to Dashboard Hub</a>
+    </div>
+</div>
