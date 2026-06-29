@@ -22,6 +22,10 @@ namespace Restaurant_Management_System.Controllers
         {
             return View();
         }
+        public IActionResult Logout()
+        {
+            return RedirectToAction("Login", "UserController");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
