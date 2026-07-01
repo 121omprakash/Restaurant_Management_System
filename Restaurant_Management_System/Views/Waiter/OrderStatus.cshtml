@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "Order Status";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<!-- Top Administrative Heading Block -->
+<div class="d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-2 mb-4">
+    <div>
+        <h3 class="page-title mb-1" style="font-size: 1.6rem;">Kitchen Order Status Tracker</h3>
+        <p class="page-subtitle small mb-0" style="font-size: 0.88rem; font-weight: 500; color: var(--text-muted);">
+            <i class="fa-solid fa-fire-burner me-2 text-warning"></i>Monitor live workspace cook times, pending allocations, and ready flags.
+        </p>
+    </div>
+    <div class="text-md-end">
+        <span id="shiftText" class="fw-bold d-block text-main small" style="color: var(--text-main);">Shift Tracking...</span>
+        <small id="dateText" class="text-muted" style="font-size: 0.78rem;"></small>
+    </div>
+</div>
+
+<!-- Alert Broadcast Notification Block -->
+<div id="notifyBox" class="alert d-flex align-items-center gap-2 mb-4 shadow-sm border border-success text-success py-2 px-3 small"
+     style="background-color: rgba(16, 185, 129, 0.08); border-radius: 10px; font-weight: 500;">
+    <i class="fa-solid fa-circle-exclamation text-success"></i>
+    <span>0 orders ready to serve</span>
+</div>
+
+<!-- Navigation Filter Control Bar -->
+<div class="d-flex flex-wrap gap-2 mb-4 filter-bar">
+    <button class="btn btn-sm btn-warning px-3 rounded-pill fw-semibold text-dark filter-toggle-btn active" onclick="filterOrders('ALL')">All Streams</button>
+    <button class="btn btn-sm btn-outline-secondary border-secondary px-3 rounded-pill fw-semibold text-main filter-toggle-btn" style="color: var(--text-main);" onclick="filterOrders('NEW')">New</button>
+    <button class="btn btn-sm btn-outline-secondary border-secondary px-3 rounded-pill fw-semibold text-main filter-toggle-btn" style="color: var(--text-main);" onclick="filterOrders('PREPARING')">Preparing</button>
+    <button class="btn btn-sm btn-outline-secondary border-secondary px-3 rounded-pill fw-semibold text-main filter-toggle-btn" style="color: var(--text-main);" onclick="filterOrders('READY')">Ready</button>
+    <button class="btn btn-sm btn-outline-secondary border-secondary px-3 rounded-pill fw-semibold text-main filter-toggle-btn" style="color: var(--text-main);" onclick="filterOrders('SERVED')">Served</button>
+</div>
+
+<!-- Main Status Ticket Layout Stream Grid -->
+<div class="row g-3" id="orderContainer">
+    <!-- Component Cards inject seamlessly inside responsive layouts here -->
+</div>
+
+<script>
+    let orders = [
+        {
+            table: 1,
+            name: "Rahul Sharma",
+            status: "PREPARING",
+            items: "Margherita x2, Chicken Dominator x1",
+            time: "12:35 PM"
+        },
+        {
+            table: 3,
+            name: "Priya Mehta",
+            status: "READY",
+            items: "Farmhouse x1, Paneer Tikka x2",
+            time: "12:48 PM"
+        },
+        {
+            table: 6,
+            name: "Sneha Iyer",
+            status: "NEW",
+            items: "BBQ Chicken x2",
+            time: "1:02 PM"
+        },
+        {
+            table: 10,
+            name: "Meera Pillai",
+            status: "SERVED",
+            items: "Veggie Delight x1, Pepper Chicken x1",
+            time: "12:10 PM"
+        }
+    ];
+
+    let currentFilter = "ALL";
+
+    function renderOrders() {
+        const container = document.getElementById("orderContainer");
+        container.innerHTML = "";
+
+        let filtered = orders.filter(o => currentFilter === "ALL" || o.status === currentFilter);
+
+        filtered.forEach(order => {
+            let badgeClass = "bg-secondary text-white";
+            if (order.status === "PREPARING") badgeClass = "bg-warning text-dark";
+            if (order.status === "READY") badgeClass = "bg-success text-white";
+            if (order.status === "SERVED") badgeClass = "bg-info text-dark";
+
+            container.innerHTML += `
+                <div class="col-md-6 col-xl-4">
+                    <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-circle" style="width:34px; height:34px; font-size:0.8rem;">T${order.table}</div>
+                                <span class="fw-bold text-main small" style="color: var(--text-main);">${order.name}</span>
+                            </div>
+                            <span class="badge ${badgeClass} rounded fw-bold" style="font-size: 0.68rem; padding: 4px 8px;">
+                                ${order.status}
+                            </span>
+                        </div>
+                        <div class="mb-2 text-main" style="font-size: 0.85rem; color: var(--text-main); min-height: 38px;">
+                            ${order.items}
+                        </div>
+                        <div class="text-muted d-flex align-items-center gap-1 border-top pt-2" style="font-size: 0.75rem;">
+                            <i class="fa-regular fa-clock text-warning"></i> Created: ${order.time}
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        updateNotification();
+    }
+
+    function filterOrders(status) {
+        currentFilter = status;
+
+        // Reset all filter controls safely using shared helper classes
+        document.querySelectorAll(".filter-bar .btn").forEach(btn => {
+            btn.classList.remove("btn-warning", "text-dark", "active");
+            btn.classList.add("btn-outline-secondary", "border-secondary", "text-main");
+            btn.style.color = "var(--text-main)";
+        });
+
+        const activeBtn = event.target;
+        activeBtn.classList.remove("btn-outline-secondary", "border-secondary", "text-main");
+        activeBtn.classList.add("btn-warning", "text-dark", "active");
+        activeBtn.style.color = "";
+
+        renderOrders();
+    }
+
+    function updateNotification() {
+        const readyCount = orders.filter(o => o.status === "READY").length;
+        document.getElementById("notifyBox").querySelector("span").innerText =
+            `${readyCount} target execution ticket order(s) compiled ready to serve.`;
+    }
+
+    function updateShift() {
+        let h = new Date().getHours();
+        let shift = h < 14 ? "Morning Shift" : h < 22 ? "Afternoon Shift" : "Night Shift";
+        document.getElementById("shiftText").innerText = shift;
+        document.getElementById("dateText").innerText = new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    updateShift();
+    renderOrders();
+</script>

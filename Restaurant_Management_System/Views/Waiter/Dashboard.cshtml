@@ -1,0 +1,189 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<div class="d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-2 mb-4">
+    <div>
+        <h3 class="page-title mb-1" style="font-size: 1.6rem;">Welcome back, Anusha</h3>
+        <p class="page-subtitle small mb-0" style="font-size: 0.88rem; font-weight: 500; color: var(--text-muted);">
+            <i class="fa-regular fa-calendar-days me-2 text-warning"></i>
+            <span id="shiftText" class="fw-bold me-1"></span> • <span id="dateText" class="ms-1"></span>
+        </p>
+    </div>
+    <div>
+        <button class="btn btn-outline-secondary border-secondary rounded-pill px-3 py-2 btn-sm"
+                style="color: var(--text-main) !important; background-color: transparent;"
+                onclick="window.location.reload();">
+            <i class="fa-solid fa-arrows-rotate me-1" style="color: var(--accent-color) !important;"></i> Refresh Hub
+        </button>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Active Tables</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">4</h3>
+                        <small class="text-muted fw-semibold" style="font-size: 0.75rem;">Occupied Layouts</small>
+                    </div>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(59, 130, 246, 0.15); color: #2563eb;">
+                    <i class="fa-solid fa-chair fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Orders In Progress</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">2</h3>
+                        <small class="text-warning fw-semibold" style="font-size: 0.8rem;"><i class="fa-solid fa-fire me-1"></i>Kitchen Queue</small>
+                    </div>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(245, 158, 11, 0.15); color: #d97706;">
+                    <i class="fa-solid fa-utensils fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Ready To Serve</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">1</h3>
+                        <small class="text-success fw-semibold" style="font-size: 0.8rem;"><i class="fa-solid fa-bell me-1"></i>Pass Active</small>
+                    </div>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(16, 185, 129, 0.15); color: #059669;">
+                    <i class="fa-solid fa-circle-check fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-7">
+        <div class="card p-4 border border-secondary shadow-sm" style="background-color: var(--bg-card); border-radius: 16px;">
+            <div class="mb-4 border-bottom pb-2">
+                <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">Quick Operations Control</h4>
+                <p class="small mb-0" style="color: var(--text-muted) !important;">Dispatch dynamic modifications to room tables, reservations, and menus.</p>
+            </div>
+
+            <div class="d-flex flex-column gap-4">
+                <div class="row align-items-center g-2">
+                    <div class="col-md-3"><span class="fw-semibold small modal-body" style="color:var(--text-main);">Reserve Table</span></div>
+                    <div class="col-md-4"><input type="text" class="form-control form-control-sm" placeholder="Customer Name" /></div>
+                    <div class="col-md-3">
+                        <select class="form-select form-select-sm">
+                            <option selected disabled>Select Table</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2"><button class="btn btn-warning w-100 btn-sm text-dark fw-bold">Reserve</button></div>
+                </div>
+
+                <div class="row align-items-center g-2">
+                    <div class="col-md-3"><span class="fw-semibold small modal-body" style="color:var(--text-main);">Create Order</span></div>
+                    <div class="col-md-7">
+                        <select class="form-select form-select-sm">
+                            <option>Dine-In</option>
+                            <option>Takeaway</option>
+                            <option>Delivery</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2"><button class="btn btn-warning w-100 btn-sm text-dark fw-bold">Create</button></div>
+                </div>
+
+                <div class="row align-items-center g-2">
+                    <div class="col-md-3"><span class="fw-semibold small modal-body" style="color:var(--text-main);">Add Item</span></div>
+                    <div class="col-md-4">
+                        <select class="form-select form-select-sm">
+                            <option>Margherita</option>
+                            <option>Farmhouse</option>
+                            <option>Paneer Tikka</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3"><input type="number" class="form-control form-control-sm" placeholder="Qty" min="1" /></div>
+                    <div class="col-md-2"><button class="btn btn-warning w-100 btn-sm text-dark fw-bold">Add</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card p-4 border border-secondary shadow-sm" style="background-color: var(--bg-card); border-radius: 16px;">
+            <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                <div>
+                    <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">Active Orders</h4>
+                    <p class="small mb-0" style="color: var(--text-muted) !important;">Real-time execution streams.</p>
+                </div>
+                <span class="badge bg-secondary rounded-pill px-2 py-1 small">Today</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered border-secondary align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Details</th>
+                            <th class="text-end">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="avatar-circle">T1</div></td>
+                            <td>
+                                <span class="d-block fw-bold text-main small">Rahul Sharma</span>
+                                <small class="text-muted d-block" style="font-size:0.78rem;">Margherita, Chicken Dom.</small>
+                            </td>
+                            <td class="text-end">
+                                <small class="d-block text-muted mb-1" style="font-size:0.75rem;">12:35 PM</small>
+                                <span class="badge bg-warning text-dark px-2 py-1 rounded fw-bold" style="font-size: 0.7rem;">PREPARING</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="avatar-circle">T3</div></td>
+                            <td>
+                                <span class="d-block fw-bold text-main small">Priya Mehta</span>
+                                <small class="text-muted d-block" style="font-size:0.78rem;">Paneer Tikka</small>
+                            </td>
+                            <td class="text-end">
+                                <small class="d-block text-muted mb-1" style="font-size:0.75rem;">12:48 PM</small>
+                                <span class="badge bg-success text-white px-2 py-1 rounded fw-bold" style="font-size: 0.7rem;">READY</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateHeader() {
+        const now = new Date();
+        document.getElementById("dateText").innerText = now.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+
+        let shift = "Morning Shift";
+        if (now.getHours() >= 14) shift = "Afternoon Shift";
+        if (now.getHours() >= 22) shift = "Night Shift";
+
+        document.getElementById("shiftText").innerText = shift;
+    }
+    updateHeader();
+</script>
