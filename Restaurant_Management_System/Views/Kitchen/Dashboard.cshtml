@@ -1,198 +1,156 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_ChefLayout.cshtml";
 }
 
-<div class="container-fluid">
+<!-- Welcome Header Section aligned with Admin Dashboard layout styling -->
+<div class="d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-2 mb-4">
+    <div>
+        <h3 class="page-title mb-1" style="font-size: 1.6rem;">Chef Dashboard</h3>
+        <p class="page-subtitle small mb-0" style="font-size: 0.88rem; font-weight: 500; color: var(--text-muted);">
+            <i class="fa-solid fa-utensils me-2 text-warning"></i>Live kitchen management and inbound order queues.
+        </p>
+    </div>
+    <div>
+        <button class="btn btn-outline-secondary border-secondary rounded-pill px-3 py-2 btn-sm"
+                style="color: var(--text-main) !important; background-color: transparent;"
+                onclick="window.location.reload();">
+            <i class="fa-solid fa-arrows-rotate me-1" style="color: var(--accent-color) !important;"></i> Refresh Queue
+        </button>
+    </div>
+</div>
 
-    <h2 class="dashboard-title">Chef Dashboard</h2>
-
-    <!-- Summary Cards -->
-
-    <div class="row">
-
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="dashboard-card">
-
-                <div class="card-icon pending">
-                    <i class="fa-solid fa-clock"></i>
+<!-- Summary Cards Metric Grid -->
+<div class="row g-3 mb-4">
+    <!-- Pending Card -->
+    <div class="col-md-4">
+        <div class="card card-panel p-3 shadow-sm h-100">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Pending Orders</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">12</h3>
+                    </div>
+                    <small style="font-size: 0.75rem; color: var(--text-muted);">Waiting to be prepared</small>
                 </div>
-
-                <div class="card-details">
-                    <h5>Pending Orders</h5>
-                    <h2>12</h2>
-                    <p>Waiting to be prepared</p>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(245, 158, 11, 0.15); color: #d97706;">
+                    <i class="fa-solid fa-clock fs-5"></i>
                 </div>
-
             </div>
-
         </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <div class="dashboard-card">
-
-                <div class="card-icon preparing">
-                    <i class="fa-solid fa-fire-burner"></i>
-                </div>
-
-                <div class="card-details">
-                    <h5>Preparing Orders</h5>
-                    <h2>6</h2>
-                    <p>Currently Cooking</p>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <div class="dashboard-card">
-
-                <div class="card-icon delayed">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-
-                <div class="card-details">
-                    <h5>Delayed Orders</h5>
-                    <h2>2</h2>
-                    <p>Need Immediate Attention</p>
-                </div>
-
-            </div>
-
-        </div>
-
     </div>
 
-    <!-- Recent Pending Orders -->
+    <!-- Preparing Card -->
+    <div class="col-md-4">
+        <div class="card card-panel p-3 shadow-sm h-100">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Preparing Orders</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">6</h3>
+                    </div>
+                    <small style="font-size: 0.75rem; color: var(--text-muted);">Currently Cooking</small>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(59, 130, 246, 0.15); color: #2563eb;">
+                    <i class="fa-solid fa-fire-burner fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="table-section">
+    <!-- Delayed Card -->
+    <div class="col-md-4">
+        <div class="card card-panel p-3 shadow-sm h-100">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Delayed Orders</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">2</h3>
+                    </div>
+                    <small class="text-danger fw-semibold" style="font-size: 0.75rem;"><i class="fa-solid fa-bolt me-1"></i>Immediate Attention</small>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(239, 68, 68, 0.15); color: #ef4444;">
+                    <i class="fa-solid fa-triangle-exclamation fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <h4>Recent Pending Orders</h4>
-
-        <table class="table table-hover mt-3">
-
+<!-- Recent Pending Orders Section (Styled exactly like Admin Table viewports) -->
+<div class="card card-panel-large p-4 mb-4">
+    <div class="mb-3">
+        <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">Recent Pending Orders</h4>
+        <p class="small mb-0" style="color: var(--text-muted) !important;">Real-time execution tickets awaiting production handoff.</p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mt-2">
             <thead>
-
                 <tr>
-
                     <th>Order ID</th>
-
                     <th>Table</th>
-
                     <th>Items</th>
-
                     <th>Time</th>
-
                     <th>Status</th>
-
                 </tr>
-
             </thead>
-
             <tbody>
-
                 <tr>
-
-                    <td>ORD101</td>
-
+                    <td class="emp-id-badge">ORD101</td>
                     <td>T-05</td>
-
                     <td>Pizza, Garlic Bread</td>
-
                     <td>10:20 AM</td>
-
-                    <td><span class="badge bg-warning">Pending</span></td>
-
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
                 </tr>
-
                 <tr>
-
-                    <td>ORD102</td>
-
+                    <td class="emp-id-badge">ORD102</td>
                     <td>T-03</td>
-
                     <td>Burger, Fries</td>
-
                     <td>10:25 AM</td>
-
-                    <td><span class="badge bg-warning">Pending</span></td>
-
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
                 </tr>
-
                 <tr>
-
-                    <td>ORD103</td>
-
+                    <td class="emp-id-badge">ORD103</td>
                     <td>T-07</td>
-
                     <td>Pasta</td>
-
                     <td>10:28 AM</td>
-
-                    <td><span class="badge bg-warning">Pending</span></td>
-
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
                 </tr>
-
             </tbody>
-
         </table>
+    </div>
+</div>
 
+<!-- Summary & Notifications Dashboard Grid Splitter -->
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card card-panel-large p-4 h-100">
+            <div class="mb-2">
+                <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">Today's Kitchen Summary</h4>
+                <p class="small mb-0" style="color: var(--text-muted) !important;">Aggregated performance parameters for current shift lifecycle.</p>
+            </div>
+            <ul class="kitchen-summary-list mt-2">
+                <li><span>Total Orders</span> <strong>45</strong></li>
+                <li><span>Completed Orders</span> <strong>30</strong></li>
+                <li><span>Preparing Orders</span> <strong>6</strong></li>
+                <li><span>Pending Orders</span> <strong>7</strong></li>
+                <li><span>Delayed Orders</span> <strong>2</strong></li>
+            </ul>
+        </div>
     </div>
 
-    <!-- Summary & Notifications -->
-
-    <div class="row mt-4">
-
-        <div class="col-lg-6">
-
-            <div class="info-box">
-
-                <h4>Today's Kitchen Summary</h4>
-
-                <ul>
-
-                    <li>Total Orders : <strong>45</strong></li>
-
-                    <li>Completed Orders : <strong>30</strong></li>
-
-                    <li>Preparing Orders : <strong>6</strong></li>
-
-                    <li>Pending Orders : <strong>7</strong></li>
-
-                    <li>Delayed Orders : <strong>2</strong></li>
-
-                </ul>
-
+    <div class="col-lg-6">
+        <div class="card card-panel-large p-4 h-100">
+            <div class="mb-2">
+                <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">Kitchen Notifications</h4>
+                <p class="small mb-0" style="color: var(--text-muted) !important;">Live operations event log updates.</p>
             </div>
-
+            <ul class="kitchen-notification-list mt-2">
+                <li><span>🍕</span> Order ORD101 is waiting for preparation.</li>
+                <li><span>🔥</span> Pasta for Table 7 is delayed.</li>
+                <li><span>✅</span> Burger Order ORD098 completed successfully.</li>
+                <li><span>⚠</span> Low stock alert for Cheese.</li>
+            </ul>
         </div>
-
-        <div class="col-lg-6">
-
-            <div class="info-box">
-
-                <h4>Kitchen Notifications</h4>
-
-                <ul>
-
-                    <li>🍕 Order ORD101 is waiting for preparation.</li>
-
-                    <li>🔥 Pasta for Table 7 is delayed.</li>
-
-                    <li>✅ Burger Order ORD098 completed successfully.</li>
-
-                    <li>⚠ Low stock alert for Cheese.</li>
-
-                </ul>
-
-            </div>
-
-        </div>
-
     </div>
-
 </div>

@@ -1,5 +1,5 @@
 ﻿/* ==========================================================================
-   1. Theme Variables Configuration (Core App + Chef UI Modifications)
+   1. THEME VARIABLES CONFIGURATION (Culinary Mod System)
    ========================================================================== */
 :root {
     --bg-primary: #12141c;
@@ -12,7 +12,6 @@
     --border-color: #2d3142;
     --sidebar-bg: #1e2130;
     --body-bg-fallback: #12141c;
-    --table-header-bg: #2C1810;
 }
 
 [data-theme="light"] {
@@ -26,39 +25,69 @@
     --border-color: #e2e8f0;
     --sidebar-bg: #ffffff;
     --body-bg-fallback: #F8F5F2;
-    --table-header-bg: #3E2723;
 }
 
 /* ==========================================================================
-   2. Main Structural Elements
+   2. CORE ADMINISTRATIVE LAYOUT ENGINE (Full Screen Viewport Anchor)
    ========================================================================== */
-body {
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
     background-color: var(--body-bg-fallback) !important;
     color: var(--text-main) !important;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    margin: 0;
-    padding-top: 70px; /* Counter navbar fixed-top space overlay */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-    /* Optional Background Image Applied strictly in Dark/Default State */
-    body:not([data-theme="light"]) {
-        background-image: linear-gradient(rgba(18, 20, 28, 0.4), rgba(18, 20, 28, 0.7)), url('/images/kitchen-bg.jpg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }
+.master-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
 
-.main-wrapper {
+.content-workspace {
+    display: flex;
     flex: 1;
+    overflow: hidden;
+}
+
+/* Anti-flicker transitions for app containers */
+.sidebar, .main-content {
+    transition: background-color 0.08s ease-out, border-color 0.3s ease, color 0.2s ease, width 0.2s ease;
+}
+
+.sidebar {
+    width: 260px;
+    height: 100%;
+    overflow-y: auto;
+    flex-shrink: 0;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main-content {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--bg-primary);
+}
+
+.full-width-footer {
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 12px 0;
+    width: 100%;
+    z-index: 10;
 }
 
 /* ==========================================================================
-   3. Header Navigation Custom CSS
+   3. NAVBAR OVERRIDES
    ========================================================================== */
 .custom-navbar {
     background-color: var(--bg-card) !important;
@@ -70,21 +99,12 @@ body {
     z-index: 1050;
 }
 
-.navbar-brand {
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: var(--accent-color) !important;
+.navbar-brand img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
 }
 
-    .navbar-brand img {
-        height: 45px;
-        width: auto;
-        object-fit: contain;
-    }
-
-/* ==========================================================================
-   4. Adaptive Component Toggles 
-   ========================================================================== */
 .theme-toggle-btn {
     background: none;
     border: 1px solid var(--border-color);
@@ -105,244 +125,235 @@ body {
     }
 
 /* ==========================================================================
-   5. Dynamic Responsive Sidebar Component
+   4. SIDEBAR NAVIGATION & ACTIVE HIGHLIGHT SYSTEM
    ========================================================================== */
-.sidebar {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 260px;
-    height: calc(100vh - 70px);
-    background-color: var(--sidebar-bg);
-    border-right: 1px solid var(--border-color);
-    padding-top: 10px;
-    overflow-y: auto;
-    z-index: 1000;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+.profile {
+    text-align: center;
+    padding: 25px 20px;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.chef-profile {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-}
-
-.profile-image {
-    width: 50px;
-    height: 50px;
-    background-color: var(--accent-color);
+.logo-container {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 12px auto;
     border-radius: 50%;
+    border: 2px solid var(--accent-color);
+    padding: 3px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-right: 15px;
-    flex-shrink: 0;
+    justify-content: center;
+    background-color: var(--bg-primary);
 }
 
-    .profile-image i {
-        font-size: 22px;
-        color: #ffffff;
+.profile h4 {
+    color: var(--text-main) !important;
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.profile small {
+    color: var(--text-muted);
+}
+
+.sidebar-nav-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 15px 0;
+    margin: 0;
+}
+
+    .sidebar ul li {
+        margin: 6px 15px;
     }
 
-.profile-details h5 {
-    color: var(--text-main);
-    margin: 0;
-    font-size: 16px;
+.sidebar-nav-container ul li a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 12px 18px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    font-size: 15px;
+}
+
+    .sidebar-nav-container ul li a i {
+        color: var(--text-muted);
+        transition: color 0.2s ease;
+        display: inline-block !important;
+        width: 20px;
+        text-align: center;
+    }
+
+/* State Engine Highlight Rules */
+.sidebar-nav-container ul li.active a {
+    background-color: var(--accent-color, #f59e0b) !important;
+    color: #1e293b !important;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+    .sidebar-nav-container ul li.active a i {
+        color: #1e293b !important;
+    }
+
+/* Hover actions for non-active links */
+.sidebar-nav-container ul li:not(.active) a:hover {
+    background-color: var(--border-color);
+    color: var(--text-main) !important;
+}
+
+    .sidebar-nav-container ul li:not(.active) a:hover i {
+        color: var(--accent-color, #f59e0b) !important;
+    }
+
+.logout-item a:hover i {
+    color: #ef4444 !important;
+}
+
+/* ==========================================================================
+   5. COLLAPSED COMPACT SIDEBAR STATE MACHINE
+   ========================================================================== */
+.sidebar.collapsed {
+    width: 75px !important;
+    padding: 15px 0 !important;
+}
+
+    .sidebar.collapsed .sidebar-text,
+    .sidebar.collapsed .profile h4,
+    .sidebar.collapsed .profile small {
+        display: none !important;
+    }
+
+    .sidebar.collapsed ul li a {
+        justify-content: center !important;
+        width: 50px;
+        height: 50px;
+        padding: 0 !important;
+        margin: 0 auto !important;
+    }
+
+        .sidebar.collapsed ul li a i {
+            margin: 0 !important;
+            font-size: 1.25rem;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+    .sidebar.collapsed #sidebarToggle {
+        position: static !important;
+        margin: 0 auto 15px auto !important;
+        display: block;
+        text-align: center;
+    }
+
+    .sidebar.collapsed .logo-container {
+        width: 45px;
+        height: 45px;
+        margin-bottom: 15px;
+    }
+
+/* ==========================================================================
+   6. ADMIN-MATCHED CARD PANELS & CONTENT STYLES
+   ========================================================================== */
+.page-title {
+    color: var(--text-main) !important;
     font-weight: 600;
 }
 
-.profile-details p {
-    color: var(--text-muted);
-    margin: 2px 0 0 0;
-    font-size: 13px;
+.page-subtitle {
+    color: var(--text-muted) !important;
 }
 
-.sidebar hr {
-    border-color: var(--border-color);
-    opacity: 0.7;
-    margin: 10px 20px;
+.card-panel {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-.nav-menu {
+.card-panel-large {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color) !important;
+    border-radius: 16px;
+}
+
+/* Data Table Theming overrides */
+.table {
+    color: var(--text-main) !important;
+    margin-bottom: 0;
+}
+
+    .table thead tr th {
+        color: var(--text-main) !important;
+        background-color: rgba(125, 125, 125, 0.08) !important;
+        border-bottom: 2px solid var(--border-color) !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        font-size: 0.85rem !important;
+        letter-spacing: 0.7px;
+        padding: 14px;
+    }
+
+    .table tbody tr td {
+        background: transparent !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        color: var(--text-main) !important;
+        padding: 14px;
+        font-size: 0.95rem;
+        vertical-align: middle;
+    }
+
+.table-hover tbody tr:hover td {
+    background-color: rgba(125, 125, 125, 0.04) !important;
+}
+
+.emp-id-badge {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-weight: 600;
+    color: var(--accent-color) !important;
+}
+
+/* Modern clean list items for summary sections */
+.kitchen-summary-list, .kitchen-notification-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-    .nav-menu li {
-        margin: 8px 15px;
-    }
-
-        .nav-menu li a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 12px 18px;
-            border-radius: 10px;
-            transition: all 0.2s ease;
-        }
-
-            .nav-menu li a i {
-                width: 20px;
-                text-align: center;
-            }
-
-            .nav-menu li a:hover {
-                background-color: var(--accent-color);
-                color: #ffffff !important;
-            }
-
-        .nav-menu li .active-menu {
-            background-color: var(--accent-color) !important;
-            color: #ffffff !important;
-            font-weight: bold;
-        }
-
- 
-
-/* Content Frame adjustments */
-.content {
-    margin-left: 260px;
-    padding: 30px;
-    transition: margin 0.3s ease;
-    background:WHITE;
-    min-height:calc(100vh-70px);
-}
-
-/* Responsive collapse break logic */
-@media (max-width: 768px) {
-    .sidebar {
-        left: -260px;
-    }
-
-    .content {
-        margin-left: 0;
-    }
-}
-
-/* ==========================================================================
-   6. Custom Dashboard Layout Elements 
-   ========================================================================== */
-.dashboard-title {
-    font-weight: 700;
-    color: var(--text-main);
-    margin-bottom: 25px;
-}
-
-.dashboard-card {
-    background-color: var(--bg-card-glass);
-    border:4px solid var(--border-color);
-    border-radius: 15px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, .05);
-    transition: transform 0.2s, background-color 0.3s;
-}
-
-    .dashboard-card:hover {
-        transform: translateY(-4px);
-    }
-
-.card-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 24px;
-}
-
-.pending {
-    background-color: #F59E0B;
-}
-
-.preparing {
-    background-color: #2563EB;
-}
-
-.delayed {
-    background-color: #DC2626;
-}
-
-.card-details {
-    text-align: center
-}
-
-    .card-details h2 {
-        margin: 0;
+    .kitchen-summary-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-color);
         color: var(--text-main);
-        font-size: 32px;
-        font-weight: 700;
     }
 
-    .card-details h5 {
-        color: var(--text-muted);
-        font-size: 15px;
-        margin-bottom: 3px;
+        .kitchen-summary-list li:last-child {
+            border-bottom: none;
+        }
+
+    .kitchen-notification-list li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-main);
     }
 
-/* ==========================================================================
-   7. Tables, Badges and Overlays Component Controls
-   ========================================================================== */
-.table-container, .table-section, .info-box {
-    background-color: var(--bg-card-glass);
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, .03);
-    margin-bottom: 20px;
-}
-
-.table {
-    color: var(--text-main) !important;
-}
-
-    .table thead {
-        background-color: var(--table-header-bg);
-        color: #ffffff;
-    }
-
-    .table tbody tr:hover {
-        background-color: rgba(217, 119, 6, 0.08) !important;
-    }
-
-    .table td {
-        border-color: var(--border-color);
-    }
-
-/* Badges override optimization metrics */
-.badge.bg-primary {
-    background-color: #2563EB !important;
-}
-
-.badge.bg-danger {
-    background-color: #DC2626 !important;
-}
-
-.badge.bg-success {
-    background-color: #16A34A !important;
-}
-
-/* Modal Content structural configurations */
-.modal-content {
-    background-color: var(--bg-card);
-    color: var(--text-main);
-    border: 1px solid var(--border-color);
-    border-radius: 15px;
-}
-
-.modal-header {
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--table-header-bg) !important;
-    color: white;
-}
-
-.modal-footer {
-    border-top: 1px solid var(--border-color);
-}
+        .kitchen-notification-list li:last-child {
+            border-bottom: none;
+        }
