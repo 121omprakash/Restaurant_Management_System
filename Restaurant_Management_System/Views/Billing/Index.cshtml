@@ -1,6 +1,6 @@
 ﻿@model Restaurant_Management_System.ViewModel.CashierDashboardViewModel
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_billingLayout.cshtml";
     ViewData["Title"] = "Interactive Billing Panel";
     string currentTab = ViewData["ActiveTab"]?.ToString() ?? "ALL";
 }
@@ -49,13 +49,13 @@
     <div class="row g-4">
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <span class="fw-bold">Active Transaction Records Matrix</span>
                     <a asp-action="Index" asp-route-currentTab="ALL" class="btn btn-sm btn-outline-light">Reset Filter View</a>
                 </div>
                 <div class="card-body p-0">
                     <table class="table table-hover m-0 align-middle text-center">
-                        <thead class="table-light">
+                        <thead>
                             <tr>
                                 <th>Ref ID</th>
                                 <th>Customer Name</th>
@@ -75,7 +75,7 @@
                                         </a>
                                     </td>
                                     <td><span class="badge bg-secondary">@item.TableNumber</span></td>
-                                    <td><span class="badge bg-light text-dark border">@item.OrderStatus</span></td>
+                                    <td><span class="badge border dynamic-text-dark">@item.OrderStatus</span></td>
                                     <td>
                                         @if (item.OrderStatus == "READY" || item.OrderStatus == "PREPARING")
                                         {
@@ -96,7 +96,7 @@
 
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-secondary text-white fw-bold">
+                <div class="card-header fw-bold">
                     Itemized Receipt Preview
                 </div>
                 @if (ViewData["ShowDrillDown"]?.ToString() == "FALSE")
@@ -112,11 +112,11 @@
                         <p class="text-muted small mb-3">@ViewData["DrillTable"]</p>
                         <hr>
                         <h6 class="fw-bold text-secondary">Ordered Items & Quantities:</h6>
-                        <div class="p-3 bg-light rounded font-monospace small mb-3">
+                        <div class="p-3 drilldown-container rounded font-monospace small mb-3">
                             @Html.Raw(ViewData["DrillItems"])
                         </div>
                         <div class="d-flex justify-content-between mb-2"><span>Allocated Tips:</span> <strong class="text-success">@ViewData["DrillTip"]</strong></div>
-                        <div class="d-flex justify-content-between fs-5 border-top pt-2"><span>Total Ticket:</span> <strong class="text-dark">@ViewData["DrillTotal"]</strong></div>
+                        <div class="d-flex justify-content-between fs-5 border-top pt-2"><span>Total Ticket:</span> <strong class="dynamic-text-dark">@ViewData["DrillTotal"]</strong></div>
                     </div>
                 }
             </div>
