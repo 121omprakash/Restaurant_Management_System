@@ -7,11 +7,7 @@
 namespace Restaurant_Management_System.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:Restaurant_Management_System/Migrations/20260629112142_Add_User.cs
-    public partial class Add_User : Migration
-========
     public partial class mig_user : Migration
->>>>>>>> 6f9a044579301035bdac907b788c8ac78d91a0ec:Restaurant_Management_System/Migrations/20260626120759_mig_user.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

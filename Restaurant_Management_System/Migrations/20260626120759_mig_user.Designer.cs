@@ -11,13 +11,8 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-<<<<<<<< HEAD:Restaurant_Management_System/Migrations/20260629112142_Add_User.Designer.cs
-    [Migration("20260629112142_Add_User")]
-    partial class Add_User
-========
     [Migration("20260626120759_mig_user")]
     partial class mig_user
->>>>>>>> 6f9a044579301035bdac907b788c8ac78d91a0ec:Restaurant_Management_System/Migrations/20260626120759_mig_user.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

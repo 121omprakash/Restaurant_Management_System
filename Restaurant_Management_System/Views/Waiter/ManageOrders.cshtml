@@ -3,143 +3,29 @@
     Layout = "~/Views/Shared/_WaiterLayout.cshtml";
 }
 
-<style>
-    .page-container {
-        padding: 25px;
-        background: #f6f1eb;
-    }
-
-    /* HEADER */
-    .header {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .page-title {
-        font-size: 28px;
-        font-weight: 700;
-    }
-
-    .page-subtitle {
-        color: #8b6f5c;
-    }
-
-    /* CARD */
-    .order-card {
-        background: #efe7df;
-        border-radius: 20px;
-        padding: 20px;
-        margin-top: 20px;
-    }
-
-    /* HEADER ROW */
-    .order-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    /* TABLE BADGE */
-    .table-circle {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #e6ddd4;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-
-    /* STATUS */
-    .status {
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-    }
-
-    .new {
-        background: #e0e0e0;
-    }
-
-    .preparing {
-        background: #fff3cd;
-    }
-
-    .ready {
-        background: #d4edda;
-    }
-
-    /* ITEM */
-    .item-row {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-    }
-
-    .total-row {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-        font-weight: bold;
-    }
-
-    /* BUTTONS */
-    .btn {
-        padding: 10px 15px;
-        border-radius: 20px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .add-btn {
-        background: #e6ddd4;
-    }
-
-    .cancel-btn {
-        border: 1px solid red;
-        color: red;
-        background: white;
-    }
-
-    .footer-btns {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 15px;
-    }
-</style>
-
-
-<div class="page-container">
-
-    <!-- ✅ HEADER -->
-    <div class="header">
-        <div>
-            <div class="page-title">Manage Orders</div>
-            <div class="page-subtitle">Edit, add, or cancel items on active orders.</div>
-        </div>
-
-        <div>
-            <span id="shiftText"></span><br />
-            <small id="dateText"></small>
-        </div>
+<!-- Top Administrative Heading Block -->
+<div class="d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-2 mb-4">
+    <div>
+        <h3 class="page-title mb-1" style="font-size: 1.6rem;">Manage Active Orders</h3>
+        <p class="page-subtitle small mb-0" style="font-size: 0.88rem; font-weight: 500; color: var(--text-muted);">
+            <i class="fa-solid fa-rectangle-list me-2 text-warning"></i>Modify workflow items, monitor delivery intervals, or close terminal queues.
+        </p>
     </div>
-
-    <!-- ✅ ORDER LIST -->
-    <div id="ordersContainer"></div>
-
+    <div class="text-md-end">
+        <span id="shiftText" class="fw-bold d-block text-main small" style="color: var(--text-main);">Shift Tracking...</span>
+        <small id="dateText" class="text-muted" style="font-size: 0.78rem;"></small>
+    </div>
 </div>
 
+<!-- Active Order Pipeline Stream -->
+<div class="row g-3" id="ordersContainer">
+    <!-- Dynamic templates generated natively will fit beautifully inside bootstrap layouts here -->
+</div>
 
 <script>
-
-    // ✅ SAMPLE STATIC DATA
     let orders = [];
 
-    // ✅ LOAD SAMPLE DATA
     function loadOrders() {
-
         orders = [
             {
                 orderId: 1,
@@ -174,100 +60,97 @@
                 ]
             }
         ];
-
         renderOrders();
     }
 
-    // ✅ RENDER UI
     function renderOrders() {
-
         const container = document.getElementById("ordersContainer");
         container.innerHTML = "";
 
         orders.forEach(order => {
-
             let itemsHTML = "";
             let total = 0;
 
             order.items.forEach(i => {
                 total += i.price * i.quantity;
-
                 itemsHTML += `
-                    <div class="item-row">
-                        ${i.name} x${i.quantity}
-                        <div>₹${i.price * i.quantity}</div>
+                    <div class="d-flex justify-content-between align-items-center mb-1 text-main py-1" style="font-size: 0.88rem; color: var(--text-main);">
+                        <span>${i.name} <small class="text-muted font-monospace fw-bold ms-1">x${i.quantity}</small></span>
+                        <span class="fw-medium">₹${i.price * i.quantity}</span>
                     </div>
                 `;
             });
 
-            container.innerHTML += `
-                <div class="order-card">
+            let badgeClass = "bg-secondary text-white";
+            if (order.orderStatus === "PREPARING") badgeClass = "bg-warning text-dark";
+            if (order.orderStatus === "READY") badgeClass = "bg-success text-white";
 
-                    <div class="order-header">
-                        <div style="display:flex; gap:10px; align-items:center;">
-                            <div class="table-circle">T${order.tableNumber}</div>
-                            <div>
-                                <b>${order.customerName}</b><br/>
-                                ORD-${order.orderId} • ${order.orderTime}
+            container.innerHTML += `
+                <div class="col-md-6 col-xl-4">
+                    <div class="card h-100 p-3 border border-secondary shadow-sm" style="background-color: var(--bg-card); border-radius: 14px;">
+
+                        <!-- Order Node Header Info -->
+                        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-circle" style="width:36px; height:36px; font-size:0.85rem;">T${order.tableNumber}</div>
+                                <div>
+                                    <span class="d-block fw-bold text-main small" style="color: var(--text-main); line-height: 1.2;">${order.customerName}</span>
+                                    <small class="text-muted font-monospace" style="font-size: 0.75rem;">ORD-${order.orderId} • ${order.orderTime}</small>
+                                </div>
+                            </div>
+                            <span class="badge ${badgeClass} rounded fw-bold px-2 py-1" style="font-size: 0.7rem; letter-spacing: 0.3px;">
+                                ${order.orderStatus}
+                            </span>
+                        </div>
+
+                        <!-- Mid Content: Nested Receipt List -->
+                        <div class="mb-3 flex-grow-1">
+                            ${itemsHTML}
+                        </div>
+
+                        <!-- Footer Node Elements: Cost Summary & Quick Actions -->
+                        <div class="border-top pt-2">
+                            <div class="d-flex justify-content-between font-weight-bold text-main mb-3" style="font-size: 0.95rem; color: var(--text-main);">
+                                <span>Total Amount Due</span>
+                                <span class="fw-bold text-accent" style="color: var(--accent-color);">₹${total}</span>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-secondary border-secondary flex-grow-1 btn-sm rounded-pill font-weight-600 text-main"
+                                        style="font-size: 0.8rem; color: var(--text-main);" onclick="addItem(${order.orderId})">
+                                    <i class="fa-solid fa-circle-plus me-1 text-warning"></i> Add Item
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm rounded-pill font-weight-600"
+                                        style="font-size: 0.8rem;" onclick="cancelOrder(${order.orderId})">
+                                    <i class="fa-solid fa-trash-can me-1"></i> Cancel
+                                </button>
                             </div>
                         </div>
 
-                        <div class="status ${order.orderStatus.toLowerCase()}">
-                            ${order.orderStatus}
-                        </div>
                     </div>
-
-                    ${itemsHTML}
-
-                    <div class="total-row">
-                        Total
-                        <div>₹${total}</div>
-                    </div>
-
-                    <div class="footer-btns">
-                        <button class="btn add-btn"
-                            onclick="addItem(${order.orderId})">
-                            Add Item
-                        </button>
-
-                        <button class="btn cancel-btn"
-                            onclick="cancelOrder(${order.orderId})">
-                            Cancel
-                        </button>
-                    </div>
-
                 </div>
             `;
         });
     }
 
-    // ✅ CANCEL ORDER (LOCAL ONLY)
     function cancelOrder(id) {
-
-        orders = orders.filter(o => o.orderId !== id);
-
-        alert("✅ Order Cancelled");
-
-        renderOrders();
+        if(confirm("Are you certain you wish to purge this active operational ticket?")) {
+            orders = orders.filter(o => o.orderId !== id);
+            renderOrders();
+        }
     }
 
-    // ✅ ADD ITEM (DEMO)
     function addItem(orderId) {
-        alert("Go to Take Order to add items (demo)");
+        alert("Redirecting workflow context state to interactive Take Order Terminal view (Demo simulation).");
     }
 
-    // ✅ SHIFT + DATE
     function updateShift(){
         let h = new Date().getHours();
-        let shift = h < 14 ? "Morning" : h < 22 ? "Afternoon" : "Night";
-
-        document.getElementById("shiftText").innerText = "Shift: " + shift;
-        document.getElementById("dateText").innerText =
-            new Date().toLocaleDateString("en-IN",{day:'2-digit',month:'short'});
+        let shift = h < 14 ? "Morning Shift" : h < 22 ? "Afternoon Shift" : "Night Shift";
+        document.getElementById("shiftText").innerText = shift;
+        document.getElementById("dateText").innerText = new Date().toLocaleDateString("en-IN", {day:'2-digit', month:'short', year:'numeric'});
     }
 
-    // INIT
     updateShift();
     loadOrders();
-
 </script>

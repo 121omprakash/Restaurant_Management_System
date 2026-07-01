@@ -1,0 +1,529 @@
+﻿/* ==========================================================================
+   WAITER THEME COMPATIBILITY ENGINE (DAY / NIGHT AGNOSTIC)
+   ========================================================================== */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+}
+
+.master-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.content-workspace {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   ANTI-FLICKER & GLOBAL NAVBAR THEME TUNING
+   ========================================================================== */
+
+.sidebar,
+.main-content,
+.custom-navbar,
+.full-width-footer {
+    transition: background-color 0.12s ease-out, border-color 0.25s ease, color 0.15s ease;
+}
+
+.custom-navbar {
+    background-color: var(--bg-card) !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   SIDEBAR CORE STRUCTURE
+   ========================================================================== */
+
+.sidebar {
+    width: 260px;
+    height: 100%;
+    overflow-y: auto;
+    flex-shrink: 0;
+    background-color: var(--bg-card, #ffffff);
+    border-right: 1px solid var(--border-color, #dddddd);
+    color: var(--text-main, #333333);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   PROFILE VIEW COMPONENT (EXPANDED STATE)
+   ========================================================================== */
+
+.profile {
+    text-align: center;
+    padding: 50px 16px 20px 16px; /* Padded to make room for toggle button */
+    position: relative;
+}
+
+    .profile .logo-container {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 12px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--bg-primary, #f4f4f4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--border-color, #dddddd);
+        transition: width 0.25s ease, height 0.25s ease;
+    }
+
+    .profile .logo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-main);
+    }
+
+    .profile small {
+        display: block;
+        color: var(--text-muted, #777777);
+        font-size: 13px;
+        margin-top: 2px;
+    }
+
+/* ==========================================================================
+   COLLAPSED SIDEBAR STATES (FIXES OVERLAPPING & SCALING BUGS)
+   ========================================================================== */
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+    .sidebar.collapsed .sidebar-text {
+        display: none !important;
+    }
+
+    /* Push profile element down safely under the center-positioned button toggle */
+    .sidebar.collapsed .profile {
+        padding: 60px 8px 16px 8px;
+    }
+
+        /* Scales the profile icon container cleanly without distortion */
+        .sidebar.collapsed .profile .logo-container {
+            width: 44px;
+            height: 44px;
+            margin: 0 auto;
+        }
+
+    /* Centers the sidebar interaction button perfectly */
+    .sidebar.collapsed #sidebarToggle {
+        top: 12px;
+        right: 0;
+        left: 0;
+        margin: 0 auto;
+        width: fit-content;
+    }
+
+    .sidebar.collapsed .sidebar-nav-container ul li a {
+        justify-content: center;
+        padding: 12px 0;
+    }
+
+/* ==========================================================================
+   SIDEBAR NAVIGATION LINKS & STATES
+   ========================================================================== */
+
+.sidebar-nav-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .sidebar-nav-container ul li {
+        margin: 6px 12px;
+    }
+
+        .sidebar-nav-container ul li a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: var(--text-muted, #666666);
+            padding: 12px 18px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            font-size: 15px;
+        }
+
+        /* ACTIVE HIGHLIGHT STATE */
+        .sidebar-nav-container ul li.active a {
+            background-color: var(--accent-color, #f59e0b) !important;
+            color: #1e293b !important; /* High contrast dark text for active accent navigation */
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+            .sidebar-nav-container ul li.active a i {
+                color: #1e293b !important;
+            }
+
+        /* HOVER INTERACTIONS */
+        .sidebar-nav-container ul li:not(.active) a:hover {
+            background-color: var(--border-color, #e2e8f0);
+            color: var(--text-main) !important;
+        }
+
+            .sidebar-nav-container ul li:not(.active) a:hover i {
+                color: var(--accent-color, #f59e0b) !important;
+            }
+
+/* ==========================================================================
+   MAIN VIEW PANEL & FOOTER
+   ========================================================================== */
+
+.main-content {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--bg-primary); /* Keeps center canvas context-aware of themes */
+    color: var(--text-main);
+}
+
+.full-width-footer {
+    background-color: var(--bg-card, #ffffff);
+    border-top: 1px solid var(--border-color, #dddddd);
+    color: var(--text-muted, #777777);
+    padding: 12px 0;
+    width: 100%;
+    z-index: 10;
+}
+
+    .full-width-footer a {
+        color: var(--accent-color, #f59e0b);
+        text-decoration: none;
+    }
+
+
+/* ==========================================================================
+   WAITER DASHBOARD PREMIUM STYLING COMPONENT (THEME-CONSCIOUS)
+   ========================================================================== */
+
+.custom-shift-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+.bell-icon {
+    background-color: var(--bg-primary);
+}
+
+/* PREMIUM CONTAINER BLOCKS */
+.custom-premium-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.bg-action-section {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+/* THEME CONSCIOUS INPUT CONTROLS */
+.form-control-premium,
+.form-select-premium {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+    padding: 10px 14px;
+    border-radius: 8px;
+}
+
+    .form-control-premium::placeholder {
+        color: var(--text-muted) !important;
+        opacity: 0.7;
+    }
+
+    .form-control-premium:focus,
+    .form-select-premium:focus {
+        border-color: var(--accent-color, #f59e0b) !important;
+        box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.15) !important;
+    }
+
+/* BRAND ACCENT CALL TO ACTIONS */
+.btn-accent {
+    background-color: var(--accent-color, #f59e0b) !important;
+    color: #1e293b !important;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+    .btn-accent:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+/* FLUID DASHBOARD METRICS INDICATORS */
+.metric-card {
+    border: 1px solid transparent;
+}
+
+.metric-icon-wrap {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* DAY MODE METRIC COLORS */
+[data-theme="light"] .metric-blue {
+    background-color: #e6f0ff;
+    border-color: #b3d1ff;
+}
+
+    [data-theme="light"] .metric-blue .metric-icon-wrap {
+        background-color: #cce0ff;
+    }
+
+[data-theme="light"] .metric-orange {
+    background-color: #fff4e6;
+    border-color: #ffe0b3;
+}
+
+    [data-theme="light"] .metric-orange .metric-icon-wrap {
+        background-color: #ffe8cc;
+    }
+
+[data-theme="light"] .metric-green {
+    background-color: #e6f7ef;
+    border-color: #b3ebd1;
+}
+
+    [data-theme="light"] .metric-green .metric-icon-wrap {
+        background-color: #ccf5e1;
+    }
+
+/* NIGHT MODE METRIC COLORS */
+[data-theme="dark"] .metric-blue {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+    [data-theme="dark"] .metric-blue .metric-icon-wrap {
+        background-color: #0f172a;
+    }
+
+[data-theme="dark"] .metric-orange {
+    background-color: #2d2015;
+    border-color: #452b15;
+}
+
+    [data-theme="dark"] .metric-orange .metric-icon-wrap {
+        background-color: #1c120c;
+    }
+
+[data-theme="dark"] .metric-green {
+    background-color: #142b20;
+    border-color: #1e4632;
+}
+
+    [data-theme="dark"] .metric-green .metric-icon-wrap {
+        background-color: #0a1710;
+    }
+
+/* ACTIVE ORDER TRACKER LINES */
+.order-list-item {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+.table-badge {
+    width: 46px;
+    height: 46px;
+    background-color: var(--bg-card);
+    border: 2px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+/* STATUS BADGES */
+.badge-status {
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    display: inline-block;
+}
+
+.status-preparing {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-ready {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+[data-theme="dark"] .status-preparing {
+    background-color: #452b15;
+    color: #fcd34d;
+}
+
+[data-theme="dark"] .status-ready {
+    background-color: #143a27;
+    color: #34d399;
+}
+
+
+/* ==========================================================================
+   WAITER COMPONENT UI EXTENSIONS (ADMIN ALIGNED TYPOGRAPHY)
+   ========================================================================== */
+
+.page-title {
+    color: var(--text-main) !important;
+    font-weight: 600;
+}
+
+.page-subtitle {
+    color: var(--text-muted) !important;
+}
+
+.avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    background: #fef3c7 !important;
+    color: #b45309 !important;
+}
+
+/* INTERACTIVE TABLE SPECIFICS */
+.table {
+    color: var(--text-main) !important;
+}
+
+    .table thead tr th {
+        color: var(--text-main) !important;
+        background-color: rgba(125, 125, 125, 0.05) !important;
+        border-bottom: 2px solid var(--border-color) !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        font-size: 0.78rem !important;
+        letter-spacing: 0.5px;
+        padding: 10px 8px;
+    }
+
+    .table td {
+        background: transparent !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        padding: 10px 8px;
+    }
+
+.table-bordered.border-secondary th,
+.table-bordered.border-secondary td {
+    border-left: none !important;
+    border-right: none !important;
+}
+
+/* FORM OVERRIDES CONTROLLING LIGHT & NIGHT MODE */
+.card .form-control,
+.card .form-select {
+    color: var(--text-main) !important;
+    background-color: transparent !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+    .card .form-control:focus,
+    .card .form-select:focus {
+        background-color: transparent !important;
+        border-color: var(--accent-color) !important;
+        box-shadow: none !important;
+    }
+
+    .card .form-control::placeholder {
+        color: var(--text-muted) !important;
+        opacity: 0.6;
+    }
+
+.card select option {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+}
+
+/* ==========================================================================
+   TABLE MANAGEMENT SYSTEM ADDITIONS (THEME-SAFE SCALING)
+   ========================================================================== */
+
+.dot-indicator {
+    height: 8px;
+    width: 8px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.table-blueprint-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .table-blueprint-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Ensure inner select selectors inherit local styling structures securely */
+    .table-blueprint-card select.form-select {
+        border-radius: 6px !important;
+        background-color: var(--bg-card) !important;
+        border-color: var(--border-color) !important;
+        color: var(--text-main) !important;
+    }
+
+/* ==========================================================================
+   ORDER TICKET SYSTEM STYLE REFINEMENTS
+   ========================================================================== */
+
+/* Safely manages variable text tracking weights */
+.font-weight-600 {
+    font-weight: 600 !important;
+}
+
+/* Forces structural outline items to retain appropriate text targets */
+.btn-outline-secondary.text-main:hover {
+    background-color: var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+
+/* ==========================================================================
+   PIPELINE FILTER ELEMENT OVERRIDES
+   ========================================================================== */
+
+/* Safely manages blue variations across default bootstrap frameworks */
+.bg-info {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+    color: #2563eb !important;
+}
+
+/* Blocks outline shifts from snapping style attributes out of context */
+.filter-bar .btn:focus {
+    box-shadow: none !important;
+}

@@ -3,133 +3,42 @@
     Layout = "~/Views/Shared/_WaiterLayout.cshtml";
 }
 
-<style>
-    .page-container {
-        padding: 25px;
-        background: #f6f1eb;
-    }
-
-    /* HEADER */
-    .header {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .page-title {
-        font-size: 28px;
-        font-weight: 700;
-    }
-
-    .page-subtitle {
-        color: #8b6f5c;
-    }
-
-    /* FILTER BUTTONS */
-    .filter-bar {
-        margin-top: 15px;
-    }
-
-    .filter-btn, .filter-active {
-        padding: 8px 15px;
-        margin-right: 5px;
-        border-radius: 20px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .filter-btn {
-        background: #e6ddd4;
-    }
-
-    .filter-active {
-        background: #e8611c;
-        color: white;
-    }
-
-    /* NOTIFY */
-    .notify-green {
-        margin-top: 15px;
-        padding: 10px;
-        background: #d4edda;
-        border-radius: 10px;
-    }
-
-    /* CARD */
-    .order-card {
-        background: #efe7df;
-        padding: 20px;
-        border-radius: 20px;
-        margin-top: 15px;
-    }
-
-    /* STATUS */
-    .status {
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-        margin-left: 10px;
-    }
-
-    .new {
-        background: #e0e0e0;
-    }
-
-    .preparing {
-        background: #fff3cd;
-    }
-
-    .ready {
-        background: #d4edda;
-    }
-
-    .served {
-        background: #cce5ff;
-    }
-
-    .order-header {
-        display: flex;
-        justify-content: space-between;
-    }
-</style>
-
-
-<div class="page-container">
-
-    <!-- ✅ HEADER -->
-    <div class="header">
-        <div>
-            <div class="page-title">Order Status</div>
-            <div class="page-subtitle">Track kitchen progress for all orders.</div>
-        </div>
-
-        <div>
-            <span id="shiftText"></span><br />
-            <small id="dateText"></small>
-        </div>
+<!-- Top Administrative Heading Block -->
+<div class="d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-2 mb-4">
+    <div>
+        <h3 class="page-title mb-1" style="font-size: 1.6rem;">Kitchen Order Status Tracker</h3>
+        <p class="page-subtitle small mb-0" style="font-size: 0.88rem; font-weight: 500; color: var(--text-muted);">
+            <i class="fa-solid fa-fire-burner me-2 text-warning"></i>Monitor live workspace cook times, pending allocations, and ready flags.
+        </p>
     </div>
-
-    <!-- ✅ FILTER -->
-    <div class="filter-bar">
-        <button class="filter-active" onclick="filterOrders('ALL')">All</button>
-        <button class="filter-btn" onclick="filterOrders('NEW')">New</button>
-        <button class="filter-btn" onclick="filterOrders('PREPARING')">Preparing</button>
-        <button class="filter-btn" onclick="filterOrders('READY')">Ready</button>
-        <button class="filter-btn" onclick="filterOrders('SERVED')">Served</button>
+    <div class="text-md-end">
+        <span id="shiftText" class="fw-bold d-block text-main small" style="color: var(--text-main);">Shift Tracking...</span>
+        <small id="dateText" class="text-muted" style="font-size: 0.78rem;"></small>
     </div>
-
-    <!-- ✅ NOTIFICATION -->
-    <div id="notifyBox" class="notify-green"></div>
-
-    <!-- ✅ ORDERS -->
-    <div id="orderContainer"></div>
-
 </div>
 
+<!-- Alert Broadcast Notification Block -->
+<div id="notifyBox" class="alert d-flex align-items-center gap-2 mb-4 shadow-sm border border-success text-success py-2 px-3 small"
+     style="background-color: rgba(16, 185, 129, 0.08); border-radius: 10px; font-weight: 500;">
+    <i class="fa-solid fa-circle-exclamation text-success"></i>
+    <span>0 orders ready to serve</span>
+</div>
+
+<!-- Navigation Filter Control Bar -->
+<div class="d-flex flex-wrap gap-2 mb-4 filter-bar">
+    <button class="btn btn-sm btn-warning px-3 rounded-pill fw-semibold text-dark filter-toggle-btn active" onclick="filterOrders('ALL')">All Streams</button>
+    <button class="btn btn-sm btn-outline-secondary border-secondary px-3 rounded-pill fw-semibold text-main filter-toggle-btn" style="color: var(--text-main);" onclick="filterOrders('NEW')">New</button>
+    <button class="btn btn-sm btn-outline-secondary border-secondary px-3 rounded-pill fw-semibold text-main filter-toggle-btn" style="color: var(--text-main);" onclick="filterOrders('PREPARING')">Preparing</button>
+    <button class="btn btn-sm btn-outline-secondary border-secondary px-3 rounded-pill fw-semibold text-main filter-toggle-btn" style="color: var(--text-main);" onclick="filterOrders('READY')">Ready</button>
+    <button class="btn btn-sm btn-outline-secondary border-secondary px-3 rounded-pill fw-semibold text-main filter-toggle-btn" style="color: var(--text-main);" onclick="filterOrders('SERVED')">Served</button>
+</div>
+
+<!-- Main Status Ticket Layout Stream Grid -->
+<div class="row g-3" id="orderContainer">
+    <!-- Component Cards inject seamlessly inside responsive layouts here -->
+</div>
 
 <script>
-
-    // ✅ SAMPLE DATA
     let orders = [
         {
             table: 1,
@@ -163,75 +72,75 @@
 
     let currentFilter = "ALL";
 
-    // ✅ RENDER
     function renderOrders() {
-
         const container = document.getElementById("orderContainer");
         container.innerHTML = "";
 
-        // filter
-        let filtered = orders.filter(o =>
-            currentFilter === "ALL" || o.status === currentFilter
-        );
+        let filtered = orders.filter(o => currentFilter === "ALL" || o.status === currentFilter);
 
         filtered.forEach(order => {
+            let badgeClass = "bg-secondary text-white";
+            if (order.status === "PREPARING") badgeClass = "bg-warning text-dark";
+            if (order.status === "READY") badgeClass = "bg-success text-white";
+            if (order.status === "SERVED") badgeClass = "bg-info text-dark";
 
             container.innerHTML += `
-            <div class="order-card">
-
-                <div class="order-header">
-                    <div>
-                        <b>Table ${order.table} - ${order.name}</b>
+                <div class="col-md-6 col-xl-4">
+                    <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="avatar-circle" style="width:34px; height:34px; font-size:0.8rem;">T${order.table}</div>
+                                <span class="fw-bold text-main small" style="color: var(--text-main);">${order.name}</span>
+                            </div>
+                            <span class="badge ${badgeClass} rounded fw-bold" style="font-size: 0.68rem; padding: 4px 8px;">
+                                ${order.status}
+                            </span>
+                        </div>
+                        <div class="mb-2 text-main" style="font-size: 0.85rem; color: var(--text-main); min-height: 38px;">
+                            ${order.items}
+                        </div>
+                        <div class="text-muted d-flex align-items-center gap-1 border-top pt-2" style="font-size: 0.75rem;">
+                            <i class="fa-regular fa-clock text-warning"></i> Created: ${order.time}
+                        </div>
                     </div>
-
-                    <span class="status ${order.status.toLowerCase()}">
-                        ${order.status}
-                    </span>
                 </div>
-
-                <p>${order.items}</p>
-                <p>${order.time}</p>
-
-            </div>
             `;
         });
 
         updateNotification();
     }
 
-    // ✅ FILTER
     function filterOrders(status) {
         currentFilter = status;
 
-        // update button styles
-        document.querySelectorAll(".filter-btn, .filter-active")
-            .forEach(btn => btn.classList.remove("filter-active"));
+        // Reset all filter controls safely using shared helper classes
+        document.querySelectorAll(".filter-bar .btn").forEach(btn => {
+            btn.classList.remove("btn-warning", "text-dark", "active");
+            btn.classList.add("btn-outline-secondary", "border-secondary", "text-main");
+            btn.style.color = "var(--text-main)";
+        });
 
-        event.target.classList.add("filter-active");
+        const activeBtn = event.target;
+        activeBtn.classList.remove("btn-outline-secondary", "border-secondary", "text-main");
+        activeBtn.classList.add("btn-warning", "text-dark", "active");
+        activeBtn.style.color = "";
 
         renderOrders();
     }
 
-    // ✅ READY COUNT
     function updateNotification() {
         const readyCount = orders.filter(o => o.status === "READY").length;
-
-        document.getElementById("notifyBox").innerText =
-            `${readyCount} order(s) ready to serve`;
+        document.getElementById("notifyBox").querySelector("span").innerText =
+            `${readyCount} target execution ticket order(s) compiled ready to serve.`;
     }
 
-    // ✅ SHIFT + DATE
     function updateShift() {
         let h = new Date().getHours();
-        let shift = h < 14 ? "Morning" : h < 22 ? "Afternoon" : "Night";
-
-        document.getElementById("shiftText").innerText = "Shift: " + shift;
-        document.getElementById("dateText").innerText =
-            new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short' });
+        let shift = h < 14 ? "Morning Shift" : h < 22 ? "Afternoon Shift" : "Night Shift";
+        document.getElementById("shiftText").innerText = shift;
+        document.getElementById("dateText").innerText = new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' });
     }
 
-    // INIT
     updateShift();
     renderOrders();
-
 </script>

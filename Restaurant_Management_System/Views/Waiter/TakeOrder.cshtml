@@ -92,6 +92,78 @@
         margin-top: 30px;
         color: #8b6f5c;
     }
+
+    /* Make all page text black */
+    .page-container,
+    .page-container h1,
+    .page-container h2,
+    .page-container h3,
+    .page-container h4,
+    .page-container p,
+    .page-container div,
+    .page-container span,
+    .page-container label,
+    .page-container small {
+        color: #000 !important;
+    }
+
+    /* Input and dropdown text */
+    input,
+    select,
+    textarea,
+    .input-box {
+        color: #000 !important;
+        background: #fff !important;
+    }
+
+        /* Placeholder text */
+        input::placeholder {
+            color: #666 !important;
+        }
+
+    /* Menu items */
+    .menu-item,
+    .cart-item {
+        color: #000 !important;
+    }
+
+    /* Cart empty text */
+    .empty-cart {
+        color: #000 !important;
+    }
+
+    /* Buttons */
+    .add-btn {
+        color: #e8611c !important;
+        background: white !important;
+    }
+
+        .add-btn:hover {
+            background: #e8611c !important;
+            color: white !important;
+        }
+
+    /* Bell icon */
+    .bell {
+        color: #000 !important;
+    }
+
+    .place-order-btn {
+        width: 100%;
+        margin-top: 10px;
+        padding: 12px;
+        border: none;
+        background: #e8611c;
+        color: white;
+        border-radius: 8px; /* rectangular shape */
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+        .place-order-btn:hover {
+            background: #cf5314;
+        }
 </style>
 
 <div class="page-container">
@@ -178,7 +250,7 @@
 
         <h4 id="totalPrice"></h4>
 
-        <button onclick="placeOrder()" class="add-btn" style="width:100%;margin-top:10px;">
+        <button onclick="placeOrder()" class="place-order-btn">
             Place Order
         </button>
     </div>
