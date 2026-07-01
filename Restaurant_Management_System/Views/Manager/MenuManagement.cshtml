@@ -1,0 +1,167 @@
+﻿@{
+    ViewData["Title"] = "Menu Management";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+<style>
+    /* Styling to make the image act like a clean icon/thumbnail */
+    .menu-item-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 6px; /* Change to 50% if you want them perfectly circular */
+        border: 1px solid #e2e8f0;
+    }
+</style>
+
+<div class="menu-container">
+
+    <div class="page-header">
+        <div>
+            <h2>Menu Management</h2>
+            <p>Manage restaurant menu items.</p>
+        </div>
+
+        <a asp-action="MenuAdd" asp-controller="MyRestaurant" class="add-btn">
+            + Add Item
+        </a>
+    </div>
+
+    <div class="filter-section">
+
+        <input type="text"
+               class="search-box"
+               placeholder="Search menu item..." />
+
+        <select class="category-dropdown">
+            <option>All Categories</option>
+            <option>Veg Pizza</option>
+            <option>Non-Veg Pizza</option>
+            <option>Sides</option>
+        </select>
+
+    </div>
+
+    <table class="menu-table">
+
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td><img src="~/manager/farmhouse.jpg" alt="Farm House Pizza" class="menu-item-icon" /></td>
+                <td>Farm House Pizza</td>
+                <td>Veg Pizza</td>
+                <td>₹299</td>
+                <td><span class="status available">Available</span></td>
+                <td>
+                    <a asp-action="MenuView" class="view-btn">View</a>
+                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
+                    <a asp-action="MenuDelete" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td><img src="~/manager/veggie_supreme.jpg" alt="Veggie Supreme" class="menu-item-icon" /></td>
+                <td>Veggie Supreme</td>
+                <td>Veg Pizza</td>
+                <td>₹329</td>
+                <td><span class="status available">Available</span></td>
+                <td>
+                    <a asp-action="MenuView" class="view-btn">View</a>
+                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
+                    <a asp-action="MenuDelete" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td><img src="~/manager/ultimate_cheese.jpg" alt="Ultimate Cheese" class="menu-item-icon" /></td>
+                <td>Ultimate Cheese Pizza</td>
+                <td>Veg Pizza</td>
+                <td>₹279</td>
+                <td><span class="status available">Available</span></td>
+                <td>
+                    <a asp-action="MenuView" class="view-btn">View</a>
+                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
+                    <a asp-action="MenuDelete" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td><img src="~/manager/paneer_pizza.jpg" alt="Paneer Pizza" class="menu-item-icon" /></td>
+                <td>Paneer Pizza</td>
+                <td>Veg Pizza</td>
+                <td>₹319</td>
+                <td><span class="status available">Available</span></td>
+                <td>
+                    <a asp-action="MenuView" class="view-btn">View</a>
+                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
+                    <a asp-action="MenuDelete" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td><img src="~/manager/chicken_tikka.jpg" alt="Chicken Tikka" class="menu-item-icon" /></td>
+                <td>Chicken Tikka Pizza</td>
+                <td>Non-Veg Pizza</td>
+                <td>₹399</td>
+                <td><span class="status available">Available</span></td>
+                <td>
+                    <a asp-action="MenuView" class="view-btn">View</a>
+                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
+                    <a asp-action="MenuDelete" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td><img src="~/manager/pepperoni.jpg" alt="Pepperoni" class="menu-item-icon" /></td>
+                <td>Pepperoni Pizza</td>
+                <td>Non-Veg Pizza</td>
+                <td>₹429</td>
+                <td><span class="status available">Available</span></td>
+                <td>
+                    <a asp-action="MenuView" class="view-btn">View</a>
+                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
+                    <a asp-action="MenuDelete" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td><img src="~/manager/bbq_chicken.jpg" alt="BBQ Chicken" class="menu-item-icon" /></td>
+                <td>BBQ Chicken Pizza</td>
+                <td>Non-Veg Pizza</td>
+                <td>₹449</td>
+				<td><span class="status available">Available</span></td>
+				<img src="c:\users\2507248\desktop\project\myrestaurant\restaurant_management_system\images\manager\ultimate_cheese.jpg" />
+                <td>
+                    <a asp-action="MenuView" class="view-btn">View</a>
+                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
+                    <a asp-action="MenuDelete" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td><img src="~/manager/fries.jpg" alt="Fries" class="menu-item-icon" /></td>
+                <td>Fries</td>
+                <td>Sides</td>
+                <td>₹129</td>
+                <td><span class="status available">Available</span></td>
+                <td>
+                    <a asp-action="MenuView" class="view-btn">View</a>
+                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
+                    <a asp-action="MenuDelete" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+</div>

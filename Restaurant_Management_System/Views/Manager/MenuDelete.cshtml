@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Delete Menu Item";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="menu-container">
+
+    <div class="page-header">
+        <div>
+            <h2>Delete Menu Item</h2>
+            <p>Confirm deletion (Demo Only)</p>
+        </div>
+    </div>
+
+    <div class="delete-card">
+
+        <h2>⚠ Delete Farm House Pizza?</h2>
+
+        <p>
+            This is only a demonstration page.
+            No data will actually be deleted.
+        </p>
+
+        <table class="details-table">
+
+            <tr>
+                <td><b>Category</b></td>
+                <td>Veg Pizza</td>
+            </tr>
+
+            <tr>
+                <td><b>Price</b></td>
+                <td>₹299</td>
+            </tr>
+
+            <tr>
+                <td><b>Status</b></td>
+                <td>
+                    <span class="status available">
+                        Available
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+
+        <div class="button-group">
+
+            <a asp-action="MenuManagement"
+               class="cancel-btn">
+                Cancel
+            </a>
+
+            <a asp-action="MenuManagement"
+               class="delete-btn">
+                Delete
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+ 

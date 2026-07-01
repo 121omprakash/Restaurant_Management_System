@@ -112,16 +112,12 @@ public class UserController : Controller
 
         if (role == "Admin")
         {
-
-            return RedirectToAction("Index", "Admin");    
-
             return RedirectToAction("Dashboard", "Admin");
-
         }
         else if (role == "Chef")
         {
             // Fixed: Routes to ChefController matching your role-based folder structure
-            return RedirectToAction("Dashboard", "Kitchen");
+            return RedirectToAction("Index", "Chef");
         }
         else if (role == "Manager")
         {
@@ -129,7 +125,7 @@ public class UserController : Controller
         }
         else if (role == "Waiter")
         {
-            return RedirectToAction("Index", "Waiter");
+            return RedirectToAction("Dashboard", "Waiter");
         }
         else if (role == "Cashier")
         {

@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Add Menu Item";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="menu-container">
+
+    <div class="page-header">
+        <div>
+            <h2>Add Menu Item</h2>
+            <p>Add a new menu item (Demo Only)</p>
+        </div>
+    </div>
+
+    <div class="menu-form">
+
+        <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" placeholder="Enter Item Name" />
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+
+            <select>
+                <option>Veg Pizza</option>
+                <option>Non-Veg Pizza</option>
+                <option>Sides</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Price</label>
+            <input type="text" placeholder="Enter Price" />
+        </div>
+
+        <div class="form-group">
+            <label>Preparation Time</label>
+            <input type="text" placeholder="15 Minutes" />
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+
+            <textarea rows="5"
+                      placeholder="Enter Item Description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+
+            <select>
+                <option>Available</option>
+                <option>Unavailable</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Upload Image</label>
+            <input type="file" />
+        </div>
+
+        <div class="button-group">
+
+            <a asp-action="MenuManagement"
+               class="cancel-btn">
+                Cancel
+            </a>
+
+            <a asp-action="MenuManagement"
+               class="save-btn">
+                Save Item
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+ 

@@ -1,0 +1,180 @@
+﻿@{
+    ViewData["Title"] = "Table Reservation";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<!-- Top Administrative Heading Block -->
+<div class="d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-2 mb-4">
+    <div>
+        <h3 class="page-title mb-1" style="font-size: 1.6rem;">Table Layout Management</h3>
+        <p class="page-subtitle small mb-0" style="font-size: 0.88rem; font-weight: 500; color: var(--text-muted);">
+            <i class="fa-solid fa-layer-group me-2 text-warning"></i>Real-time workspace booking, status updates, and floor allocation.
+        </p>
+    </div>
+    <!-- Visual Legend Badge Trackers -->
+    <div class="d-flex align-items-center gap-3 bg-card border border-secondary px-3 py-2 rounded-pill shadow-sm" style="background-color: var(--bg-card); font-size: 0.82rem;">
+        <span class="d-flex align-items-center gap-1 font-weight-600" style="color: var(--text-main);">
+            <span class="dot-indicator bg-success"></span> Available
+        </span>
+        <span class="d-flex align-items-center gap-1 font-weight-600" style="color: var(--text-main);">
+            <span class="dot-indicator bg-danger"></span> Occupied
+        </span>
+        <span class="d-flex align-items-center gap-1 font-weight-600" style="color: var(--text-main);">
+            <span class="dot-indicator bg-warning"></span> Reserved
+        </span>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left Hand Form: Admin Layout Style Input Panel -->
+    <div class="col-lg-4">
+        <div class="card p-4 border border-secondary shadow-sm" style="background-color: var(--bg-card); border-radius: 16px;">
+            <div class="mb-3 border-bottom pb-2">
+                <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">New Booking Action</h4>
+                <p class="small mb-0" style="color: var(--text-muted) !important;">Allocate workspace to physical walking patrons.</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small modal-theme-title mb-1" style="color: var(--text-main);">Table Assignment</label>
+                <select id="tableNumber" class="form-select form-select-sm"></select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small modal-theme-title mb-1" style="color: var(--text-main);">Guest / Patron Name</label>
+                <input id="customerName" class="form-control form-control-sm" placeholder="Enter full name" />
+            </div>
+
+            <button class="btn btn-warning w-100 btn-sm text-dark fw-bold rounded-pill mt-2 py-2" onclick="reserveTable()">
+                <i class="fa-solid fa-bookmark me-1"></i> Confirm Reservation
+            </button>
+        </div>
+    </div>
+
+    <!-- Right Hand Grid: Floor Mapping Visualization -->
+    <div class="col-lg-8">
+        <div class="card p-4 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 16px;">
+            <div class="mb-4 border-bottom pb-2">
+                <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">Live Floor Blueprint Map</h4>
+                <p class="small mb-0" style="color: var(--text-muted) !important;">Click mapping components to cycle assignment statuses directly.</p>
+            </div>
+
+            <div id="floorGrid" class="row row-cols-2 row-cols-sm-3 row-cols-xl-4 g-3">
+                <!-- Javascript components injected here smoothly -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let tables = [];
+
+    // Initialize 12 tables to populate mapping blueprint array
+    for (let i = 1; i <= 12; i++) {
+        tables.push({
+            id: i,
+            status: "available",
+            customer: ""
+        });
+    }
+
+    function renderTables() {
+        const grid = document.getElementById("floorGrid");
+        grid.innerHTML = "";
+
+        tables.forEach(t => {
+            const col = document.createElement("div");
+            col.className = "col";
+
+            let borderClass = "border-success";
+            let bgGlow = "rgba(16, 185, 129, 0.06)";
+            let badgeStyle = "background-color: rgba(16, 185, 129, 0.15); color: #059669;";
+
+            if (t.status === "occupied") {
+                borderClass = "border-danger";
+                bgGlow = "rgba(239, 68, 68, 0.06)";
+                badgeStyle = "background-color: rgba(239, 68, 68, 0.15); color: #dc2626;";
+            } else if (t.status === "reserved") {
+                borderClass = "border-warning";
+                bgGlow = "rgba(245, 158, 11, 0.06)";
+                badgeStyle = "background-color: rgba(245, 158, 11, 0.15); color: #d97706;";
+            }
+
+            col.innerHTML = `
+                <div class="card p-3 h-100 border text-center position-relative transition-all table-blueprint-card ${borderClass}"
+                     style="background-color: ${bgGlow}; border-radius: 12px; cursor: pointer;" onclick="selectTable(${t.id})">
+
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2 fw-bold"
+                         style="width: 42px; height: 42px; font-size: 1.05rem; ${badgeStyle}">
+                         ${t.id}
+                    </div>
+
+                    <span class="text-uppercase fw-bold d-block mb-1 tracking-wider" style="font-size: 0.68rem; color: var(--text-muted); letter-spacing:0.5px;">
+                        ${t.status}
+                    </span>
+
+                    <div class="text-truncate fw-semibold mb-2" style="font-size: 0.82rem; height:18px; color: var(--text-main);">
+                        ${t.customer || "—"}
+                    </div>
+
+                    <div onclick="event.stopPropagation();">
+                        <select class="form-select form-select-sm text-center py-0 px-2 fs-7 mx-auto"
+                                style="max-width: 110px; font-size: 0.75rem; height: 24px;" onchange="changeStatus(${t.id}, this.value)">
+                            <option value="available" ${t.status === 'available' ? 'selected' : ''}>Available</option>
+                            <option value="occupied" ${t.status === 'occupied' ? 'selected' : ''}>Occupied</option>
+                            <option value="reserved" ${t.status === 'reserved' ? 'selected' : ''}>Reserved</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(col);
+        });
+    }
+
+    function selectTable(id) {
+        document.getElementById("tableNumber").value = id;
+    }
+
+    function changeStatus(id, newStatus) {
+        const table = tables.find(t => t.id === id);
+        table.status = newStatus;
+        if(newStatus !== 'reserved') table.customer = "";
+        renderTables();
+    }
+
+    function populateDropdown() {
+        const dropdown = document.getElementById("tableNumber");
+        dropdown.innerHTML = `<option value="" disabled selected>Choose a workspace</option>`;
+        tables.forEach(t => {
+            dropdown.innerHTML += `<option value="${t.id}">Table Layout ${t.id}</option>`;
+        });
+    }
+
+    function reserveTable() {
+        const tableId = document.getElementById("tableNumber").value;
+        const name = document.getElementById("customerName").value.trim();
+
+        if (!tableId || !name) {
+            alert("Please supply an allocation target table number and client name record.");
+            return;
+        }
+
+        const table = tables.find(t => t.id == tableId);
+        table.status = "reserved";
+        table.customer = name;
+
+        renderTables();
+
+        fetch('/Order/reserveTable', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tableNumber: tableId, customerName: name })
+        });
+
+        // Reset fields softly
+        document.getElementById("customerName").value = "";
+        document.getElementById("tableNumber").value = "";
+    }
+
+    populateDropdown();
+    renderTables();
+</script>

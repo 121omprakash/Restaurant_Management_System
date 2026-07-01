@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -29,34 +30,34 @@
                         
                         
                         <form asp-controller="User" asp-action="Login">
-                            <button class="theme-toggle-btn"  type="submit">
+                            <button class="theme-toggle-btn" type="submit">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 <span>Logout</span>
                             </button>
                         </form>
-                        </div>
-                            
                     </div>
+
                 </div>
             </div>
-        </nav>
-    </header>
-
-    <div class="container-fluid px-4 main-wrapper">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="custom-footer text-muted">
-        <div class="w-100 text-center py-2">
-            &copy; 2026 - RMSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </nav>
+</header>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<div class="container-fluid px-4 main-wrapper">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="custom-footer text-muted">
+    <div class="w-100 text-center py-2">
+        &copy; 2026 - RMSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

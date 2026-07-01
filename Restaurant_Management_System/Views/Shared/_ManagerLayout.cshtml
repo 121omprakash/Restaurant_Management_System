@@ -1,10 +1,9 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Restaurant Management System (Admin)</title>
+    <title>@ViewData["Title"] - Restaurant Management System (Manager)</title>
 
     <script>
             (function () {
@@ -24,6 +23,7 @@
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/manager.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Restaurant_Management_System.styles.css" asp-append-version="true" />
 
     <style>
@@ -82,6 +82,12 @@
             }
 
             /* 2. DYNAMIC ACTIVE HIGHLIGHT THEME ENGINE */
+            .sidebar-nav-container ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
             .sidebar-nav-container ul li a {
                 display: flex;
                 align-items: center;
@@ -102,9 +108,9 @@
                 box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
             }
 
-                .sidebar-nav-container ul li.active a i {
-                    color: #1e293b !important;
-                }
+            .sidebar-nav-container ul li.active a i {
+                color: #1e293b !important;
+            }
 
             /* Hover fallbacks for non-active links */
             .sidebar-nav-container ul li:not(.active) a:hover {
@@ -112,9 +118,9 @@
                 color: var(--text-main) !important;
             }
 
-                .sidebar-nav-container ul li:not(.active) a:hover i {
-                    color: var(--accent-color, #f59e0b) !important;
-                }
+            .sidebar-nav-container ul li:not(.active) a:hover i {
+                color: var(--accent-color, #f59e0b) !important;
+            }
     </style>
 </head>
 <body>
@@ -149,46 +155,60 @@
                     <i class="fa-solid fa-bars fs-5"></i>
                 </button>
 
-                <div class="profile">
-                    <div class="logo-container">
-                        <img src="/AdminLogo.png" class="logo" alt="Admin Logo" onerror="this.src='https://placehold.co/80?text=RMS';" />
+                <div>
+                    <div class="profile">
+                        <div class="logo-container">
+                            <img src="/ManagerLogo.png" class="logo" alt="Manager Logo" onerror="this.src='https://placehold.co/80?text=RMS';" />
+                        </div>
+                        <h4 class="sidebar-text">MANAGER PANEL</h4>
+                        <small class="sidebar-text">@(User.Identity.IsAuthenticated ? User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value : "Manager")</small>
                     </div>
-                    <h4 class="sidebar-text">RestaurantMS</h4>
-                    <small class="sidebar-text">@(User.Identity.IsAuthenticated ? User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value : "Administrator")</small>
+
+                    <div class="sidebar-nav-container">
+                        <ul id="managerSidebarMenu">
+                            <li data-menu="Dashboard">
+                                <a asp-controller="MyRestaurant" asp-action="Dashboard">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                    <span class="sidebar-text">Dashboard</span>
+                                </a>
+                            </li>
+                            <li data-menu="Inventory">
+                                <a asp-controller="MyRestaurant" asp-action="Inventory">
+                                    <i class="fa-solid fa-boxes-stacked"></i>
+                                    <span class="sidebar-text">Inventory</span>
+                                </a>
+                            </li>
+                            <li data-menu="MenuManagement">
+                                <a asp-controller="MyRestaurant" asp-action="MenuManagement">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    <span class="sidebar-text">Menu Management</span>
+                                </a>
+                            </li>
+                            <li data-menu="OrderMonitoring">
+                                <a asp-controller="MyRestaurant" asp-action="OrderMonitoring">
+                                    <i class="fa-solid fa-clipboard-list"></i>
+                                    <span class="sidebar-text">Order Monitoring</span>
+                                </a>
+                            </li>
+                            <li data-menu="TableManagement">
+                                <a asp-controller="MyRestaurant" asp-action="TableManagement">
+                                    <i class="fa-solid fa-chair"></i>
+                                    <span class="sidebar-text">Table Management</span>
+                                </a>
+                            </li>
+                            <li data-menu="Reports">
+                                <a asp-controller="MyRestaurant" asp-action="Reports">
+                                    <i class="fa-solid fa-chart-pie"></i>
+                                    <span class="sidebar-text">Reports</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="sidebar-nav-container">
-                    <ul id="adminSidebarMenu">
-                        <li data-menu="Dashboard">
-                            <a asp-controller="Admin" asp-action="Dashboard">
-                                <i class="fa-solid fa-house"></i>
-                                <span class="sidebar-text">Dashboard</span>
-                            </a>
-                        </li>
-
-                        @if (IsSectionDefined("SidebarLinks"))
-                        {
-                            @RenderSection("SidebarLinks", required: false)
-                        }
-                        else
-                        {
-                            <li data-menu="Users">
-                                <a asp-controller="Admin" asp-action="Users">
-                                    <i class="fa-solid fa-users"></i>
-                                    <span class="sidebar-text">User Management</span>
-                                </a>
-                            </li>
-                            <li data-menu="Settings">
-                                <a asp-controller="Admin" asp-action="Settings">
-                                    <i class="fa-solid fa-sliders"></i>
-                                    <span class="sidebar-text">System Settings</span>
-                                </a>
-                            </li>
-                        }
-                    </ul>
-
                     <ul>
-                        <li class="logout-item" style="border-top: 1px solid var(--border-color); padding-top: 15px;">
+                        <li class="logout-item" style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-bottom: 15px;">
                             <a asp-controller="User" asp-action="Login">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 <span class="sidebar-text">Logout</span>
@@ -231,7 +251,7 @@
 
         // 2. Dynamic Auto-Highlight Link Match Engine
         const currentPath = window.location.pathname.toLowerCase();
-        const menuItems = document.querySelectorAll("#adminSidebarMenu li");
+        const menuItems = document.querySelectorAll("#managerSidebarMenu li");
 
         menuItems.forEach(item => {
         const actionTarget = item.getAttribute("data-menu");
