@@ -36,7 +36,7 @@
 //            }
 //            else if (role == "Chef")
 //            {
-//                return RedirectToAction("Keyboard", "Kitchen");//
+//                return RedirectToAction("Dashboard", "Kitchen");//
 //            }
 //            else if (role == "Manager")
 //            {
