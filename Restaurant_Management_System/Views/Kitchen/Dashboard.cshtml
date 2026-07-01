@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_ChefLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <h2 class="dashboard-title">Chef Dashboard</h2>
+
+    <!-- Summary Cards -->
+
+    <div class="row">
+
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="dashboard-card">
+
+                <div class="card-icon pending">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+
+                <div class="card-details">
+                    <h5>Pending Orders</h5>
+                    <h2>12</h2>
+                    <p>Waiting to be prepared</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="dashboard-card">
+
+                <div class="card-icon preparing">
+                    <i class="fa-solid fa-fire-burner"></i>
+                </div>
+
+                <div class="card-details">
+                    <h5>Preparing Orders</h5>
+                    <h2>6</h2>
+                    <p>Currently Cooking</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="dashboard-card">
+
+                <div class="card-icon delayed">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <div class="card-details">
+                    <h5>Delayed Orders</h5>
+                    <h2>2</h2>
+                    <p>Need Immediate Attention</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Pending Orders -->
+
+    <div class="table-section">
+
+        <h4>Recent Pending Orders</h4>
+
+        <table class="table table-hover mt-3">
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+
+                    <th>Table</th>
+
+                    <th>Items</th>
+
+                    <th>Time</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>ORD101</td>
+
+                    <td>T-05</td>
+
+                    <td>Pizza, Garlic Bread</td>
+
+                    <td>10:20 AM</td>
+
+                    <td><span class="badge bg-warning">Pending</span></td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD102</td>
+
+                    <td>T-03</td>
+
+                    <td>Burger, Fries</td>
+
+                    <td>10:25 AM</td>
+
+                    <td><span class="badge bg-warning">Pending</span></td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD103</td>
+
+                    <td>T-07</td>
+
+                    <td>Pasta</td>
+
+                    <td>10:28 AM</td>
+
+                    <td><span class="badge bg-warning">Pending</span></td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Summary & Notifications -->
+
+    <div class="row mt-4">
+
+        <div class="col-lg-6">
+
+            <div class="info-box">
+
+                <h4>Today's Kitchen Summary</h4>
+
+                <ul>
+
+                    <li>Total Orders : <strong>45</strong></li>
+
+                    <li>Completed Orders : <strong>30</strong></li>
+
+                    <li>Preparing Orders : <strong>6</strong></li>
+
+                    <li>Pending Orders : <strong>7</strong></li>
+
+                    <li>Delayed Orders : <strong>2</strong></li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="info-box">
+
+                <h4>Kitchen Notifications</h4>
+
+                <ul>
+
+                    <li>🍕 Order ORD101 is waiting for preparation.</li>
+
+                    <li>🔥 Pasta for Table 7 is delayed.</li>
+
+                    <li>✅ Burger Order ORD098 completed successfully.</li>
+
+                    <li>⚠ Low stock alert for Cheese.</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

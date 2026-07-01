@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewData["Title"] = "Pending Orders";
+    Layout = "~/Views/Shared/_ChefLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="page-header">
+        <h2>Pending Orders</h2>
+
+        <input type="text"
+               class="form-control search-box"
+               placeholder="Search Order ID..." />
+    </div>
+
+    <div class="table-container">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+
+                    <th>Table</th>
+
+                    <th>Items</th>
+
+                    <th>Quantity</th>
+
+                    <th>Order Time</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>ORD101</td>
+
+                    <td>T-05</td>
+
+                    <td>Pizza + 2 More</td>
+
+                    <td>5</td>
+
+                    <td>10:20 AM</td>
+
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-info btn-sm">
+                            View
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+                            Start Preparing
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD102</td>
+
+                    <td>T-03</td>
+
+                    <td>Burger Meal</td>
+
+                    <td>2</td>
+
+                    <td>10:30 AM</td>
+
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-info btn-sm">
+                            View
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+                            Start Preparing
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD103</td>
+
+                    <td>T-08</td>
+
+                    <td>Pasta + 1 More</td>
+
+                    <td>3</td>
+
+                    <td>10:35 AM</td>
+
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-info btn-sm">
+                            View
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+                            Start Preparing
+                        </button>
+
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>ORD104</td>
+
+                    <td>T-20</td>
+
+                    <td>Thin Crust + 1 More</td>
+
+                    <td>2</td>
+
+                    <td>10:45 AM</td>
+
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-info btn-sm">
+                            View
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+                            Start Preparing
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

@@ -9,5 +9,31 @@ namespace Restaurant_Management_System.Controllers
         {
             return View();
         }
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
+
+        public IActionResult PendingOrders()
+        {
+            return View();
+        }
+
+        public IActionResult PreparingOrders()
+        {
+            return View();
+        }
+
+        public IActionResult DelayedOrders()
+        {
+            return View();
+        }
+
+        public IActionResult CompletedOrders()
+        {
+            return View();
+        }
+
+
     }
 }
