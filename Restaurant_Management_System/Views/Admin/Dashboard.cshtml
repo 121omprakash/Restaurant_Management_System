@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_AdminLayout";
+}
+
+<div class="d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-2 mb-4">
+    <div>
+        <h3 class="page-title mb-1" style="font-size: 1.6rem;">Welcome back, Admin</h3>
+        <p class="page-subtitle small mb-0" id="liveClockDisplay" style="font-size: 0.88rem; font-weight: 500; color: var(--text-muted);">
+            <i class="fa-regular fa-calendar-days me-2 text-warning"></i>Loading system clock...
+        </p>
+    </div>
+    <div>
+        <button class="btn btn-outline-secondary border-secondary rounded-pill px-3 py-2 btn-sm"
+                style="color: var(--text-main) !important; background-color: transparent;"
+                onclick="window.location.reload();">
+            <i class="fa-solid fa-arrows-rotate me-1" style="color: var(--accent-color) !important;"></i> Refresh Hub
+        </button>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Gross Revenue (Today)</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">$1,248.50</h3>
+                        <small class="text-success fw-semibold" style="font-size: 0.8rem;"><i class="fa-solid fa-arrow-trend-up me-1"></i>+8%</small>
+                    </div>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(16, 185, 129, 0.15); color: #059669;">
+                    <i class="fa-solid fa-wallet fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Orders Processed</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.75rem;">42</h3>
+                        <small style="font-size: 0.75rem; color: var(--text-muted);">Inbound Queues</small>
+                    </div>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(245, 158, 11, 0.15); color: #d97706;">
+                    <i class="fa-solid fa-receipt fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px; color: var(--text-muted);">Top Operator (Today)</span>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="color: var(--text-main); font-size: 1.4rem;">Alex M. (18 Orders)</h3>
+                    </div>
+                    <small class="text-success fw-semibold" style="font-size: 0.75rem;"><i class="fa-solid fa-bolt me-1"></i>Peak efficiency pace</small>
+                </div>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 46px; height: 46px; background-color: rgba(59, 130, 246, 0.15); color: #2563eb;">
+                    <i class="fa-solid fa-star fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card p-4 border border-secondary h-100" style="background-color: var(--bg-card); border-radius: 16px;">
+            <div class="mb-3">
+                <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">System Transaction Load & Traffic Trends</h4>
+                <p class="small mb-0" style="color: var(--text-muted) !important;">Monitors server request volume against peak application database activity.</p>
+            </div>
+            <div style="position: relative; height: 300px; width: 100%;">
+                <canvas id="systemLoadChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card p-4 border border-secondary h-100" style="background-color: var(--bg-card); border-radius: 16px;">
+            <div class="mb-3">
+                <h4 class="h5 mb-1 fw-bold" style="color: var(--text-main) !important;">System Health & Exception Logs</h4>
+                <p class="small mb-0" style="color: var(--text-muted) !important;">Real-time health distribution of application exceptions.</p>
+            </div>
+            <div class="d-flex align-items-center justify-content-center" style="position: relative; height: 300px; width: 100%;">
+                <canvas id="systemHealthChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/admin-dashboard.js" asp-append-version="true"></script>
+}

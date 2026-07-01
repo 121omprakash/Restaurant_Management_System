@@ -1,0 +1,63 @@
+﻿/* 1. Base / Desktop Station Rule Frameworks */
+.summary-card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: transform 0.2s ease;
+}
+
+    .summary-card:hover {
+        transform: translateY(-2px);
+    }
+
+.interactive-table th {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border-bottom: 2px solid var(--border-color) !important;
+}
+
+.interactive-table td {
+    color: var(--text-main) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+/*  Media Queries For Responsive Terminal Components*/
+
+/* 2. Tablet Monitor Screens (max-width: 992px) */
+@media (max-width: 992px) {
+    .summary-card {
+        padding: 15px;
+    }
+
+        .summary-card h3 {
+            font-size: 1.5rem;
+        }
+
+    .interactive-table th, .interactive-table td {
+        font-size: 0.9rem;
+    }
+}
+
+/* 3. Handheld POS Terminal Equipment Devices (max-width: 576px) */
+@media (max-width: 576px) {
+    .summary-card {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+        .summary-card h3 {
+            font-size: 1.25rem;
+        }
+
+        .summary-card h6 {
+            font-size: 0.75rem;
+        }
+
+    .interactive-table th, .interactive-table td {
+        font-size: 0.8rem;
+        padding: 6px 4px !important;
+    }
+}

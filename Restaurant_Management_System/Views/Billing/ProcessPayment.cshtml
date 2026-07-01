@@ -1,0 +1,48 @@
+﻿@model Restaurant_Management_System.ViewModel.SettlementViewModel
+@{
+    ViewData["Title"] = "Payment Processing Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5" style="max-width: 600px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4>Settle Payment (Order #@Model.Order.OrderId)</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Customer Name:</strong> @Model.Order.CustomerName</p>
+            <p><strong>Table Placement:</strong> @Model.Order.TableNumber</p>
+            <hr />
+
+            <div class="mb-3">
+                <div class="d-flex justify-content-between"><span>Subtotal:</span> <strong>@Model.SubtotalAmount.ToString("C")</strong></div>
+                <div class="d-flex justify-content-between"><span>Tax:</span> <strong>@Model.TaxAmount.ToString("C")</strong></div>
+                <hr />
+                <div class="d-flex justify-content-between fs-5 text-muted">
+                    <span>Base Bill Total:</span>
+                    <strong>@Model.TotalAmount.ToString("C")</strong>
+                </div>
+                <small class="text-muted d-block text-end mt-1">*Tips added below will be compiled onto final invoice receipt.</small>
+            </div>
+
+            <form asp-action="CompleteSettlement" method="post">
+                <input type="hidden" name="orderId" value="@Model.Order.OrderId" />
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Enter Tip Amount Below ($)</label>
+                    <input type="number" step="0.01" class="form-control" name="tipAmount" value="0.00" min="0" autocomplete="off" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Payment Type</label>
+                    <select class="form-select" name="paymentMode">
+                        <option value="CASH">Cash Mode</option>
+                        <option value="CARD">Card Terminal EMV</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 py-2 fs-5">Submit & Pay Bill</button>
+            </form>
+        </div>
+    </div>
+</div>

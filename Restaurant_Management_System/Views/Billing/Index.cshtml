@@ -1,9 +1,125 @@
-﻿@{
-    ViewData["Title"] = "Billing Page";
+﻿@model Restaurant_Management_System.ViewModel.CashierDashboardViewModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Interactive Billing Panel";
+    string currentTab = ViewData["ActiveTab"]?.ToString() ?? "ALL";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Billing Page</h1>
-    
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Interactive Cashier Terminal</h2>
+        <span class="badge bg-secondary p-2 fs-6">Showing View Mode: @currentTab</span>
+    </div>
+
+    <div class="row g-3 text-center mb-4">
+        <div class="col-6 col-md-3">
+            <a asp-action="Index" asp-route-currentTab="PENDING" class="text-decoration-none d-block h-100">
+                <div class="summary-card bg-primary text-white rounded shadow-sm border-0 h-100 p-3">
+                    <h6 class="text-uppercase small font-monospace opacity-75">Pending Bills</h6>
+                    <h3>@Model.PendingBillsCount</h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a asp-action="Index" asp-route-currentTab="SETTLED" class="text-decoration-none d-block h-100">
+                <div class="summary-card bg-success text-white rounded shadow-sm border-0 h-100 p-3">
+                    <h6 class="text-uppercase small font-monospace opacity-75">Settled Today</h6>
+                    <h3>@Model.SettledTodayCount</h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a asp-action="Index" asp-route-currentTab="TIPS" class="text-decoration-none d-block h-100">
+                <div class="summary-card bg-warning text-dark rounded shadow-sm border-0 h-100 p-3">
+                    <h6 class="text-uppercase small font-monospace opacity-75">Tips Today</h6>
+                    <h3>@Model.TipsCollectedToday.ToString("C")</h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a asp-action="Index" asp-route-currentTab="SALES" class="text-decoration-none d-block h-100">
+                <div class="summary-card bg-info text-white rounded shadow-sm border-0 h-100 p-3">
+                    <h6 class="text-uppercase small font-monospace opacity-75">Total Sales</h6>
+                    <h3>@Model.TotalRevenueToday.ToString("C")</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <span class="fw-bold">Active Transaction Records Matrix</span>
+                    <a asp-action="Index" asp-route-currentTab="ALL" class="btn btn-sm btn-outline-light">Reset Filter View</a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover m-0 align-middle text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ref ID</th>
+                                <th>Customer Name</th>
+                                <th>Table Info</th>
+                                <th>Status Option</th>
+                                <th>Action Panel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ActiveOrders)
+                            {
+                                <tr>
+                                    <td>#@item.OrderId</td>
+                                    <td>
+                                        <a asp-action="Index" asp-route-currentTab="@currentTab" asp-route-selectedOrderId="@item.OrderId" class="fw-bold text-primary text-decoration-none">
+                                            @item.CustomerName <i class="bi bi-info-circle small text-muted"></i>
+                                        </a>
+                                    </td>
+                                    <td><span class="badge bg-secondary">@item.TableNumber</span></td>
+                                    <td><span class="badge bg-light text-dark border">@item.OrderStatus</span></td>
+                                    <td>
+                                        @if (item.OrderStatus == "READY" || item.OrderStatus == "PREPARING")
+                                        {
+                                            <a asp-action="ProcessPayment" asp-route-orderId="@item.OrderId" class="btn btn-sm btn-success">Process Bill</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">Settled Asset</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-secondary text-white fw-bold">
+                    Itemized Receipt Preview
+                </div>
+                @if (ViewData["ShowDrillDown"]?.ToString() == "FALSE")
+                {
+                    <div class="card-body text-center">
+                        <p class="text-muted my-5">Click on any customer's name link inside the table to trigger the detail view dynamically using C#.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-body">
+                        <h5 class="fw-bold text-primary mb-1">@ViewData["DrillCustomer"]</h5>
+                        <p class="text-muted small mb-3">@ViewData["DrillTable"]</p>
+                        <hr>
+                        <h6 class="fw-bold text-secondary">Ordered Items & Quantities:</h6>
+                        <div class="p-3 bg-light rounded font-monospace small mb-3">
+                            @Html.Raw(ViewData["DrillItems"])
+                        </div>
+                        <div class="d-flex justify-content-between mb-2"><span>Allocated Tips:</span> <strong class="text-success">@ViewData["DrillTip"]</strong></div>
+                        <div class="d-flex justify-content-between fs-5 border-top pt-2"><span>Total Ticket:</span> <strong class="text-dark">@ViewData["DrillTotal"]</strong></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>

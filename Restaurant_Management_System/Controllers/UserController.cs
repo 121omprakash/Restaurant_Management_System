@@ -64,6 +64,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Restaurant_Management_System.Data;
+using Restaurant_Management_System.ViewModel;
 using System.Linq;
 
 public class UserController : Controller
@@ -82,17 +83,17 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(string UserId, string password)
+    public IActionResult Login(LoginViewModel l)
     {
-        if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(password))
+        if (string.IsNullOrEmpty(l.UserId) || string.IsNullOrEmpty(l.password))
         {
             ViewBag.Error = "Please fill in all fields.";
             return View();
         }
 
         // Clean inputs to prevent trailing space errors
-        string cleanUserId = UserId.Trim();
-        string cleanPassword = password.Trim();
+        string cleanUserId = l.UserId.Trim();
+        string cleanPassword = l.password.Trim();
 
         // 1. Fetch the user directly from the database safely
         // SQL handles string matching perfectly. Passwords remain case-sensitive here.
@@ -111,7 +112,11 @@ public class UserController : Controller
 
         if (role == "Admin")
         {
+<<<<<<< HEAD
             return RedirectToAction("Index", "Admin");    
+=======
+            return RedirectToAction("Dashboard", "Admin");
+>>>>>>> 6f9a044579301035bdac907b788c8ac78d91a0ec
         }
         else if (role == "Chef")
         {
@@ -128,7 +133,7 @@ public class UserController : Controller
         }
         else if (role == "Cashier")
         {
-            return RedirectToAction("Index", "Cashier");
+            return RedirectToAction("Index", "Billing");
         }
         else if (role == "Inventory Clerk")
         {
