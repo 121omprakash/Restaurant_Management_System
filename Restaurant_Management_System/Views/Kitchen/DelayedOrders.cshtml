@@ -1,0 +1,227 @@
+﻿
+
+@{
+    ViewData["Title"] = "Delayed Orders";
+    Layout = "~/Views/Shared/_ChefLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="page-header">
+
+        <h2>Delayed Orders</h2>
+
+        <input type="text"
+               class="form-control search-box"
+               placeholder="Search Order..." />
+
+    </div>
+
+    <div class="table-container">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+
+                    <th>Table</th>
+
+                    <th>Items</th>
+
+                    <th>Delay Reason</th>
+
+                    <th>Delayed At</th>
+
+                    <th>Estimated Ready</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>ORD301</td>
+
+                    <td>T-06</td>
+
+                    <td>Chicken Biryani</td>
+
+                    <td>Waiting for Ingredients</td>
+
+                    <td>10:35 AM</td>
+
+                    <td>11:00 AM</td>
+
+                    <td>
+                        <span class="badge bg-danger">
+                            Delayed
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-warning btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#delayModal">
+
+                            View Details
+
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+
+                            Resume
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD302</td>
+
+                    <td>T-02</td>
+
+                    <td>Pizza</td>
+
+                    <td>Oven Maintenance</td>
+
+                    <td>10:45 AM</td>
+
+                    <td>11:10 AM</td>
+
+                    <td>
+                        <span class="badge bg-danger">
+                            Delayed
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-warning btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#delayModal">
+
+                            View Details
+
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+
+                            Resume
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>ORD303</td>
+
+                    <td>T-09</td>
+
+                    <td>Pasta</td>
+
+                    <td>Chef Assigned Elsewhere</td>
+
+                    <td>10:55 AM</td>
+
+                    <td>11:20 AM</td>
+
+                    <td>
+                        <span class="badge bg-danger">
+                            Delayed
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-warning btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#delayModal">
+
+                            View Details
+
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+
+                            Resume
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- Delay Details Modal -->
+
+<div class="modal fade" id="delayModal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <h5 class="modal-title">
+                    Delay Details
+                </h5>
+
+                <button class="btn-close btn-close-white"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <p><strong>Order ID:</strong> ORD301</p>
+
+                <p><strong>Table:</strong> T-06</p>
+
+                <p><strong>Reason:</strong> Waiting for Ingredients</p>
+
+                <p><strong>Expected Ready Time:</strong> 11:00 AM</p>
+
+                <p><strong>Remarks:</strong> Fresh chicken delivery is expected in 10 minutes.</p>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

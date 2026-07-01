@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "View Menu Item";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+<div class="menu-container">
+
+    <div class="page-header">
+        <div>
+            <h2>Menu Item Details</h2>
+            <p>View menu item information</p>
+        </div>
+
+        <a asp-action="MenuEdit" class="add-btn">
+            Edit Recipe
+        </a>
+    </div>
+
+    <div class="view-card">
+
+        <div class="image-section">
+            <img src="~/manager/farmhouse.jpg" class="food-image" />
+        </div>
+
+        <div class="details-section">
+
+            <h2>Farm House Pizza</h2>
+
+            <table class="details-table">
+
+                <tr>
+                    <td><b>Category</b></td>
+                    <td>Veg Pizza</td>
+                </tr>
+
+                <tr>
+                    <td><b>Price</b></td>
+                    <td>₹299</td>
+                </tr>
+
+                <tr>
+                    <td><b>Preparation Time</b></td>
+                    <td>15 Minutes</td>
+                </tr>
+
+                <tr>
+                    <td><b>Status</b></td>
+                    <td>
+                        <span class="status available">
+                            Available
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><b>Description</b></td>
+                    <td>
+                        Fresh vegetables, mozzarella cheese,
+                        tomato sauce and herbs.
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <h3 style="margin-top:35px;">Ingredients</h3>
+
+    <table class="menu-table">
+
+        <thead>
+            <tr>
+                <th>Ingredient</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Cheese</td>
+                <td>200 g</td>
+            </tr>
+
+            <tr>
+                <td>Capsicum</td>
+                <td>100 g</td>
+            </tr>
+
+            <tr>
+                <td>Onion</td>
+                <td>80 g</td>
+            </tr>
+
+            <tr>
+                <td>Tomato</td>
+                <td>100 g</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="button-group">
+
+        <a asp-action="MenuManagement"
+           class="cancel-btn">
+            Back
+        </a>
+
+    </div>
+
+</div>
+
+ 
