@@ -1,37 +1,48 @@
-﻿@model Restaurant_Management_System.Models.BillInvoice
+﻿@model Restaurant_Management_System.ViewModel.SettlementViewModel
 @{
-    ViewData["Title"] = "Invoice Receipt Page";
+    ViewData["Title"] = "Payment Processing Page";
     Layout = "~/Views/Shared/_billingLayout.cshtml";
 }
 
-<div class="container my-5 text-center" style="max-width: 400px;">
-    <div class="alert alert-success border-0 shadow-sm fw-bold">
-        ✔ Transaction Processed Successfully!
-    </div>
-
-    <div class="card p-4 border border-secondary text-start font-monospace shadow-sm bg-white">
-        <h4 class="text-center fw-bold mb-0">METRO BISTRO</h4>
-        <p class="text-muted text-center small mb-3">POS TERMINAL SYSTEM RECEIPT</p>
-
-        <div class="d-flex justify-content-between small"><span class="text-muted">Invoice No:</span> <strong>#@Model.InvoiceId</strong></div>
-        <div class="d-flex justify-content-between small"><span class="text-muted">Order Ref:</span> <strong>#@Model.OrderId</strong></div>
-        <div class="d-flex justify-content-between small"><span class="text-muted">Status:</span> <span class="badge bg-success">@Model.PaymentStatus</span></div>
-        <hr class="my-2">
-
-        <div class="d-flex justify-content-between"><span>Subtotal Amount:</span> <span>@Model.SubtotalAmount.ToString("C")</span></div>
-        <div class="d-flex justify-content-between"><span>Tax (State/Local):</span> <span>@Model.TaxAmount.ToString("C")</span></div>
-        <div class="d-flex justify-content-between text-success"><span>Tip Allocation:</span> <span>+@Model.TipAmount.ToString("C")</span></div>
-        <hr class="my-2">
-
-        <div class="d-flex justify-content-between fw-bold fs-5 pt-1 border-top border-dark">
-            <span>Grand Total:</span>
-            <span>@Model.TotalAmount.ToString("C")</span>
+<div class="container my-5" style="max-width: 600px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4>Settle Payment (Order #@Model.Order.OrderId)</h4>
         </div>
+        <div class="card-body">
+            <p><strong>Customer Name:</strong> @Model.Order.CustomerName</p>
+            <p><strong>Table Placement:</strong> @Model.Order.TableNumber</p>
+            <hr />
 
-        <p class="text-center text-muted small mt-4 mb-0">Thank you for dining with us!</p>
-    </div>
+            <div class="mb-3">
+                <div class="d-flex justify-content-between"><span>Subtotal:</span> <strong>@Model.SubtotalAmount.ToString("C")</strong></div>
+                <div class="d-flex justify-content-between"><span>Tax:</span> <strong>@Model.TaxAmount.ToString("C")</strong></div>
+                <hr />
+                <div class="d-flex justify-content-between fs-5 text-muted">
+                    <span>Base Bill Total:</span>
+                    <strong>@Model.TotalAmount.ToString("C")</strong>
+                </div>
+                <small class="text-muted d-block text-end mt-1">*Tips added below will be compiled onto final invoice receipt.</small>
+            </div>
 
-    <div class="mt-4">
-        <a asp-action="Index" class="btn btn-primary w-100 py-2">Back to Dashboard Hub</a>
+            <form asp-action="CompleteSettlement" method="post">
+                <input type="hidden" name="orderId" value="@Model.Order.OrderId" />
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Enter Tip Amount Below ($)</label>
+                    <input type="number" step="0.01" class="form-control" name="tipAmount" value="0.00" min="0" autocomplete="off" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Payment Type</label>
+                    <select class="form-select" name="paymentMode">
+                        <option value="CASH">Cash Mode</option>
+                        <option value="CARD">Card Terminal EMV</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 py-2 fs-5">Submit & Pay Bill</button>
+            </form>
+        </div>
     </div>
 </div>
