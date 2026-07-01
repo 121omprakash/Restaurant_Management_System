@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "Reports & Billing";
+    Layout = "_ManagerLayout";
+}
+
+<div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+    <div style="flex: 1; min-width: 200px; background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <p style="margin: 0; font-size: 0.85rem; color: #64748b; font-weight: 500;">Today's Revenue</p>
+        <h2 style="margin: 8px 0 0 0; font-size: 1.8rem; font-weight: 700; color: #0f172a;">₹52,000</h2>
+    </div>
+    <div style="flex: 1; min-width: 200px; background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <p style="margin: 0; font-size: 0.85rem; color: #64748b; font-weight: 500;">This Week</p>
+        <h2 style="margin: 8px 0 0 0; font-size: 1.8rem; font-weight: 700; color: #0f172a;">₹3,25,000</h2>
+    </div>
+    <div style="flex: 1; min-width: 200px; background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <p style="margin: 0; font-size: 0.85rem; color: #64748b; font-weight: 500;">This Month</p>
+        <h2 style="margin: 8px 0 0 0; font-size: 1.8rem; font-weight: 700; color: #0f172a;">₹12,80,000</h2>
+    </div>
+    <div style="flex: 1; min-width: 200px; background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <p style="margin: 0; font-size: 0.85rem; color: #64748b; font-weight: 500;">Average Bill Value</p>
+        <h2 style="margin: 8px 0 0 0; font-size: 1.8rem; font-weight: 700; color: #0f172a;">₹375</h2>
+    </div>
+</div>
+
+<div style="display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 30px;">
+    <div style="flex: 1.5; min-width: 380px; background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <h5 style="margin: 0 0 20px 0; font-size: 1rem; font-weight: 600; color: #1e293b;">Revenue Trend</h5>
+        <div style="position: relative; height: 160px; border-bottom: 2px solid #e2e8f0; border-left: 2px solid #e2e8f0; margin: 0 10px;">
+            <svg viewBox="0 0 500 100" style="width: 100%; height: 100%; overflow: visible;">
+                <path d="M 0 80 Q 70 40 150 60 T 300 30 T 500 10" fill="none" stroke="#2563eb" stroke-width="3" />
+                <circle cx="150" cy="60" r="4" fill="#2563eb" />
+                <circle cx="300" cy="30" r="4" fill="#2563eb" />
+                <circle cx="450" cy="15" r="4" fill="#2563eb" />
+            </svg>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8; padding-top: 12px; font-weight: 500;">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        </div>
+    </div>
+
+    <div style="flex: 1; min-width: 280px; background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <h5 style="margin: 0 0 20px 0; font-size: 1rem; font-weight: 600; color: #1e293b;">Top Selling Items</h5>
+        <div style="display: flex; flex-direction: column; gap: 16px; font-size: 0.95rem; font-weight: 500; color: #334155;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>BBQ Chicken Pizza</span><strong style="color: #2563eb;">45%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Farm House Pizza</span><strong style="color: #10b981;">30%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Fries</span><strong style="color: #f59f00;">25%</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h5 style="margin: 0; font-size: 1rem; font-weight: 600; color: #1e293b;">Recent Invoices</h5>
+        <button style="background: transparent; border: 1px solid #cbd5e1; color: #475569; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer;">View All Invoices</button>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+            <thead>
+                <tr style="border-bottom: 2px solid #f1f5f9; color: #64748b; font-weight: 600;">
+                    <th style="padding: 12px 16px;">Invoice ID</th>
+                    <th style="padding: 12px 16px;">Date</th>
+                    <th style="padding: 12px 16px;">Table No.</th>
+                    <th style="padding: 12px 16px;">Amount</th>
+                    <th style="padding: 12px 16px;">Payment Status</th>
+                </tr>
+            </thead>
+            <tbody style="color: #334155; font-weight: 500;">
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 14px 16px; font-weight: 600; color: #0f172a;">INV-1001</td>
+                    <td style="padding: 14px 16px; color: #64748b;">21 May 2026</td>
+                    <td style="padding: 14px 16px;">5</td>
+                    <td style="padding: 14px 16px;">₹580</td>
+                    <td style="padding: 14px 16px;"><span style="background-color: #f0fdf4; color: #16a34a; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Paid</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 14px 16px; font-weight: 600; color: #0f172a;">INV-1002</td>
+                    <td style="padding: 14px 16px; color: #64748b;">21 May 2026</td>
+                    <td style="padding: 14px 16px;">8</td>
+                    <td style="padding: 14px 16px;">₹470</td>
+                    <td style="padding: 14px 16px;"><span style="background-color: #f0fdf4; color: #16a34a; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Paid</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 14px 16px; font-weight: 600; color: #0f172a;">INV-1003</td>
+                    <td style="padding: 14px 16px; color: #64748b;">21 May 2026</td>
+                    <td style="padding: 14px 16px;">12</td>
+                    <td style="padding: 14px 16px;">₹350</td>
+                    <td style="padding: 14px 16px;"><span style="background-color: #fef2f2; color: #ef4444; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Pending</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 14px 16px; font-weight: 600; color: #0f172a;">INV-1004</td>
+                    <td style="padding: 14px 16px; color: #64748b;">20 May 2026</td>
+                    <td style="padding: 14px 16px;">2</td>
+                    <td style="padding: 14px 16px;">₹1,250</td>
+                    <td style="padding: 14px 16px;"><span style="background-color: #f0fdf4; color: #16a34a; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Paid</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+ 
