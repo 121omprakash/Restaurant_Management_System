@@ -1,67 +1,3 @@
-//using Microsoft.AspNetCore.Mvc;
-//using Restaurant_Management_System.Data;
-//using Microsoft.IdentityModel.Tokens;
-
-//public class UserController : Controller
-//{
-//    private readonly rmsDbContext _context;
-//    public UserController(rmsDbContext context)
-//    {
-//        _context = context;
-//    }
-//    [HttpGet]
-//    public IActionResult Login()
-//    {
-//        return View();
-//    }
-
-//    [HttpPost]
-//    public IActionResult Login(string UserId, string password)
-//    {
-//        // Added StringComparer to allow case-insensitive User ID comparisons
-//        var res = from u in _context.Users
-//                  where string.Equals(u.UserId, UserId, StringComparison.OrdinalIgnoreCase) &&
-//                        string.Equals(u.password, password, StringComparison.OrdinalIgnoreCase)
-//                  select u.Role;
-//        if(res.IsNullOrEmpty()) 
-//        {
-//            ViewBag.Error = "Invalid User ID or Password";
-//        }
-//        else { 
-//            string role = res.FirstOrDefault();
-//            if (role == "Admin")
-//            {
-
-//                return RedirectToAction("Index", "Admin"); //
-//            }
-//            else if (role == "Chef")
-//            {
-//                return RedirectToAction("Dashboard", "Kitchen");//
-//            }
-//            else if (role == "Manager")
-//            {
-
-//                return RedirectToAction("Index", "Reports");
-//            }
-//            else if (role == "Waiter")
-//            {
-//                return RedirectToAction("Index", "Order");//
-//            }
-//            else if (role == "Cashier")
-//            {
-//                return RedirectToAction("Index", "Billing");//
-//            }
-//            else if (role == "Inventory Clerk")
-//            {
-//                return RedirectToAction("Index", "Inventory");//
-//            }
-//        }
-
-//        return View();
-//    }
-//}
-
-
 using Microsoft.AspNetCore.Mvc;
 using Restaurant_Management_System.Data;
 using Restaurant_Management_System.ViewModel;
@@ -121,7 +57,7 @@ public class UserController : Controller
         }
         else if (role == "Manager")
         {
-            return RedirectToAction("Index", "Manager");
+            return RedirectToAction("Dashboard", "Manager");
         }
         else if (role == "Waiter")
         {
