@@ -5,10 +5,10 @@ using Restaurant_Management_System.Data;
 using Restaurant_Management_System.Models;
 namespace Restaurant_Management_System.Controllers
     {
-        //[Authorize(Roles = "Admin")]
+
         public class AdminController : Controller
         {
-            // 1. Declare your Database Context variable
+            // 1. Declare  Database Context variable
             private readonly rmsDbContext _context;
 
             // 2. Inject the context through the constructor
