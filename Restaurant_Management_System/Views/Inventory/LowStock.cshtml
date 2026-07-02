@@ -1,0 +1,51 @@
+﻿@model List<Restaurant_Management_Error.Models.StockItem>
+@{
+    ViewData["Title"] = "Low Stock";
+    Layout = "~/Views/Shared/_InventoryLayout.cshtml";
+}
+
+<h2 class="mb-4">Low Stock Items</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Stock</th>
+            <th>Reorder Level</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Category</td>
+                    <td>@item.Stock</td>
+                    <td>@item.ReorderLevel</td>
+                    <td>
+                        @if (item.Stock < item.ReorderLevel)
+                        {
+                            <span class="badge bg-warning text-dark">Low</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">In Stock</span>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No low stock items found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="InventoryManagement" class="btn btn-secondary">Back to Inventory</a>

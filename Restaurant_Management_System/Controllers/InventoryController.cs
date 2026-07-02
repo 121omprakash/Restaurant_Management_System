@@ -1,13 +1,123 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-namespace Restaurant_Management_System.Controllers
+using Restaurant_Management_Error.Models;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Restaurant_Management_Error.Controllers
 {
-    //[Authorize(Roles = "Inventory Clerk")]
     public class InventoryController : Controller
     {
-        public IActionResult Index()
+        //Temporary in-memory database
+        private static List<StockItem> items = new List<StockItem>
+        {
+            new StockItem { Id = 1, Name = "Rice", Category = "Grains", Stock = 50, ReorderLevel = 20 },
+            new StockItem { Id = 2, Name = "Paneer", Category = "Dairy", Stock = 3, ReorderLevel = 5 },
+            new StockItem { Id = 3, Name = "Fish", Category = "Meat", Stock = 15, ReorderLevel = 10 },
+            new StockItem { Id = 4, Name = "Mutton", Category = "Meat", Stock = 10, ReorderLevel = 10 },
+            new StockItem { Id = 5, Name = "Wheat", Category = "Grains", Stock = 8, ReorderLevel = 10 }
+        };
+
+        //Dashboard (dynamic)
+        public IActionResult Dashboard()
+        {
+            var total = items.Count;
+            var lowItems = items.Where(i => i.Stock < i.ReorderLevel).ToList();
+            var lowCount = lowItems.Count;
+            var criticalCount = items.Count(i => i.Stock < (i.ReorderLevel / 2.0));
+            var purchaseRequests = 1; 
+
+            var vm = new InventoryDashboardViewModel
+            {
+                TotalItems = total,
+                LowStockCount = lowCount,
+                CriticalCount = criticalCount,
+                PurchaseRequests = purchaseRequests,
+                LowItems = lowItems,
+                AllItems = items
+            };
+
+            return View(vm);
+        }
+
+        //Show inventory
+        public IActionResult InventoryManagement()
+        {
+            return View(items);
+        }
+
+        //Get stock (same page)
+        public IActionResult GetStockLevels()
+        {
+            return View("InventoryManagement", items);
+        }
+
+        //CREATE PAGE
+        public IActionResult Create()
         {
             return View();
+        }
+
+        //ADD ITEM
+        [HttpPost]
+        public IActionResult RecordStockReceipt(StockItem item)
+        {
+            item.Id = items.Count + 1;
+     
+            return RedirectToAction("AddItem");
+
+               }
+
+        //EDIT PAGE
+        public IActionResult Edit(int id)
+        {
+           var item = items.FirstOrDefault(i => i.Id == id);
+            return View(item);
+        }
+
+        //UPDATE ITEM
+        [HttpPost]
+        public IActionResult ConsumeIngredients(StockItem updatedItem)
+        {
+            var item = items.FirstOrDefault(i => i.Id == updatedItem.Id);
+
+            if (item != null)
+            {
+                item.Name = updatedItem.Name;
+                item.Category = updatedItem.Category;
+                item.Stock = updatedItem.Stock;
+                item.ReorderLevel = updatedItem.ReorderLevel;
+            }
+
+            return RedirectToAction("InventoryManagement");
+        }
+
+        //DELETE
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var item = items.FirstOrDefault(i => i.Id == id);
+
+            if (item != null)
+            {
+                items.Remove(item);
+            }
+
+            return RedirectToAction("InventoryManagement");
+        }
+
+        //LOW STOCK - page action
+        public IActionResult LowStock()
+        {
+            var lowItems = items.Where(i => i.Stock < i.ReorderLevel).ToList();
+            return View(lowItems);
+        }
+
+        //Backwards-compatible API/action name (keeps existing behavior)
+        public IActionResult RaiseLowStockAlert()
+        {
+            //Reuse LowStock logic and return the same view explicitly
+            var lowItems = items.Where(i => i.Stock < i.ReorderLevel).ToList();
+            return View("LowStock", lowItems);
         }
     }
 }

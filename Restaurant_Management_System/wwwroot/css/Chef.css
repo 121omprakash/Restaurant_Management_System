@@ -1,6 +1,5 @@
-/* ==========================================================================
-   1. THEME VARIABLES CONFIGURATION (Culinary Mod System)
-   ========================================================================== */
+/* 1. THEME VARIABLES CONFIGURATION (Culinary Mod System) */
+  
 :root {
     --bg-primary: #12141c;
     --bg-card: #1e2130;
@@ -27,9 +26,7 @@
     --body-bg-fallback: #F8F5F2;
 }
 
-/* ==========================================================================
-   2. CORE ADMINISTRATIVE LAYOUT ENGINE (Full Screen Viewport Anchor)
-   ========================================================================== */
+/* 2. CORE ADMINISTRATIVE LAYOUT ENGINE (Full Screen Viewport Anchor)*/
 html, body {
     height: 100%;
     margin: 0;
@@ -86,9 +83,7 @@ html, body {
     z-index: 10;
 }
 
-/* ==========================================================================
-   3. NAVBAR OVERRIDES
-   ========================================================================== */
+/* 3. NAVBAR OVERRIDES*/
 .custom-navbar {
     background-color: var(--bg-card) !important;
     border-bottom: 1px solid var(--border-color) !important;
@@ -124,9 +119,7 @@ html, body {
         border-color: var(--text-muted);
     }
 
-/* ==========================================================================
-   4. SIDEBAR NAVIGATION & ACTIVE HIGHLIGHT SYSTEM
-   ========================================================================== */
+/* 4. SIDEBAR NAVIGATION & ACTIVE HIGHLIGHT SYSTEM */
 .profile {
     text-align: center;
     padding: 25px 20px;
@@ -219,9 +212,7 @@ html, body {
     color: #ef4444 !important;
 }
 
-/* ==========================================================================
-   5. COLLAPSED COMPACT SIDEBAR STATE MACHINE
-   ========================================================================== */
+/* 5. COLLAPSED COMPACT SIDEBAR STATE MACHINE */
 .sidebar.collapsed {
     width: 75px !important;
     padding: 15px 0 !important;
@@ -264,9 +255,7 @@ html, body {
         margin-bottom: 15px;
     }
 
-/* ==========================================================================
-   6. ADMIN-MATCHED CARD PANELS & CONTENT STYLES
-   ========================================================================== */
+/* 6. ADMIN-MATCHED CARD PANELS & CONTENT STYLES*/
 .page-title {
     color: var(--text-main) !important;
     font-weight: 600;

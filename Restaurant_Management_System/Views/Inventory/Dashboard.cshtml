@@ -1,0 +1,128 @@
+﻿@model Restaurant_Management_Error.Models.InventoryDashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_InventoryLayout.cshtml";
+}
+
+      <!-- Page Title -->
+    <!-- Welcome Header Section matching Anusha/Waiter Theme Layout -->
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+        <div>
+            <h2 class="page-title mb-1" style="font-size: 26px; font-weight: 700; color: var(--text-main);">Welcome back, Rishabh</h2>
+            <p class="page-subtitle mb-0" style="font-size: 14px; color: var(--text-muted);">
+                <i class="fa-solid fa-calendar-days text-warning me-1"></i> &bull; @DateTime.Now.ToString("d MMM yyyy")
+            </p>
+        </div>
+    </div>
+
+ <!-- Cards Row -->
+<div class="row g-4 align-items-stretch">
+
+          <!-- Total Items -->
+    <div class="col-md-4 d-flex">
+        <div class="card shadow-sm p-3 w-100 h-100">
+            <h6 class="text-muted">TOTAL ITEMS</h6>
+            <h2>@Model.TotalItems</h2>
+            <p class="mb-0">Tracked SKUs</p>
+        </div>
+    </div>
+
+    <!-- Low Stock -->
+    <div class="col-md-4 d-flex">
+        <div class="card shadow-sm p-3 w-100 h-100">
+            <h6 class="text-muted">LOW STOCK</h6>
+            <h2>@Model.LowStockCount</h2>
+            <p class="mb-0 text-warning">@Model.CriticalCount critical</p>
+            <a asp-action="LowStock" class="btn btn-sm btn-primary mt-3">View low stock items</a>
+        </div>
+    </div>
+
+                           <!-- Purchase Requests -->
+    <div class="col-md-4 d-flex">
+        <div class="card shadow-sm p-3 w-100 h-100">
+            <h6 class="text-muted">PURCHASE REQUESTS</h6>
+            <h2>@Model.PurchaseRequests</h2>
+            <p class="mb-0">Pending approval</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Second Row -->
+<div class="row mt-4">
+
+    <!-- Attention Required (list low items) -->
+    <div class="col-md-6">
+        <div class="card shadow-sm p-3 h-100">
+            <h5 class="mb-3">Attention Required</h5>
+
+            @if (Model.LowItems != null && Model.LowItems.Any())
+            {
+                foreach (var item in Model.LowItems)
+                {
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <strong>@item.Name</strong><br />
+                            <small>@item.Stock @("units") - Reorder at @item.ReorderLevel</small>
+                        </div>
+                        @if (item.Stock < item.ReorderLevel / 2.0)
+                        {
+                            <span class="badge bg-danger">critical</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">low</span>
+                        }
+                    </div>
+                    <hr />
+                }
+            }
+            else
+            {
+                <p class="text-muted mb-0">No low stock items.</p>
+            }
+
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="col-md-6">
+        <div class="card shadow-sm p-3 h-100">
+            <h5>Stock Levels Overview</h5>
+            <div class="chart-container" style="position:relative;height:300px;">
+                <canvas id="stockChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // prepare data from server model
+    const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.Name)));
+    const dataValues = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.Stock)));
+
+    const ctx = document.getElementById('stockChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Stock Quantity',
+                data: dataValues,
+                backgroundColor: 'rgba(106,60,30,0.8)',
+                borderColor: 'rgba(106,60,30,1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>

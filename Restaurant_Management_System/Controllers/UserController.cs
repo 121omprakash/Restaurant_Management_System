@@ -69,7 +69,7 @@ public class UserController : Controller
         }
         else if (role == "Inventory Clerk")
         {
-            return RedirectToAction("Index", "Inventory Clerk");
+            return RedirectToAction("Dashboard", "Inventory");
         }
 
         // Fallback safety route if a user role isn't recognized

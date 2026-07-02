@@ -1,7 +1,4 @@
-﻿/* ===========================
-   MANAGER LAYOUT SIDEBAR & CONTENT
-===========================*/
-
+﻿
 * {
     box-sizing: border-box;
 }
@@ -473,9 +470,7 @@ body {
         overflow-x: auto;
     }
 }
-/*=========================
-      MENU FORM
-==========================*/
+/*MENU FORM*/
 
 .menu-form {
     width: 650px;
@@ -532,9 +527,7 @@ body {
     border-radius: 8px;
     text-decoration: none;
 }
-/*=========================
-      VIEW PAGE
-==========================*/
+/*VIEW PAGE*/
 
 .view-card {
     display: flex;
@@ -570,9 +563,7 @@ body {
         .details-table td:first-child {
             width: 220px;
         }
-/*=========================
-        EDIT PAGE
-==========================*/
+/*EDIT PAGE*/
 
 .menu-form .food-image {
     width: 180px;
@@ -582,9 +573,7 @@ body {
     border: 2px solid #ddd;
     margin-top: 10px;
 }
-/*=========================
-      DELETE PAGE
-==========================*/
+/*DELETE PAGE*/
 
 .delete-card {
     width: 600px;
@@ -605,9 +594,7 @@ body {
         color: #666;
         margin-bottom: 25px;
     }
-/* ==========================================================================
-   1. CORE MANAGER LAYOUT (Full Screen & Adaptive Scaling matching Admin)
-   ========================================================================== */
+/* 1. CORE MANAGER LAYOUT (Full Screen & Adaptive Scaling matching Admin) */
 
 body {
     margin: 0;
@@ -648,9 +635,7 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* ==========================================================================
-   2. UNIFIED SIDEBAR PROFILE & INTERACTION LAYERS
-   ========================================================================== */
+/* 2. UNIFIED SIDEBAR PROFILE & INTERACTION LAYERS */
 
 .profile {
     text-align: center;
@@ -744,9 +729,7 @@ body {
     color: #ef4444 !important; /* Crimson Red indicator on quit */
 }
 
-/* ==========================================================================
-   3. ANIMATED SIDEBAR COLLAPSIBLE ENGINE 
-   ========================================================================== */
+/* 3. ANIMATED SIDEBAR COLLAPSIBLE ENGINE */
 
 .manager-sidebar.collapsed {
     width: 75px !important;
@@ -790,9 +773,7 @@ body {
         margin-bottom: 15px;
     }
 
-/* ==========================================================================
-   4. APPS VIEW LAYOUT ENGINES (Unified Typography & Form Inputs)
-   ========================================================================== */
+/* 4. APPS VIEW LAYOUT ENGINES (Unified Typography & Form Inputs)*/
 
 .menu-container, .delete-card {
     background-color: var(--bg-card);
