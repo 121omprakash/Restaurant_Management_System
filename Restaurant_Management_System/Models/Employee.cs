@@ -2,24 +2,20 @@
 using System.Diagnostics.CodeAnalysis;
 namespace Restaurant_Management_System.Models
 {
-    public class User
+    public class Employee
     {
         [Required]
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [NotNull]
         public string Name { get; set; }
 
         [Required]
-        [NotNull]
-        public string UserId { get; set; }
+        public string EmpId { get; set; }
         [Required]
-        [NotNull]
         public string password { get; set; }
         [Required]
-        [NotNull]
         public string Role { get; set; }
      //   [Required]
         //public string Status { get; set; } = "Active";
