@@ -83,6 +83,12 @@
                                     <span class="sidebar-text">Table Reservation</span>
                                 </a>
                             </li>
+                            <li data-menu="TakeOrder">
+                                <a href="/Waiter/TakeOrder">
+                                    <i class="fa-solid fa-chair"></i>
+                                    <span class="sidebar-text">Take Order</span>
+                                </a>
+                            </li>
                             <li data-menu="ManageOrders">
                                 <a href="/Waiter/ManageOrders">
                                     <i class="fa-solid fa-clipboard-list"></i>
@@ -142,7 +148,7 @@
                 });
             }
 
-            // 2. Active Menu Highlight Engine
+            
             const currentPath = window.location.pathname.toLowerCase();
             const menuItems = document.querySelectorAll("#waiterSidebarMenu li");
 
