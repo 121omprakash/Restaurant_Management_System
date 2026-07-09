@@ -10,6 +10,10 @@ namespace Restaurant_Management_System.Data
         {
         }
         public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<MenuItem> MenuItems { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
