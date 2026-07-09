@@ -31,11 +31,9 @@ namespace Restaurant_Management_System.Models
 
         public DateTime? CompletionTime { get; set; }
 
-        [Required]
-        public string TicketStatus  { get; set; }
-
+        public  TicketStatus TicketStatus { get; set; }
         
-        [ForeignKey("OrderId")]
+        [ForeignKey(nameof(OrderId))]
         public CustomerOrder CustomerOrder { get; set; }
 
     }

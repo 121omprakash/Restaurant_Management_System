@@ -25,7 +25,7 @@ namespace Restaurant_Management_System.Controllers
             public IActionResult Users()
             {
                 // Fetch all users from your "Users" SQL table
-                var usersList = _context.Users.ToList();
+                var usersList = _context.Employees.ToList();
 
                 // Pass the populated list straight into the View
                 return View(usersList);
