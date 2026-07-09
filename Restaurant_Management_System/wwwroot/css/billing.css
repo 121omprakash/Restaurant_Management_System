@@ -1,8 +1,84 @@
-﻿/* 1. Base / Desktop Station Rule Frameworks */
-.summary-card {
+﻿
+   /* 1. Core Unified Theme Architecture */
+:root {
+    --bg-primary: #12141c;
+    --bg-card: #1e2130;
+    --text-main: #ffffff;
+    --text-muted: #a0aec0;
+    --accent-color: #ffc107; /* Warm Amber */
+    --border-color: #2d3142;
+    --card-header-bg: #11131a;
+    /* Override Bootstrap defaults for dark mode utility wrappers */
+    --bg-panel-light: #25293c;
+    --text-panel-dark: #ffffff;
+}
+
+[data-theme="light"] {
+    --bg-primary: #f7f9fa;
+    --bg-card: #ffffff;
+    --text-main: #1a202c;
+    --text-muted: #4a5568;
+    --accent-color: #dd6b20; /* Deep Orange */
+    --border-color: #e2e8f0;
+    --card-header-bg: #f8f9fa;
+    /* Override Bootstrap defaults for light mode utility wrappers */
+    --bg-panel-light: #f8f9fa;
+    --text-panel-dark: #212529;
+}
+/* 2. Global Scaffolding & Layout Fixes */
+body {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-main) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Ensure native Bootstrap Cards respond cleanly to night mode changes */
+.card {
     background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+.card-header {
+    background-color: var(--card-header-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+/* 3. Drilldown Panel & Invoice Specific Fixes (The Missing Pieces) */
+
+/* Fixes the invisible/black drill-down text block in Index.cshtml */
+.drilldown-container {
+    background-color: var(--bg-panel-light) !important;
+    color: var(--text-main) !important;
     border: 1px solid var(--border-color);
-    color: var(--text-main);
+}
+
+/* Native Form Controls Adaptability for ProcessPayment.cshtml */
+.form-control, .form-select {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+    .form-control:focus, .form-select:focus {
+        background-color: var(--bg-primary) !important;
+        color: var(--text-main) !important;
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+    }
+
+/* Text overrides to respect themes */
+.dynamic-text-dark {
+    color: var(--text-panel-dark) !important;
+}
+
+/* 4. Billing Summary Cards & Tables (From original config) */
+.summary-card {
+    border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 15px;
@@ -13,20 +89,27 @@
         transform: translateY(-2px);
     }
 
-.interactive-table th {
-    background-color: var(--bg-card) !important;
+/* Ensure tables remain readable across background configurations */
+.table {
+    color: var(--text-main) !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--bg-panel-light) !important;
+    color: var(--text-main) !important;
+}
+
+.table thead th {
+    background-color: var(--card-header-bg) !important;
     color: var(--text-main) !important;
     border-bottom: 2px solid var(--border-color) !important;
 }
 
-.interactive-table td {
-    color: var(--text-main) !important;
+.table td {
     border-bottom: 1px solid var(--border-color) !important;
 }
 
-/*  Media Queries For Responsive Terminal Components*/
-
-/* 2. Tablet Monitor Screens (max-width: 992px) */
+/* 5. Responsiveness & Component Scaling  */
 @media (max-width: 992px) {
     .summary-card {
         padding: 15px;
@@ -35,13 +118,8 @@
         .summary-card h3 {
             font-size: 1.5rem;
         }
-
-    .interactive-table th, .interactive-table td {
-        font-size: 0.9rem;
-    }
 }
 
-/* 3. Handheld POS Terminal Equipment Devices (max-width: 576px) */
 @media (max-width: 576px) {
     .summary-card {
         padding: 10px;
@@ -55,9 +133,18 @@
         .summary-card h6 {
             font-size: 0.75rem;
         }
+}
 
-    .interactive-table th, .interactive-table td {
-        font-size: 0.8rem;
-        padding: 6px 4px !important;
-    }
+/* Layout Framework Setup */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }

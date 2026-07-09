@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Restaurant Management System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/billing.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Restaurant_Management_System.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md custom-navbar box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand">
+                    <img src="~/download_logo.png" />
+                </a>
+                <button class="navbar-toggler text-light" type="button" style="filter: invert(1);">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div>
+                    <div class="d-flex align-items-center gap-2 ms-auto pt-2 pt-md-0">
+                        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle System Theme">
+                            <i id="themeIcon" class="fa-solid fa-moon"></i>
+                            <span id="themeText">Night Mode</span>
+                        </button>
+                        <a style="text-decoration:none;" class="theme-toggle-btn" asp-controller="User" asp-action="Login">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span class="sidebar-text">Logout</span>
+                        </a>
+                        @* <form asp-controller="User" asp-action="Login">
+                            <button class="theme-toggle-btn"  type="submit">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form> *@
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    
+        <div class="main-content px-4">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="custom-footer text-muted">
+        <div class="w-100 text-center py-2">
+            &copy; 2026 - RMSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

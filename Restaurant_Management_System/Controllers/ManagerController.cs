@@ -2,7 +2,7 @@
 
 namespace Restaurant_Management_System.Controllers
 {
-    public class MyRestaurantController : Controller
+    public class ManagerController : Controller
     {
         public IActionResult Dashboard()
         {

@@ -1,13 +1,11 @@
-﻿/* ==========================================================================
-   1. CORE ADMINISTRATIVE LAYOUT (Full Screen & Adaptive Scaling)
-   ========================================================================== */
+ /* 1. CORE ADMINISTRATIVE LAYOUT (Full Screen & Adaptive Scaling) */
 
 body {
     margin: 0;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* Force the main container to sit beautifully across the entire viewport */
+/* Force the main container to sit across the entire viewport */
 .wrapper {
     display: flex;
     width: 100vw;
@@ -41,9 +39,8 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* ==========================================================================
-   2. SIDEBAR PROFILE & NAVIGATION MENU (With Bottom Pins)
-   ========================================================================== */
+/* 2. SIDEBAR PROFILE & NAVIGATION MENU (With Bottom Pins) */
+   
 
 .profile {
     text-align: center;
@@ -132,9 +129,7 @@ body {
     color: #ef4444 !important; /* Crimson Red indicator on quit */
 }
 
-/* ==========================================================================
-   3. GLOBAL THEMED ELEMENTS & VISIBILITY BADGES
-   ========================================================================== */
+/*  3. GLOBAL THEMED ELEMENTS & VISIBILITY BADGE */
 
 .page-title {
     color: var(--text-main) !important;
@@ -170,10 +165,8 @@ body {
     color: var(--text-main);
     letter-spacing: 0.5px;
 }
+ /* 4. DATA TABLES (Clean Outer Borders & Proper Visual Hierarchy) */
 
-/* ==========================================================================
-   4. DATA TABLES (Clean Outer Borders & Proper Visual Hierarchy)
-   ========================================================================== */
 
 .table {
     color: var(--text-main) !important;
@@ -199,7 +192,7 @@ body {
         padding-bottom: 12px;
     }
 
-/* FIXED: Unified text color variables inside data cells across both themes */
+/* Unified text color variables inside data cells across both themes */
 #userTableBody td,
 #userTableBody td span {
     color: var(--text-main) !important;
@@ -214,9 +207,8 @@ body {
     border-right: none !important;
 }
 
-/* ==========================================================================
-   5. FILTER TOOLBARS & SEARCH INPUTS
-   ========================================================================== */
+/* 5. FILTER TOOLBARS & SEARCH INPUTS*/
+   
 
 #roleFilterDropdown {
     color: var(--text-main) !important;
@@ -237,22 +229,20 @@ body {
     color: var(--text-main) !important;
 }
 
-/* 🌟 DYNAMIC FIX FOR DROPDOWN ITEM VISIBILITY IN BOTH THEMES */
+/*  DYNAMIC FIX FOR DROPDOWN ITEM VISIBILITY IN BOTH THEMES */
 .dropdown-menu .dropdown-item {
-    color: var(--text-main) !important; /* Dynamically flips text color between light/dark automatically */
+    color: var(--text-main) !important; 
     background: transparent !important;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-    /* Beautiful hover response state that stays highly legible */
+
     .dropdown-menu .dropdown-item:hover {
         background-color: var(--border-color) !important;
         color: var(--text-main) !important;
     }
 
-/* ==========================================================================
-   6. INTERACTIVE MODALS & CRUD FORMS
-   ========================================================================== */
+/* 6. INTERACTIVE MODALS & CRUD FORMS */
 
 .modal-content .form-control,
 .modal-content .form-select {
