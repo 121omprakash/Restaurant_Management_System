@@ -1,28 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Restaurant_Management_System.Models
 {
-    public enum itemStatus
+    public enum ItemStatus
     {
         AVAILABLE,
         OUT_OF_STOCK,
         RETIRED
     }
-    public class Menu_item
-    {
+    public class MenuItem    {
         [Key]
 
-        public int menuItemId { get; set; }
+        public int MenuItemId { get; set; }
 
-        public string itemName { get; set; }
+        public string ItemName { get; set; }
 
-        public string category { get; set; }
+        public string Category { get; set; }
 
-        public decimal price { get; set; }
+        public decimal Price { get; set; }
 
-        public int preparationTime { get; set; }
+        public int PreparationTime { get; set; }
 
-        public itemStatus itemStatus { get; set; }
+        public ItemStatus ItemStatus { get; set; }
 
 
     }
