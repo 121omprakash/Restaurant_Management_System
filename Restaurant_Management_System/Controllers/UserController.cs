@@ -33,8 +33,8 @@ public class UserController : Controller
 
         // 1. Fetch the user directly from the database safely
         // SQL handles string matching perfectly. Passwords remain case-sensitive here.
-        var user = _context.Users
-            .FirstOrDefault(u => u.UserId.ToLower() == cleanUserId.ToLower() && u.password == cleanPassword);
+        var user = _context.Employees
+            .FirstOrDefault(u => u.EmpId.ToLower() == cleanUserId.ToLower() && u.password == cleanPassword);
 
         // 2. If no matching user record is returned, throw the error banner
         if (user == null)
