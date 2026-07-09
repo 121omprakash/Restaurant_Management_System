@@ -8,13 +8,13 @@ namespace Restaurant_Management_Error.Controllers
     public class InventoryController : Controller
     {
         //Temporary in-memory database
-        private static List<StockItem> items = new List<StockItem>
+        private static List<Ingredient> items = new List<Ingredient>
         {
-            new StockItem { Id = 1, Name = "Rice", Category = "Grains", Stock = 50, ReorderLevel = 20 },
-            new StockItem { Id = 2, Name = "Paneer", Category = "Dairy", Stock = 3, ReorderLevel = 5 },
-            new StockItem { Id = 3, Name = "Fish", Category = "Meat", Stock = 15, ReorderLevel = 10 },
-            new StockItem { Id = 4, Name = "Mutton", Category = "Meat", Stock = 10, ReorderLevel = 10 },
-            new StockItem { Id = 5, Name = "Wheat", Category = "Grains", Stock = 8, ReorderLevel = 10 }
+            new Ingredient { Id = 1, Name = "Rice", Category = "Grains", Stock = 50, ReorderLevel = 20 },
+            new Ingredient { Id = 2, Name = "Paneer", Category = "Dairy", Stock = 3, ReorderLevel = 5 },
+            new Ingredient { Id = 3, Name = "Fish", Category = "Meat", Stock = 15, ReorderLevel = 10 },
+            new Ingredient { Id = 4, Name = "Mutton", Category = "Meat", Stock = 10, ReorderLevel = 10 },
+            new Ingredient { Id = 5, Name = "Wheat", Category = "Grains", Stock = 8, ReorderLevel = 10 }
         };
 
         //Dashboard (dynamic)
@@ -59,7 +59,7 @@ namespace Restaurant_Management_Error.Controllers
 
         //ADD ITEM
         [HttpPost]
-        public IActionResult RecordStockReceipt(StockItem item)
+        public IActionResult RecordStockReceipt(Ingredient item)
         {
             item.Id = items.Count + 1;
      
@@ -76,7 +76,7 @@ namespace Restaurant_Management_Error.Controllers
 
         //UPDATE ITEM
         [HttpPost]
-        public IActionResult ConsumeIngredients(StockItem updatedItem)
+        public IActionResult ConsumeIngredients(Ingredient updatedItem)
         {
             var item = items.FirstOrDefault(i => i.Id == updatedItem.Id);
 
