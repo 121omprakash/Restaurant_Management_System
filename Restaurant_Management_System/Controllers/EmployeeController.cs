@@ -3,11 +3,11 @@ using Restaurant_Management_System.Data;
 using Restaurant_Management_System.ViewModel;
 using System.Linq;
 
-public class UserController : Controller
+public class EmployeeController : Controller
 {
     private readonly rmsDbContext _context;
 
-    public UserController(rmsDbContext context)
+    public EmployeeController(rmsDbContext context)
     {
         _context = context;
     }

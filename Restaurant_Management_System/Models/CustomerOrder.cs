@@ -1,32 +1,18 @@
-﻿using System;
+﻿using Restaurant_Management_System.ENUM;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurant_Management_System.Models
 {
-    public enum OrderType
-    {
-        DINE_IN,
-        TAKEAWAY,
-        DELIVERY
-    }
-
-    public enum OrderStatus
-    {
-        NEW , 
-        PREPARING,
-        READY,
-        SERVED,
-        CANCEL
-    }
     public class CustomerOrder
     {
         [Key]
         public int OrderId { get; set; }
 
-        public string TableNumber { get; set; }
+        public string TableNumber { get; set; } = null!;
 
         [Required]
-        public string CustomerName { get; set; }
+        public string CustomerName { get; set; } = null!;
 
         [Required]
         public OrderType OrderType { get; set; }
@@ -34,6 +20,17 @@ namespace Restaurant_Management_System.Models
         [Required]
         public DateTime OrderTime { get; set; }
 
-        public OrderStatus OrderStatus { get; set; } 
+        public OrderStatus OrderStatus { get; set; }
+
+        [ForeignKey(nameof(TableNumber))]
+        public TableStatus TableStatus { get; set; } = null!;
+
+        public ICollection<OrderItem> OrderItems { get; set; }
+            = new List<OrderItem>();
+
+        public ICollection<KitchenTicket> KitchenTickets { get; set; }
+            = new List<KitchenTicket>();
+
+        public BillInvoice? BillInvoice { get; set; }
     }
 }

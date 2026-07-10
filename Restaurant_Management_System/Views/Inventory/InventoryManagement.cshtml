@@ -1,4 +1,4 @@
-﻿@model List<Restaurant_Management_Error.Models.StockItem>
+﻿@model List<Restaurant_Management_System.Models.Ingredient>
 
 @{
     ViewData["Title"] = "Inventory Management";
@@ -28,7 +28,6 @@
                 <thead>
                     <tr>
                         <th>Item</th>
-                        <th>Category</th>
                         <th>Stock</th>
                         <th>Reorder Level</th>
                         <th>Status</th>
@@ -41,14 +40,14 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.Name</td>
-                            <td>@item.Category</td>
-                            <td>@item.Stock</td>
+                            <td>@item.IngredientName</td>
+                            <td>@item.CurrentStock</td>
+              
                             <td>@item.ReorderLevel</td>
 
                             <!-- STATUS -->
                             <td>
-                                @if (item.Stock < item.ReorderLevel)
+                                @if (item.CurrentStock < item.ReorderLevel)
                                 {
                                     <span class="badge bg-danger">Low</span>
                                 }

@@ -1,4 +1,4 @@
-﻿@model Restaurant_Management_Error.Models.StockItem
+﻿@model Restaurant_Management_System.Models.Ingredient
 @{
     ViewData["Title"] = "Edit Item";
     Layout = "~/Views/Shared/_InventoryLayout.cshtml";
@@ -7,21 +7,21 @@
 <h2 class="mb-4">Edit Inventory Item</h2>
 
 <form asp-controller="Inventory" asp-action="ConsumeIngredients" method="post">
-    <input asp-for="Id" type="hidden" />
+    <input asp-for="IngredientId" type="hidden" />
 
     <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
+        <label asp-for="IngredientName" class="form-label"></label>
+        <input asp-for="IngredientName" class="form-control" />
     </div>
 
-    <div class="mb-3">
+  @*   <div class="mb-3">
         <label asp-for="Category" class="form-label"></label>
-        <input asp-for="Category" class="form-control" />
-    </div>
+        <input asp-for="Category" class="form-co    ntrol" />
+    </div> *@
 
     <div class="mb-3">
-        <label asp-for="Stock" class="form-label"></label>
-        <input asp-for="Stock" class="form-control" type="number" />
+        <label asp-for="CurrentStock" class="form-label"></label>
+        <input asp-for="CurrentStock" class="form-control" type="number" />
     </div>
 
     <div class="mb-3">
