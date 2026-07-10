@@ -1,37 +1,69 @@
 using Microsoft.AspNetCore.Mvc;
-using Restaurant_Management_Error.Models;
+using Restaurant_Management_System.Models;
+using Restaurant_Management_System.ViewModel;
+using Restaurant_Management_System.ENUM;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Restaurant_Management_Error.Controllers
+namespace Restaurant_Management_System.Controllers
 {
     public class InventoryController : Controller
     {
-        //Temporary in-memory database
+        // Temporary in-memory data
         private static List<Ingredient> items = new List<Ingredient>
         {
-            new Ingredient { Id = 1, Name = "Rice", Category = "Grains", Stock = 50, ReorderLevel = 20 },
-            new Ingredient { Id = 2, Name = "Paneer", Category = "Dairy", Stock = 3, ReorderLevel = 5 },
-            new Ingredient { Id = 3, Name = "Fish", Category = "Meat", Stock = 15, ReorderLevel = 10 },
-            new Ingredient { Id = 4, Name = "Mutton", Category = "Meat", Stock = 10, ReorderLevel = 10 },
-            new Ingredient { Id = 5, Name = "Wheat", Category = "Grains", Stock = 8, ReorderLevel = 10 }
+            new Ingredient
+            {
+                IngredientId = 1,
+                IngredientName = "Rice",
+                UnitOfMeasure = "Kg",
+                CurrentStock = 50,
+                ReorderLevel = 20,
+                StockStatus = StockStatus.AVAILABLE
+            },
+            new Ingredient
+            {
+                IngredientId = 2,
+                IngredientName = "Paneer",
+                UnitOfMeasure = "Kg",
+                CurrentStock = 3,
+                ReorderLevel = 5,
+                StockStatus = StockStatus.LOW
+            },
+            new Ingredient
+            {
+                IngredientId = 3,
+                IngredientName = "Fish",
+                UnitOfMeasure = "Kg",
+                CurrentStock = 15,
+                ReorderLevel = 10,
+                StockStatus = StockStatus.AVAILABLE
+            },
+            new Ingredient
+            {
+                IngredientId = 4,
+                IngredientName = "Mutton",
+                UnitOfMeasure = "Kg",
+                CurrentStock = 0,
+                ReorderLevel = 10,
+                StockStatus = StockStatus.OUT_OF_STOCK
+            }
         };
 
-        //Dashboard (dynamic)
+        // Dashboard
         public IActionResult Dashboard()
         {
-            var total = items.Count;
-            var lowItems = items.Where(i => i.Stock < i.ReorderLevel).ToList();
-            var lowCount = lowItems.Count;
-            var criticalCount = items.Count(i => i.Stock < (i.ReorderLevel / 2.0));
-            var purchaseRequests = 1; 
+            var lowItems = items
+                .Where(i => i.StockStatus == StockStatus.LOW ||
+                            i.StockStatus == StockStatus.OUT_OF_STOCK)
+                .ToList();
 
             var vm = new InventoryDashboardViewModel
             {
-                TotalItems = total,
-                LowStockCount = lowCount,
-                CriticalCount = criticalCount,
-                PurchaseRequests = purchaseRequests,
+                TotalItems = items.Count,
+                LowStockCount = lowItems.Count,
+                CriticalCount = items.Count(i => i.StockStatus == StockStatus.OUT_OF_STOCK),
+                PurchaseRequests = 1,
                 LowItems = lowItems,
                 AllItems = items
             };
@@ -39,85 +71,136 @@ namespace Restaurant_Management_Error.Controllers
             return View(vm);
         }
 
-        //Show inventory
+        // Inventory List
         public IActionResult InventoryManagement()
         {
             return View(items);
         }
 
-        //Get stock (same page)
+        // View Stock Levels
         public IActionResult GetStockLevels()
         {
             return View("InventoryManagement", items);
         }
 
-        //CREATE PAGE
+        // Create Page
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        //ADD ITEM
+        // Add Ingredient
         [HttpPost]
         public IActionResult RecordStockReceipt(Ingredient item)
         {
-            item.Id = items.Count + 1;
-     
-            return RedirectToAction("AddItem");
+            if (!ModelState.IsValid)
+            {
+                return View("Create", item);
+            }
 
-               }
+            item.IngredientId = items.Any()
+                ? items.Max(i => i.IngredientId) + 1
+                : 1;
 
-        //EDIT PAGE
+            UpdateStockStatus(item);
+
+            items.Add(item);
+
+            return RedirectToAction(nameof(InventoryManagement));
+        }
+
+        // Edit Page
+        [HttpGet]
         public IActionResult Edit(int id)
         {
-           var item = items.FirstOrDefault(i => i.Id == id);
+            var item = items.FirstOrDefault(i => i.IngredientId == id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
             return View(item);
         }
 
-        //UPDATE ITEM
+        // Update Ingredient
         [HttpPost]
         public IActionResult ConsumeIngredients(Ingredient updatedItem)
         {
-            var item = items.FirstOrDefault(i => i.Id == updatedItem.Id);
-
-            if (item != null)
+            if (!ModelState.IsValid)
             {
-                item.Name = updatedItem.Name;
-                item.Category = updatedItem.Category;
-                item.Stock = updatedItem.Stock;
-                item.ReorderLevel = updatedItem.ReorderLevel;
+                return View("Edit", updatedItem);
             }
 
-            return RedirectToAction("InventoryManagement");
+            var item = items.FirstOrDefault(i => i.IngredientId == updatedItem.IngredientId);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item.IngredientName = updatedItem.IngredientName;
+            item.UnitOfMeasure = updatedItem.UnitOfMeasure;
+            item.CurrentStock = updatedItem.CurrentStock;
+            item.ReorderLevel = updatedItem.ReorderLevel;
+
+            UpdateStockStatus(item);
+
+            return RedirectToAction(nameof(InventoryManagement));
         }
 
-        //DELETE
+        // Delete Ingredient
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var item = items.FirstOrDefault(i => i.Id == id);
+            var item = items.FirstOrDefault(i => i.IngredientId == id);
 
             if (item != null)
             {
                 items.Remove(item);
             }
 
-            return RedirectToAction("InventoryManagement");
+            return RedirectToAction(nameof(InventoryManagement));
         }
 
-        //LOW STOCK - page action
+        // Low Stock Page
         public IActionResult LowStock()
         {
-            var lowItems = items.Where(i => i.Stock < i.ReorderLevel).ToList();
+            var lowItems = items
+                .Where(i => i.StockStatus == StockStatus.LOW ||
+                            i.StockStatus == StockStatus.OUT_OF_STOCK)
+                .ToList();
+
             return View(lowItems);
         }
 
-        //Backwards-compatible API/action name (keeps existing behavior)
+        // Low Stock Alert
         public IActionResult RaiseLowStockAlert()
         {
-            //Reuse LowStock logic and return the same view explicitly
-            var lowItems = items.Where(i => i.Stock < i.ReorderLevel).ToList();
+            var lowItems = items
+                .Where(i => i.StockStatus == StockStatus.LOW ||
+                            i.StockStatus == StockStatus.OUT_OF_STOCK)
+                .ToList();
+
             return View("LowStock", lowItems);
+        }
+
+        // Helper Method
+        private void UpdateStockStatus(Ingredient item)
+        {
+            if (item.CurrentStock <= 0)
+            {
+                item.StockStatus = StockStatus.OUT_OF_STOCK;
+            }
+            else if (item.CurrentStock <= item.ReorderLevel)
+            {
+                item.StockStatus = StockStatus.LOW;
+            }
+            else
+            {
+                item.StockStatus = StockStatus.AVAILABLE;
+            }
         }
     }
 }

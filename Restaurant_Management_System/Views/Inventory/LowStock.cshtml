@@ -1,4 +1,4 @@
-﻿@model List<Restaurant_Management_Error.Models.StockItem>
+﻿@model List<Restaurant_Management_System.Models.Ingredient>
 @{
     ViewData["Title"] = "Low Stock";
     Layout = "~/Views/Shared/_InventoryLayout.cshtml";
@@ -10,7 +10,6 @@
     <thead>
         <tr>
             <th>Item</th>
-            <th>Category</th>
             <th>Stock</th>
             <th>Reorder Level</th>
             <th>Status</th>
@@ -22,12 +21,11 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Category</td>
-                    <td>@item.Stock</td>
+                    <td>@item.IngredientName</td>
+                    <td>@item.CurrentStock</td>
                     <td>@item.ReorderLevel</td>
                     <td>
-                        @if (item.Stock < item.ReorderLevel)
+                        @if (item.CurrentStock < item.ReorderLevel)
                         {
                             <span class="badge bg-warning text-dark">Low</span>
                         }
