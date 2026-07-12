@@ -17,7 +17,7 @@ namespace Restaurant_Management_System.Models
         public string password { get; set; }
         [Required]
         public string Role { get; set; }
-     //   [Required]
-        //public string Status { get; set; } = "Active";
+
+        public bool IsActive { get; set; } = true;
     }
 }
