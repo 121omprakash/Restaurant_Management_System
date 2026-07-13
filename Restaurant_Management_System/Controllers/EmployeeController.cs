@@ -48,7 +48,7 @@ public class EmployeeController : Controller
 
         if (role == "Admin")
         {
-            return RedirectToAction("Dashboard", "Admin");
+            return RedirectToAction("Employees", "Admin");
         }
         else if (role == "Chef")
         {
