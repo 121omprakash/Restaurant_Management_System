@@ -1,137 +1,145 @@
-﻿@{
+﻿@model Restaurant_Management_System.Models.SystemSetting
+
+@{
     ViewData["Title"] = "System Settings";
     Layout = "_AdminLayout";
 }
 
-<div class="container-fluid p-0">
-    <div class="mb-4">
-        <h3 class="page-title mb-1" style="font-size: 1.6rem; color: var(--text-main);">System Configurations</h3>
-        <p class="small mb-0" style="color: var(--text-muted);">Manage global core restaurant assets, tax tracking structures, and inventory notification rules.</p>
-    </div>
-
-    <div class="row g-4">
-        <!-- LEFT COLUMN: RESTAURANT GENERAL IDENTITY PROFILE BLOCK -->
-        <div class="col-xl-7 col-lg-6">
-            <div class="card p-4 border h-100" style="background-color: var(--bg-card); border-color: var(--border-color) !important; border-radius: 16px;">
-                <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-store text-primary fs-5"></i>
-                    <h5 class="mb-0 fw-bold" style="color: var(--text-main);">Restaurant Profile Configuration</h5>
-                </div>
-
-                <form method="post" onsubmit="showSavePopup(event, 'Profile details updated successfully!')" class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold" style="color: var(--text-main);">Restaurant Corporate Name</label>
-                        <input type="text" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" value="Gourmet Hub Kitchen" required />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold" style="color: var(--text-main);">Primary Service Phone</label>
-                        <input type="text" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" value="+91 (995) 019-2834" required />
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label small fw-semibold" style="color: var(--text-main);">Corporate Contact Email Address</label>
-                        <input type="email" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" value="operations@gourmethub.com" required />
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label small fw-semibold" style="color: var(--text-main);">Physical Outlet Physical Address</label>
-                        <textarea class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" rows="3" required>1024, Banjara Hills, Hyderabad, Telangana</textarea>
-                    </div>
-
-                    <div class="col-12 text-end mt-4">
-                        <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 small fw-bold">
-                            <i class="fa-solid fa-floppy-disk me-1"></i> Update Profile
-                        </button>
-                    </div>
-                </form>
-            </div>
+<div class="page-settings container-fluid p-0">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h3 class="page-title mb-1" style="font-size: 1.6rem; color: var(--text-main);">System Configurations</h3>
+            <p class="small mb-0" style="color: var(--text-muted);">Manage global core restaurant assets, tax tracking structures, and inventory notification rules.</p>
         </div>
 
-        <!-- RIGHT COLUMN: TAX COMPLIANCE & OPERATIONAL CONTROLS BLOCK -->
-        <div class="col-xl-5 col-lg-6">
-            <div class="card p-4 border h-100" style="background-color: var(--bg-card); border-color: var(--border-color) !important; border-radius: 16px;">
-                <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2" style="border-color: var(--border-color) !important;">
-                    <i class="fa-solid fa-percent text-warning fs-5"></i>
-                    <h5 class="mb-0 fw-bold" style="color: var(--text-main);">Tax Rates & Structural Metrics</h5>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success d-flex align-items-center gap-2 px-3 py-2 m-0 border-0 shadow-sm animate-fade-in"
+                 style="border-radius: 12px; background-color: rgba(16, 185, 129, 0.15); color: #10b981;">
+                <i class="fa-solid fa-circle-check fs-5"></i>
+                <span class="small fw-semibold">@TempData["SuccessMessage"]</span>
+            </div>
+        }
+    </div>
+
+    <!-- Master form wrapping both cards so either button successfully sends the full model state to the DB -->
+    <form asp-controller="Admin" asp-action="UpdateSettings" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row g-4">
+            <!-- LEFT COLUMN: RESTAURANT GENERAL IDENTITY PROFILE BLOCK -->
+            <div class="col-xl-7 col-lg-6">
+                <div class="card p-4 border h-100" style="background-color: var(--bg-card); border-color: var(--border-color) !important; border-radius: 16px;">
+                    <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2" style="border-color: var(--border-color) !important;">
+                        <i class="fa-solid fa-store text-primary fs-5"></i>
+                        <h5 class="mb-0 fw-bold" style="color: var(--text-main);">Restaurant Profile Configuration</h5>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Restaurant Corporate Name</label>
+                            <input type="text" asp-for="RestaurantName" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" required />
+                            <span asp-validation-for="RestaurantName" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Primary Service Phone</label>
+                            <input type="text" asp-for="PrimaryPhone" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" required />
+                            <span asp-validation-for="PrimaryPhone" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Corporate Contact Email Address</label>
+                            <input type="email" asp-for="CorporateEmail" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" required />
+                            <span asp-validation-for="CorporateEmail" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Physical Outlet Physical Address</label>
+                            <textarea asp-for="PhysicalAddress" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" rows="3" required></textarea>
+                            <span asp-validation-for="PhysicalAddress" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Restored original left-side individual action button inside the card box layout -->
+                        <div class="col-12 text-end mt-4">
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 small fw-bold">
+                                <i class="fa-solid fa-floppy-disk me-1"></i> Update Profile
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <form method="post" onsubmit="showSavePopup(event, 'Operational & tax configurations applied!')" class="row g-3">
-                    <div class="col-12">
-                        <label class="form-label small fw-semibold" style="color: var(--text-main);">Global Tax Registration Identifier (GST / TIN)</label>
-                        <input type="text" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" value="GSTIN9283471029B1Z4" required />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold" style="color: var(--text-main);">Base CGST / State Tax Percentage</label>
-                        <div class="input-group">
-                            <input type="number" step="0.01" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" value="9.00" required />
-                            <span class="input-group-text border-secondary" style="background-color: var(--border-color); color: var(--text-main);">%</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold" style="color: var(--text-main);">Base SGST / Federal Service Tax</label>
-                        <div class="input-group">
-                            <input type="number" step="0.01" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" value="9.00" required />
-                            <span class="input-group-text border-secondary" style="background-color: var(--border-color); color: var(--text-main);">%</span>
-                        </div>
+            <!-- RIGHT COLUMN: TAX COMPLIANCE & OPERATIONAL CONTROLS BLOCK -->
+            <div class="col-xl-5 col-lg-6">
+                <div class="card p-4 border h-100" style="background-color: var(--bg-card); border-color: var(--border-color) !important; border-radius: 16px;">
+                    <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2" style="border-color: var(--border-color) !important;">
+                        <i class="fa-solid fa-percent text-warning fs-5"></i>
+                        <h5 class="mb-0 fw-bold" style="color: var(--text-main);">Tax Rates & Structural Metrics</h5>
                     </div>
 
-                    <div class="col-12 mt-4 pt-2 border-top" style="border-color: var(--border-color) !important;">
-                        <div class="d-flex align-items-center gap-2 mb-3">
-                            <i class="fa-solid fa-triangle-exclamation text-danger"></i>
-                            <h6 class="mb-0 fw-bold" style="color: var(--text-main);">System Inventory Settings</h6>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Global Tax Registration Identifier (GST / TIN)</label>
+                            <input type="text" asp-for="TaxIdentifier" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" required />
+                            <span asp-validation-for="TaxIdentifier" class="text-danger small"></span>
                         </div>
-                        <label class="form-label small fw-semibold" style="color: var(--text-main);">Low Stock Notification Lower Limit Threshold</label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" value="15" required />
-                            <span class="input-group-text border-secondary" style="background-color: var(--border-color); color: var(--text-main);">Units</span>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Base CGST / Central Tax Percentage</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" asp-for="BaseCgstPercentage" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" required />
+                                <span class="input-group-text border-secondary" style="background-color: var(--border-color); color: var(--text-main);">%</span>
+                            </div>
+                            <span asp-validation-for="BaseCgstPercentage" class="text-danger small"></span>
                         </div>
-                        <small class="text-muted d-block mt-1">Triggers background platform dashboard item alerting when current component counts plunge past this boundary level.</small>
-                    </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Base SGST / State Tax Percentage</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" asp-for="BaseSgstPercentage" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" required />
+                                <span class="input-group-text border-secondary" style="background-color: var(--border-color); color: var(--text-main);">%</span>
+                            </div>
+                            <span asp-validation-for="BaseSgstPercentage" class="text-danger small"></span>
+                        </div>
 
-                    <div class="col-12 text-end mt-4">
-                        <button type="submit" class="btn btn-warning rounded-pill text-dark px-4 py-2 small fw-bold">
-                            <i class="fa-solid fa-sliders me-1"></i> Apply Configurations
-                        </button>
+                        <div class="col-12 mt-4 pt-2 border-top" style="border-color: var(--border-color) !important;">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+                                <h6 class="mb-0 fw-bold" style="color: var(--text-main);">System Inventory Settings</h6>
+                            </div>
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Low Stock Notification Lower Limit Threshold</label>
+                            <div class="input-group">
+                                <input type="number" asp-for="LowStockThreshold" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" required />
+                                <span class="input-group-text border-secondary" style="background-color: var(--border-color); color: var(--text-main);">Units</span>
+                            </div>
+                            <span asp-validation-for="LowStockThreshold" class="text-danger small"></span>
+                            <small class="text-muted d-block mt-1">Triggers platform alerts when tracking component inventories dip below this minimum unit count.</small>
+                        </div>
+
+                        <!-- Restored original right-side configuration utility action button inside card container context -->
+                        <div class="col-12 text-end mt-4">
+                            <button type="submit" class="btn btn-warning rounded-pill text-dark px-4 py-2 small fw-bold">
+                                <i class="fa-solid fa-sliders me-1"></i> Apply Configurations
+                            </button>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
-
-<!--Just for pop up , later remove while connecting with backend-->
 @section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
     <script>
-        function showSavePopup(event, successMessage) {
-            event.preventDefault();
-
-            const alertDiv = document.createElement('div');
-            //  Using adaptive theme colors instead of layout styles to keep it fully visible in light mode too
-            alertDiv.className = 'position-fixed bottom-0 end-0 m-4 p-3 rounded-3 shadow d-flex align-items-center gap-2 border';
-            alertDiv.style.backgroundColor = 'var(--bg-card)';
-            alertDiv.style.borderColor = '#10b981';
-            alertDiv.style.color = 'var(--text-main)';
-            alertDiv.style.zIndex = '9999';
-            alertDiv.style.transition = 'all 0.4s ease';
-            alertDiv.style.opacity = '0';
-            alertDiv.style.transform = 'translateY(20px)';
-
-            alertDiv.innerHTML = `
-                <i class="fa-solid fa-circle-check text-success fs-5"></i>
-                <div class="fw-semibold small">${successMessage}</div>
-            `;
-
-            document.body.appendChild(alertDiv);
-
-            setTimeout(() => {
-                alertDiv.style.opacity = '1';
-                alertDiv.style.transform = 'translateY(0)';
-            }, 10);
-
-            setTimeout(() => {
-                alertDiv.style.opacity = '0';
-                alertDiv.style.transform = 'translateY(20px)';
-                setTimeout(() => alertDiv.remove(), 400);
-            }, 3000);
+        document.addEventListener("DOMContentLoaded", function () {
+        const toastAlert = document.querySelector('.alert');
+        if (toastAlert) {
+        setTimeout(() => {
+        toastAlert.style.transition = 'opacity 0.5s ease-out';
+        toastAlert.style.opacity = '0';
+        setTimeout(() => toastAlert.remove(), 500);
+        }, 4000);
         }
+        });
     </script>
 }

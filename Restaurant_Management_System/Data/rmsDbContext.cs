@@ -21,6 +21,8 @@ namespace Restaurant_Management_System.Data
         public DbSet<TableStatus> TableStatuses { get; set; }
         public DbSet<KitchenTicket> KitchenTickets { get; set; }
 
+        public DbSet<SystemSetting> SystemSettings { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +36,23 @@ namespace Restaurant_Management_System.Data
                 new Employee { Id = 4, Name = "Anusha", EmpId = "WA01", password = "WA01@123", Role = "Waiter", IsActive = true }, // Waiter
                 new Employee { Id = 5, Name = "Om Prakash", EmpId = "CS01", password = "CS01@123", Role = "Cashier" , IsActive = true }, // Cashier
                 new Employee { Id = 6, Name = "Rishab", EmpId = "IC01", password = "IC01@123", Role = "Inventory Clerk" , IsActive = true }  // Inventory Clerk
+            );
+
+
+            // 2. Data Seeding for the Global System Settings Table
+            modelBuilder.Entity<SystemSetting>().HasData(
+                new SystemSetting
+                {
+                    Id = 1,
+                    RestaurantName = "Pizza Hub",
+                    PrimaryPhone = "+91 987654321",
+                    CorporateEmail = "operations@pizzahub.com",
+                    PhysicalAddress = "1024, Banjara Hills, Hyderabad, Telangana",
+                    TaxIdentifier = "GSTIN9283471029B1Z4",
+                    BaseCgstPercentage = 9.00m,
+                    BaseSgstPercentage = 9.00m,
+                    LowStockThreshold = 15
+                }
             );
         }
     }

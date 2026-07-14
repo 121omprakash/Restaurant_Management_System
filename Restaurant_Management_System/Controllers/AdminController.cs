@@ -44,6 +44,7 @@ namespace Restaurant_Management_System.Controllers
                 var newEmp = new Employee { Name = name, EmpId = empId, password = password, Role = role, IsActive = true };
                 _context.Employees.Add(newEmp);
                 _context.SaveChanges();
+                TempData["SuccessMessage"] = "Employee Added Successfully!";
             }
             return RedirectToAction("Employees");
         }
@@ -59,6 +60,7 @@ namespace Restaurant_Management_System.Controllers
                 emp.Role = role;
                 emp.IsActive = isActive;
                 _context.SaveChanges();
+                TempData["SuccessMessage"] = "Employee Updated Successfully!";
             }
             return RedirectToAction("Employees");
         }
@@ -72,6 +74,7 @@ namespace Restaurant_Management_System.Controllers
             {
                 emp.IsActive = !emp.IsActive; // Inverts status flag cleanly
                 _context.SaveChanges();
+                TempData["SuccessMessage"] = emp.IsActive ? "Employee account reactivated!" : "Employee account deactivated successfully.";
             }
             return RedirectToAction("Employees");
         }
@@ -81,9 +84,54 @@ namespace Restaurant_Management_System.Controllers
                 return View();
             }
 
+        // GET: Admin/Settings
         public IActionResult Settings()
         {
-            return View();
+            // Fetch the single data row (Id = 1) that was populated by data seed
+            var currentSettings = _context.SystemSettings.FirstOrDefault(s => s.Id == 1);
+
+            // Safety check: if for some reason the database row isn't there, send a new empty object
+            if (currentSettings == null)
+            {
+                currentSettings = new SystemSetting { Id = 1 };
+            }
+
+            return View(currentSettings);
         }
+
+        // POST: Admin/UpdateSettings
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateSettings(SystemSetting updatedData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Settings", updatedData);
+            }
+
+            // Grab the tracked row from database
+            var existingSettings = _context.SystemSettings.FirstOrDefault(s => s.Id == 1);
+
+            if (existingSettings != null)
+            {
+                // Map the edited form fields onto the database object
+                existingSettings.RestaurantName = updatedData.RestaurantName;
+                existingSettings.PrimaryPhone = updatedData.PrimaryPhone;
+                existingSettings.CorporateEmail = updatedData.CorporateEmail;
+                existingSettings.PhysicalAddress = updatedData.PhysicalAddress;
+                existingSettings.TaxIdentifier = updatedData.TaxIdentifier;
+                existingSettings.BaseCgstPercentage = updatedData.BaseCgstPercentage;
+                existingSettings.BaseSgstPercentage = updatedData.BaseSgstPercentage;
+                existingSettings.LowStockThreshold = updatedData.LowStockThreshold;
+
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "System configurations updated successfully!";
+            }
+
+            return RedirectToAction("Settings");
         }
+
+
+
+    }
     }

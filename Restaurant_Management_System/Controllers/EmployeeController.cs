@@ -46,28 +46,28 @@ public class EmployeeController : Controller
         // 3. Match against the User's Role property and route to the correct role controller
         string role = user.Role;
 
-        if (role == "Admin")
+        if (role == "Admin" && user.IsActive)
         {
             return RedirectToAction("Employees", "Admin");
         }
-        else if (role == "Chef")
+        else if (role == "Chef" && user.IsActive)
         {
             // Fixed: Routes to ChefController matching your role-based folder structure
             return RedirectToAction("Dashboard", "Kitchen");
         }
-        else if (role == "Manager")
+        else if (role == "Manager" && user.IsActive && user.IsActive)
         {
             return RedirectToAction("Dashboard", "Manager");
         }
-        else if (role == "Waiter")
+        else if (role == "Waiter" && user.IsActive)
         {
             return RedirectToAction("Dashboard", "Waiter");
         }
-        else if (role == "Cashier")
+        else if (role == "Cashier" && user.IsActive)
         {
             return RedirectToAction("Index", "Billing");
         }
-        else if (role == "Inventory Clerk")
+        else if (role == "Inventory Clerk" && user.IsActive)
         {
             return RedirectToAction("Dashboard", "Inventory");
         }
