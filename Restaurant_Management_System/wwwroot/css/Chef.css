@@ -346,3 +346,341 @@ html, body {
         .kitchen-notification-list li:last-child {
             border-bottom: none;
         }
+
+/* ORDER CARDS */
+
+.order-cards {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.order-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: .3s;
+    cursor: pointer;
+}
+
+    .order-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0,0,0,.12);
+    }
+
+.card-content h6 {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+}
+
+.card-content h2 {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+    .card-icon.pending {
+        background: #FFF4D6;
+        color: #D97706;
+    }
+
+    .card-icon.preparing {
+        background: #DBEAFE;
+        color: #2563EB;
+    }
+
+    .card-icon.completed {
+        background: #DCFCE7;
+        color: #16A34A;
+    }
+
+    .card-icon.delayed {
+        background: #FEE2E2;
+        color: #DC2626;
+    }
+/* ===== Order History Card ===== */
+
+.table-card {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 16px;
+    padding: 22px;
+    margin-top: 25px;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .table-header h4 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+.table-tools {
+    display: flex;
+    gap: 15px;
+}
+
+.search-box,
+.filter-box {
+    padding: 10px 14px;
+    border: 1px solid #cfcfcf;
+    border-radius: 10px;
+    outline: none;
+}
+
+.search-box {
+    width: 260px;
+}
+
+/* ===== Table ===== */
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #d9d9d9;
+}
+
+    .order-table th {
+        background: #f7f7f7;
+        font-weight: 600;
+    }
+
+    .order-table th,
+    .order-table td {
+        border: 1px solid #d9d9d9;
+        padding: 15px;
+        text-align: left;
+    }
+
+    .order-table tbody tr:hover {
+        background: #fafafa;
+    }
+
+/* ===== Status Badges ===== */
+
+.status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.pending {
+    background: #fff3cd;
+    color: #9c6b00;
+}
+
+.preparing {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.completed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.delayed {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* ===== View Button ===== */
+
+.view-btn {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    .view-btn:hover {
+        background: #d97706;
+    }
+
+/* ===== Pagination ===== */
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+    .pagination button {
+        border: 1px solid #d9d9d9;
+        background: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+.prepare-btn {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.complete-btn {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.view-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.recipe-tabs {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 8px;
+}
+
+.recipe-tab {
+    background: none;
+    border: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+    .recipe-tab i {
+        margin-right: 8px;
+    }
+
+    .recipe-tab:hover {
+        color: #d97706;
+    }
+
+    .recipe-tab.active {
+        color: #d97706;
+    }
+
+        .recipe-tab.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            height: 3px;
+            background: #d97706;
+            border-radius: 2px;
+        }
+
+
+
+
+
+
+.recipe-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.recipe-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.recipe-subtitle {
+    color: #6b7280;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.recipe-table-tools {
+    display: flex;
+    gap: 12px;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.recipe-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .recipe-table th {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        padding: 14px;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .recipe-table td {
+        border: 1px solid #e5e7eb;
+        padding: 14px;
+        text-align: left;
+    }
+
+    .recipe-table tbody tr:hover {
+        background: #fafafa;
+    }
+
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+    .pagination button {
+        border: 1px solid #d1d5db;
+        background: white;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+    }

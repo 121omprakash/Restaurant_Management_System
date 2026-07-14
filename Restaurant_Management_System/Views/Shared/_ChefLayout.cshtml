@@ -74,30 +74,20 @@
                                 <span class="sidebar-text">Dashboard</span>
                             </a>
                         </li>
-                        <li data-menu="PendingOrders">
-                            <a asp-controller="Kitchen" asp-action="PendingOrders">
-                                <i class="fa-solid fa-clock"></i>
-                                <span class="sidebar-text">Pending Orders</span>
+                       <li data-menu="OrderManagement">
+                                    <a asp-controller="Kitchen" asp-action="OrderManagement">
+                                        <i class="fa-solid fa-list-check"></i>
+                                        <span class="sidebar-text">Order Management</span>
+                                     </a>
+                        </li>
+                           <li data-menu="RecipeManagement">
+                            <a asp-controller="Kitchen" asp-action="RecipeManagement">
+                             <i class="fa-solid fa-book-open"></i>
+                             <span class="sidebar-text">Recipe Management</span>
                             </a>
                         </li>
-                        <li data-menu="PreparingOrders">
-                            <a asp-controller="Kitchen" asp-action="PreparingOrders">
-                                <i class="fa-solid fa-fire-burner"></i>
-                                <span class="sidebar-text">Preparing Orders</span>
-                            </a>
-                        </li>
-                        <li data-menu="DelayedOrders">
-                            <a asp-controller="Kitchen" asp-action="DelayedOrders">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                <span class="sidebar-text">Delayed Orders</span>
-                            </a>
-                        </li>
-                        <li data-menu="CompletedOrders">
-                            <a asp-controller="Kitchen" asp-action="CompletedOrders">
-                                <i class="fa-solid fa-circle-check"></i>
-                                <span class="sidebar-text">Completed Orders</span>
-                            </a>
-                        </li>
+                        
+                        
                     </ul>
 
                     <ul>
