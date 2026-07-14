@@ -5,7 +5,7 @@ namespace Restaurant_Management_System.ViewModel
 {
     public class InventoryDashboardViewModel
     {
-        public int TotalItems { get; set; }
+        public int TotalItems { get; set; }               
         public int LowStockCount { get; set; }
         public int CriticalCount { get; set; }
         public int PurchaseRequests { get; set; }
