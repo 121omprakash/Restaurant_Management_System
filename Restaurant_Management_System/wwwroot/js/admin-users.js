@@ -5,15 +5,49 @@ let currentStatusFilter = 'all';
 // Initialization: Runs all internal interface bindings once the browser DOM tree finishes structural parsing
 document.addEventListener("DOMContentLoaded", function () {
 
-    // 1 & 4. Integrated Dropdown & Search Filter Mechanics
+    // ======= 1. SIDEBAR ACTIVE HIGHLIGHT MANAGEMENT =======
+    const currentPath = window.location.pathname.toLowerCase().replace(/\/$/, "");
+    const menuItems = document.querySelectorAll("#adminSidebarMenu li");
+
+    menuItems.forEach(item => {
+        const linkElement = item.querySelector("a");
+        if (linkElement) {
+            const hrefTarget = linkElement.getAttribute("href").toLowerCase().replace(/\/$/, "");
+            const dataMenu = item.getAttribute("data-menu") ? item.getAttribute("data-menu").toLowerCase() : "";
+
+            // If path matches directly, or current path includes the link target action path
+            if (currentPath === hrefTarget ||
+                (hrefTarget !== "" && currentPath.includes(hrefTarget)) ||
+                (currentPath.includes("admin/employees") && dataMenu === "employees") ||
+                (currentPath.includes("admin/settings") && dataMenu === "settings")) {
+
+                item.classList.add("active");
+                linkElement.classList.add("active");
+            } else {
+                item.classList.remove("active");
+                linkElement.classList.remove("active");
+            }
+        }
+    });
+
+    // ======= 2. SIDEBAR COLLAPSE TOGGLE =======
+    const toggleBtn = document.getElementById("sidebarToggle");
+    const sidebar = document.querySelector(".sidebar");
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener("click", function () {
+            sidebar.classList.toggle("collapsed");
+        });
+    }
+
+    // ======= 3. DROPDOWN STATUS & ROLE FILTERS =======
     document.querySelectorAll('.filter-role-opt').forEach(item => {
         item.addEventListener('click', function (e) {
             e.preventDefault();
 
             const selection = this.getAttribute('data-role');
             const dropdownBtn = document.getElementById('roleFilterDropdown');
+            if (!dropdownBtn) return;
 
-            // Determine if the user clicked a Status filter or a Role filter
             if (selection === 'status-active') {
                 currentStatusFilter = 'active';
                 dropdownBtn.innerHTML = `<i class="fa-solid fa-filter me-2"></i> Status: Active`;
@@ -25,17 +59,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentStatusFilter = 'all';
                 dropdownBtn.innerHTML = `<i class="fa-solid fa-filter me-2"></i> All Employees`;
             } else {
-                // It's a specific role mapping (Admin, Chef, Waiter, etc.)
                 currentRoleFilter = selection.toLowerCase();
                 dropdownBtn.innerHTML = `<i class="fa-solid fa-filter me-2"></i> Role: ${selection}`;
             }
 
-            // Execute the combined filter matrix
             filterTable();
         });
     });
 
-    // Hook into the search bar input so it runs concurrently with dropdown choices
+    // ======= 4. SEARCH BAR LOGIC =======
     const userSearch = document.getElementById("userSearch");
     if (userSearch) {
         userSearch.addEventListener('keyup', function () {
@@ -43,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 2. Interactive Edit Modal Parameters Assignment Listener
+    // ======= 5. EDIT USER MODAL BINDINGS =======
     const editUserModal = document.getElementById('editUserModal');
     if (editUserModal) {
         editUserModal.addEventListener('show.bs.modal', function (event) {
@@ -59,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 3. Delete Target Routing Confirmation Pop-up Event Mapping
+    // ======= 6. DELETE/DEACTIVATE CONFIRMATION MODAL =======
     const deleteConfirmModal = document.getElementById('deleteConfirmModal');
     if (deleteConfirmModal) {
         deleteConfirmModal.addEventListener('show.bs.modal', function (event) {
@@ -90,9 +122,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Core execution function that evaluates every row against Search, Role, and Status combined
+// ======= 7. CORE TABLE FILTER EXECUTION ENGINE =======
 function filterTable() {
-    const searchQuery = document.getElementById('userSearch').value.toLowerCase();
+    const userSearch = document.getElementById('userSearch');
+    const searchQuery = userSearch ? userSearch.value.toLowerCase() : '';
     const rows = document.querySelectorAll('#userTableBody tr');
 
     rows.forEach(row => {
