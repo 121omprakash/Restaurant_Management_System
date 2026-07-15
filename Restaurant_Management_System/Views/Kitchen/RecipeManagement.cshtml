@@ -1,0 +1,261 @@
+﻿@{
+    ViewData["Title"] = "Recipe Management";
+    Layout = "~/Views/Shared/_ChefLayout.cshtml";
+}
+<div class="page-header">
+    <h2>Recipe Management</h2>
+</div>
+<div class="recipe-tabs">
+    <button class="recipe-tab active" id="existingTab">
+        <i class="fa-solid fa-book-open"></i>
+        Existing Recipes
+    </button>
+
+    <button class="recipe-tab" id="pendingTab">
+        <i class="fa-solid fa-clock"></i>
+        Pending Recipe Requests
+    </button>
+</div>
+<div class="recipe-table-card">
+    <div class="recipe-card-header">
+
+        <div>
+            <h3 id="recipeTableTitle">Existing Recipes</h3>
+            <p class="recipe-subtitle">
+                View and update recipes for all pizza café menu items.
+            </p>
+        </div>
+
+        <div class="recipe-table-tools">
+
+            <input type="text"
+                   class="search-box"
+                   placeholder="Search Pizza, Burger, Pasta..." />
+
+            <select class="filter-box">
+                <option>All Categories</option>
+                <option>Pizza</option>
+                <option>Burger</option>
+                <option>Pasta</option>
+                <option>Sides</option>
+                <option>Beverages</option>
+                <option>Desserts</option>
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="recipe-table">
+
+            <colgroup>
+                <col style="width:10%">
+                <col style="width:28%">
+                <col style="width:15%">
+                <col style="width:15%">
+                <col style="width:17%">
+                <col style="width:15%">
+            </colgroup>
+
+            <thead id="recipeTableHead">
+            </thead>
+
+            <tbody id="recipeTableBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="pagination">
+        <button>Previous</button>
+        <span>1</span>
+        <button>Next</button>
+    </div>
+
+ 
+</div>
+<script>
+
+    const existingRecipes = [
+
+    {
+    id:"R001",
+    item:"Margherita Pizza",
+    category:"Pizza",
+    time:"15 mins",
+    updated:"Today"
+    },
+
+    {
+    id:"R002",
+    item:"Veg Supreme Pizza",
+    category:"Pizza",
+    time:"18 mins",
+    updated:"Yesterday"
+    },
+
+    {
+    id:"R003",
+    item:"Cheese Garlic Bread",
+    category:"Sides",
+    time:"8 mins",
+    updated:"Today"
+    }
+
+    ];
+
+    const pendingRecipes = [
+
+    {
+    id:"M101",
+    item:"Mexican Corn Pizza",
+    category:"Pizza",
+    date:"14 Jul 2026"
+    },
+
+    {
+    id:"M102",
+    item:"BBQ Paneer Pizza",
+    category:"Pizza",
+    date:"14 Jul 2026"
+    }
+
+    ];
+
+    loadExisting();
+
+    function loadExisting(){
+
+    document.getElementById("recipeTableTitle").innerHTML="Existing Recipes";
+
+    document.getElementById("recipeTableHead").innerHTML=`
+
+    <tr>
+    <th>Recipe ID</th>
+    <th>Menu Item</th>
+    <th>Category</th>
+    <th>Preparation Time</th>
+    <th>Last Updated</th>
+    <th>Action</th>
+    </tr>
+
+    `;
+
+    let body=document.getElementById("recipeTableBody");
+
+    body.innerHTML="";
+
+    existingRecipes.forEach(recipe=>{
+
+    body.innerHTML+=`
+
+    <tr>
+
+    <td>${recipe.id}</td>
+
+    <td>${recipe.item}</td>
+
+    <td>${recipe.category}</td>
+
+    <td>${recipe.time}</td>
+
+    <td>${recipe.updated}</td>
+
+    <td>
+
+    <button class="view-btn">
+    View / Edit
+    </button>
+
+    </td>
+
+    </tr>
+
+    `;
+
+    });
+
+    }
+
+    function loadPending(){
+
+    document.getElementById("recipeTableTitle").innerHTML="Pending Recipe Requests";
+
+    document.getElementById("recipeTableHead").innerHTML=`
+
+    <tr>
+
+    <th>Menu ID</th>
+
+    <th>Menu Item</th>
+
+    <th>Category</th>
+
+    <th>Date Added</th>
+
+    <th>Action</th>
+
+    </tr>
+
+    `;
+
+    let body=document.getElementById("recipeTableBody");
+
+    body.innerHTML="";
+
+    pendingRecipes.forEach(recipe=>{
+
+    body.innerHTML+=`
+
+    <tr>
+
+    <td>${recipe.id}</td>
+
+    <td>${recipe.item}</td>
+
+    <td>${recipe.category}</td>
+
+    <td>${recipe.date}</td>
+
+    <td>
+
+    <button class="add-btn">
+
+    Add Recipe
+
+    </button>
+
+    </td>
+
+    </tr>
+
+    `;
+
+    });
+
+    }
+
+    document.getElementById("existingTab").onclick=function(){
+
+    document.getElementById("existingTab").classList.add("active");
+
+    document.getElementById("pendingTab").classList.remove("active");
+
+    loadExisting();
+
+    };
+
+    document.getElementById("pendingTab").onclick=function(){
+
+    document.getElementById("pendingTab").classList.add("active");
+
+    document.getElementById("existingTab").classList.remove("active");
+
+    loadPending();
+
+    };
+
+</script>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Restaurant_Management_System.ENUM;
 using Restaurant_Management_System.Models;
 using Restaurant_Management_System.ViewModel;
 using System;
@@ -22,20 +23,20 @@ namespace Restaurant_Management_System.Controllers
             // 1. Build out ALL raw mock data elements
             List<CustomerOrder> allMockOrders = new List<CustomerOrder>
             {
-                new CustomerOrder { OrderId = 1024, TableNumber = "Table 5", CustomerName = "John Doe", OrderType = "DINE_IN", OrderTime = DateTime.Now.AddMinutes(-30), OrderStatus = "READY" },
-                new CustomerOrder { OrderId = 1025, TableNumber = "Takeaway", CustomerName = "Jane Smith", OrderType = "TAKEAWAY", OrderTime = DateTime.Now.AddMinutes(-10), OrderStatus = "PREPARING" },
-                new CustomerOrder { OrderId = 9012, TableNumber = "Table 2", CustomerName = "Robert Downey", OrderType = "DINE_IN", OrderTime = DateTime.Now.AddHours(-2), OrderStatus = "SERVED" }, // Mapped as SETTLED/PAID
-                new CustomerOrder { OrderId = 9013, TableNumber = "Table 8", CustomerName = "Alice Cooper", OrderType = "DINE_IN", OrderTime = DateTime.Now.AddHours(-1), OrderStatus = "SERVED" }  // Mapped as SETTLED + TIPS
+                new CustomerOrder { OrderId = 1024, TableNumber = "Table 5", CustomerName = "John Doe", OrderType = OrderType.DINE_IN, OrderTime = DateTime.Now.AddMinutes(-30), OrderStatus = OrderStatus.READY },
+                new CustomerOrder { OrderId = 1025, TableNumber = "Takeaway", CustomerName = "Jane Smith", OrderType =OrderType.DINE_IN, OrderTime = DateTime.Now.AddMinutes(-10), OrderStatus = OrderStatus.PREPARING },
+                new CustomerOrder { OrderId = 9012, TableNumber = "Table 2", CustomerName = "Robert Downey", OrderType =OrderType.DINE_IN, OrderTime = DateTime.Now.AddHours(-2), OrderStatus = OrderStatus.SERVED }, // Mapped as SETTLED/PAID
+                new CustomerOrder { OrderId = 9013, TableNumber = "Table 8", CustomerName = "Alice Cooper", OrderType = OrderType.DINE_IN, OrderTime = DateTime.Now.AddHours(-1), OrderStatus = OrderStatus.SERVED }  // Mapped as SETTLED + TIPS
             };
 
             // 2. Perform Filtering strictly in C# based on the currentTab parameter
             foreach (var order in allMockOrders)
             {
-                if (currentTab == "PENDING" && (order.OrderStatus == "READY" || order.OrderStatus == "PREPARING"))
+                if (currentTab == "PENDING" && (order.OrderStatus == OrderStatus.READY || order.OrderStatus == OrderStatus.PREPARING))
                 {
                     dashboardData.ActiveOrders.Add(order);
                 }
-                else if (currentTab == "SETTLED" && order.OrderStatus == "SERVED")
+                else if (currentTab == "SETTLED" && order.OrderStatus == OrderStatus.SERVED)
                 {
                     dashboardData.ActiveOrders.Add(order);
                 }
@@ -43,7 +44,7 @@ namespace Restaurant_Management_System.Controllers
                 {
                     dashboardData.ActiveOrders.Add(order);
                 }
-                else if (currentTab == "SALES" && order.OrderStatus == "SERVED")
+                else if (currentTab == "SALES" && order.OrderStatus == OrderStatus.SERVED)
                 {
                     dashboardData.ActiveOrders.Add(order);
                 }
@@ -118,7 +119,7 @@ namespace Restaurant_Management_System.Controllers
                 TaxAmount = 6.68m,
                 TipAmount = tipAmount,
                 TotalAmount = 87.68m + tipAmount,
-                PaymentStatus = "PAID"
+                PaymentStatus = PaymentStatus.PAID
             };
 
             // 2. Map the BillInvoice data to the SettlementViewModel

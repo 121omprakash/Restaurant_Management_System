@@ -17,38 +17,121 @@ namespace Restaurant_Management_System.Controllers
                 _context = context;
             }
 
-        public IActionResult Dashboard()
-            {
-                return View();
-            }
+        
+        public IActionResult Employees()
+        {
+            // Calculate profile totals
+            ViewBag.TotalProfiles = _context.Employees.Count();
+            ViewBag.ActiveProfiles = _context.Employees.Count(e => e.IsActive); // Calculates active count here safely!
+            ViewBag.InactiveProfiles = _context.Employees.Count(e => !e.IsActive);
 
-            public IActionResult Users()
-            {
-                // Fetch all users from your "Users" SQL table
-                var usersList = _context.Employees.ToList();
+            // Filter role statistics to ONLY count currently Active employees
+            ViewBag.SecurityAdmins = _context.Employees.Count(e => e.Role == "Admin" && e.IsActive);
+            ViewBag.OperationalStaff = _context.Employees.Count(e => e.Role != "Admin" && e.IsActive);
 
-                // Pass the populated list straight into the View
-                return View(usersList);
+            // Fetch the entire collection list for the data table grid
+            var usersList = _context.Employees.ToList();
+
+            return View(usersList);
         }
 
-            public IActionResult CreateUser()
+        // ADD EMPLOYEE: Receives the POST data from #addUserModal
+        [HttpPost]
+        public IActionResult CreateUser(string name, string empId, string password, string role)
+        {
+            if (ModelState.IsValid)
             {
-                return View();
+                var newEmp = new Employee { Name = name, EmpId = empId, password = password, Role = role, IsActive = true };
+                _context.Employees.Add(newEmp);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Employee Added Successfully!";
             }
-
-            public IActionResult EditUser(int id)
-            {
-                return View();
-            }
-
-            public IActionResult Details(int id)
-            {
-                return View();
-            }
-
-            public IActionResult Settings()
-            {
-                return View();
-            }
+            return RedirectToAction("Employees");
         }
+
+        // EDIT EMPLOYEE: Receives the POST data from #editUserModal
+        [HttpPost]
+        public IActionResult EditUser(int id, string name, string role, bool isActive)
+        {
+            var emp = _context.Employees.Find(id);
+            if (emp != null)
+            {
+                emp.Name = name;
+                emp.Role = role;
+                emp.IsActive = isActive;
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Employee Updated Successfully!";
+            }
+            return RedirectToAction("Employees");
+        }
+
+        // DEACTIVATE/TOGGLE STATUS: Receives the POST data from #deleteConfirmModal
+        [HttpPost]
+        public IActionResult ToggleStatus(int id)
+        {
+            var emp = _context.Employees.Find(id);
+            if (emp != null)
+            {
+                emp.IsActive = !emp.IsActive; // Inverts status flag cleanly
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = emp.IsActive ? "Employee account reactivated!" : "Employee account deactivated successfully.";
+            }
+            return RedirectToAction("Employees");
+        }
+
+        public IActionResult Details(int id)
+            {
+                return View();
+            }
+
+        // GET: Admin/Settings
+        public IActionResult Settings()
+        {
+            // Fetch the single data row (Id = 1) that was populated by data seed
+            var currentSettings = _context.SystemSettings.FirstOrDefault(s => s.Id == 1);
+
+            // Safety check: if for some reason the database row isn't there, send a new empty object
+            if (currentSettings == null)
+            {
+                currentSettings = new SystemSetting { Id = 1 };
+            }
+
+            return View(currentSettings);
+        }
+
+        // POST: Admin/UpdateSettings
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateSettings(SystemSetting updatedData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Settings", updatedData);
+            }
+
+            // Grab the tracked row from database
+            var existingSettings = _context.SystemSettings.FirstOrDefault(s => s.Id == 1);
+
+            if (existingSettings != null)
+            {
+                // Map the edited form fields onto the database object
+                existingSettings.RestaurantName = updatedData.RestaurantName;
+                existingSettings.PrimaryPhone = updatedData.PrimaryPhone;
+                existingSettings.CorporateEmail = updatedData.CorporateEmail;
+                existingSettings.PhysicalAddress = updatedData.PhysicalAddress;
+                existingSettings.TaxIdentifier = updatedData.TaxIdentifier;
+                existingSettings.BaseCgstPercentage = updatedData.BaseCgstPercentage;
+                existingSettings.BaseSgstPercentage = updatedData.BaseSgstPercentage;
+                existingSettings.LowStockThreshold = updatedData.LowStockThreshold;
+
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "System configurations updated successfully!";
+            }
+
+            return RedirectToAction("Settings");
+        }
+
+
+
+    }
     }

@@ -19,7 +19,7 @@
                     <p class="small text-muted mt-1">Access the operational terminal</p>
                 </div>
 
-                <form asp-action="Login" asp-controller="User" method="post">
+                <form asp-action="Login" asp-controller="Employee" method="post">
 
                     @if (ViewBag.Error != null)
                     {
@@ -29,12 +29,12 @@
                     }
 
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold text-muted">User Id:</label>
+                        <label class="form-label small fw-semibold text-muted">Employee Id:</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fa-solid fa-id-card"></i>
                             </span>
-                            <input class="form-control" type="text" required placeholder="Enter your user id" asp-for="UserId" />
+                            <input class="form-control" type="text" required placeholder="Enter your emp id" asp-for="UserId" />
                         </div>
                     </div>
 

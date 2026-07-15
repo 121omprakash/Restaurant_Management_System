@@ -13,23 +13,12 @@ namespace Restaurant_Management_System.Controllers
         {
             return View();
         }
-
-        public IActionResult PendingOrders()
+         
+        public IActionResult OrderManagement()
         {
             return View();
         }
-
-        public IActionResult PreparingOrders()
-        {
-            return View();
-        }
-
-        public IActionResult DelayedOrders()
-        {
-            return View();
-        }
-
-        public IActionResult CompletedOrders()
+        public IActionResult RecipeManagement()
         {
             return View();
         }

@@ -62,10 +62,10 @@
                 {
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <div>
-                            <strong>@item.Name</strong><br />
-                            <small>@item.Stock @("units") - Reorder at @item.ReorderLevel</small>
+                            <strong>@item.IngredientName</strong><br />
+                            <small>@item.CurrentStock @("units") - Reorder at @item.ReorderLevel</small>
                         </div>
-                        @if (item.Stock < item.ReorderLevel / 2.0)
+                        @if (item.CurrentStock < item.ReorderLevel / 2)
                         {
                             <span class="badge bg-danger">critical</span>
                         }
@@ -101,8 +101,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // prepare data from server model
-    const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.Name)));
-    const dataValues = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.Stock)));
+    const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.IngredientName)));
+    const dataValues = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.CurrentStock)));
 
     const ctx = document.getElementById('stockChart').getContext('2d');
     new Chart(ctx, {

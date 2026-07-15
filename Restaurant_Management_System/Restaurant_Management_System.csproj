@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\Admin\Users.cshtml" />
+    <None Include="Views\Admin\Employees.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
