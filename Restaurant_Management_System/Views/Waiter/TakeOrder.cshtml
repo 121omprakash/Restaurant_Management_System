@@ -9,7 +9,6 @@
         background: #f6f1eb;
     }
 
-    /* HEADER */
     .header {
         display: flex;
         justify-content: space-between;
@@ -25,7 +24,6 @@
         color: #8b6f5c;
     }
 
-    /* BELL */
     .bell {
         width: 40px;
         height: 40px;
@@ -48,7 +46,6 @@
         border-radius: 50%;
     }
 
-    /* CARD */
     .card {
         background: #efe7df;
         border-radius: 20px;
@@ -56,7 +53,6 @@
         margin-top: 20px;
     }
 
-    /* MENU ITEM */
     .menu-item {
         display: flex;
         justify-content: space-between;
@@ -73,14 +69,12 @@
         cursor: pointer;
     }
 
-    /* CATEGORY */
     .tag {
         background: #e6ddd4;
         padding: 5px 10px;
         border-radius: 10px;
     }
 
-    /* CART */
     .cart-item {
         display: flex;
         justify-content: space-between;
@@ -93,7 +87,6 @@
         color: #8b6f5c;
     }
 
-    /* Make all page text black */
     .page-container,
     .page-container h1,
     .page-container h2,
@@ -107,7 +100,6 @@
         color: #000 !important;
     }
 
-    /* Input and dropdown text */
     input,
     select,
     textarea,
@@ -116,23 +108,19 @@
         background: #fff !important;
     }
 
-        /* Placeholder text */
         input::placeholder {
             color: #666 !important;
         }
 
-    /* Menu items */
     .menu-item,
     .cart-item {
         color: #000 !important;
     }
 
-    /* Cart empty text */
     .empty-cart {
         color: #000 !important;
     }
 
-    /* Buttons */
     .add-btn {
         color: #e8611c !important;
         background: white !important;
@@ -143,7 +131,6 @@
             color: white !important;
         }
 
-    /* Bell icon */
     .bell {
         color: #000 !important;
     }
@@ -155,7 +142,7 @@
         border: none;
         background: #e8611c;
         color: white;
-        border-radius: 8px; /* rectangular shape */
+        border-radius: 8px;
         cursor: pointer;
         font-size: 16px;
         font-weight: 600;
@@ -168,11 +155,10 @@
 
 <div class="page-container">
 
-    <!-- ✅ HEADER -->
     <div class="header">
         <div>
             <div class="page-title">Take Order</div>
-            <div class="page-subtitle">Select a table and add items to place an order.</div>
+            <div class="page-subtitle">Add items to place an order.</div>
         </div>
 
         <div style="display:flex; gap:10px;">
@@ -184,15 +170,7 @@
         </div>
     </div>
 
-    <!-- ✅ SELECT TABLE -->
-    <div class="card">
-        <h3>Select Table</h3>
-        <select id="tableSelect" class="input-box">
-            <option>Select table</option>
-        </select>
-    </div>
-
-    <!-- ✅ MENU -->
+    <!-- ✅ VEG MENU -->
     <div class="card">
         <h3>Veg Pizzas <span class="tag">VEG</span></h3>
 
@@ -218,7 +196,7 @@
         </div>
     </div>
 
-    <!-- ✅ NON VEG -->
+    <!-- ✅ NON VEG MENU -->
     <div class="card">
         <h3>Non‑Veg Pizzas <span class="tag">NON‑VEG</span></h3>
 
@@ -259,7 +237,6 @@
 
 <script>
 
-    // ✅ CART
     let cart = [];
 
     function addItem(name, price) {
@@ -268,6 +245,7 @@
     }
 
     function renderCart() {
+
         const container = document.getElementById("cartItems");
         const empty = document.getElementById("emptyCart");
 
@@ -275,6 +253,7 @@
 
         if (cart.length === 0) {
             empty.style.display = "block";
+            document.getElementById("totalPrice").innerText = "";
             return;
         }
 
@@ -283,6 +262,7 @@
         let total = 0;
 
         cart.forEach(item => {
+
             total += item.price;
 
             container.innerHTML += `
@@ -294,53 +274,42 @@
         document.getElementById("totalPrice").innerText = "Total: ₹" + total;
     }
 
-    // ✅ PLACE ORDER
     function placeOrder() {
-        const table = document.getElementById("tableSelect").value;
 
         fetch('/Order/createOrder', {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({
-                tableNumber: table,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
                 items: cart
             })
-        }).then(() => {
+        })
+        .then(() => {
             alert("✅ Order placed!");
-            cart=[];
+            cart = [];
             renderCart();
         });
     }
 
-    // ✅ LOAD TABLES
-    function loadTables(){
-        fetch('/Order/GetTables')
-        .then(res=>res.json())
-        .then(data=>{
-            const dd=document.getElementById("tableSelect");
-            dd.innerHTML="<option>Select table</option>";
+    function updateShift() {
 
-            data.forEach(t=>{
-                dd.innerHTML+=`<option value="${t.tableNumber}">
-                    Table ${t.tableNumber}
-                </option>`;
+        let h = new Date().getHours();
+
+        let shift =
+            h < 14 ? "Morning" :
+            h < 22 ? "Afternoon" :
+            "Night";
+
+        document.getElementById("shiftText").innerText = "Shift: " + shift;
+
+        document.getElementById("dateText").innerText =
+            new Date().toLocaleDateString("en-IN", {
+                day: '2-digit',
+                month: 'short'
             });
-        });
     }
 
-    // ✅ SHIFT
-    function updateShift(){
-        let h=new Date().getHours();
-        let shift=h<14?"Morning":h<22?"Afternoon":"Night";
-
-        document.getElementById("shiftText").innerText="Shift: "+shift;
-        document.getElementById("dateText").innerText=
-            new Date().toLocaleDateString("en-IN",{day:'2-digit',month:'short'});
-    }
-
-    // INIT
-    loadTables();
     updateShift();
 
 </script>
-``
