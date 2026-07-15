@@ -84,8 +84,7 @@
         <thead>
             <tr>
                 <th>Order ID</th>
-                <th>Customer</th>
-                <th>Item</th>
+                <th>Items</th>
                 <th>Status</th>
                 <th>Date</th>
                 <th>Action</th>
@@ -96,7 +95,6 @@
 
             <tr>
                 <td>#1001</td>
-                <td>Rahul</td>
                 <td>Farm House Pizza</td>
                 <td><span class="status pending">Pending</span></td>
                 <td>@DateTime.Today.ToString("dd MMM yyyy")</td>
@@ -109,7 +107,7 @@
 
             <tr>
                 <td>#1002</td>
-                <td>Priya</td>
+              
                 <td>Chicken Pizza</td>
                 <td><span class="status preparing">Preparing</span></td>
                 <td>@DateTime.Today.ToString("dd MMM yyyy")</td>
@@ -122,7 +120,7 @@
 
             <tr>
                 <td>#1003</td>
-                <td>Kiran</td>
+                
                 <td>Cheese Crust Maxx</td>
                 <td><span class="status completed">Completed</span></td>
                 <td>@DateTime.Today.ToString("dd MMM yyyy")</td>
@@ -148,20 +146,20 @@
 </div>
  <script>
     const pendingOrders = [
-        { id: "#1001", customer: "Rahul", item: "Farm House Pizza", status: "Pending", date: "13 Jul 2026" },
-        { id: "#1002", customer: "Priya", item: "Chicken Biryani", status: "Pending", date: "13 Jul 2026" }
+        { id: "#1001",  item: "Farm House Pizza+3 more", status: "Pending", date: "13 Jul 2026" },
+        { id: "#1002",  item: "Chicken Biryani+1 more", status: "Pending", date: "13 Jul 2026" }
     ];
 
     const preparingOrders = [
-        { id: "#1003", customer: "Kiran", item: "Veg Fried Rice", status: "Preparing", date: "13 Jul 2026" }
+        { id: "#1003", item: "Veg Fried Rice +4 more", status: "Preparing", date: "13 Jul 2026" }
     ];
 
     const completedOrders = [
-        { id: "#1004", customer: "Sai", item: "Paneer Butter Masala", status: "Completed", date: "13 Jul 2026" }
+        { id: "#1004",  item: "Paneer Butter Masala +4 more", status: "Completed", date: "13 Jul 2026" }
     ];
 
     const delayedOrders = [
-        { id: "#1005", customer: "Anjali", item: "Burger Combo", status: "Delayed", date: "13 Jul 2026" }
+        { id: "#1005",  item: "Burger Combo", status: "Delayed", date: "13 Jul 2026" }
     ];
 
     function showOrders(type) {
@@ -196,25 +194,36 @@
             body.innerHTML += `
             <tr>
                 <td>${order.id}</td>
-                <td>${order.customer}</td>
                 <td>${order.item}</td>
                 <td><span class="status ${statusClass}">${order.status}</span></td>
                 <td>${order.date}</td>
                     <td>
-                ${
-                    order.status === "Pending"
-                    ? `<button class="action-btn start-btn">
-                            <i class="fa-solid fa-play"></i> Start Preparing
-                       </button>`
-                    : order.status === "Preparing"
-                    ? `<button class="action-btn complete-btn">
-                            <i class="fa-solid fa-check"></i> Complete
-                       </button>`
-                    : `<button class="action-btn view-btn">
-                            <i class="fa-solid fa-eye"></i> View
-                       </button>`
-                }
-            </td>
+                       
+                    <div class="action-buttons">
+
+                        <button class="action-btn view-btn">
+                            <i class="fa-solid fa-eye"></i>
+                            View
+                        </button>
+
+                        ${ order.status === "Pending"
+                            ? `<button class="action-btn start-btn">
+                                    <i class="fa-solid fa-play"></i>
+                                    Start Preparing
+                               </button>`
+
+                            : order.status === "Preparing"
+
+                            ? `<button class="action-btn complete-btn">
+                                    <i class="fa-solid fa-check"></i>
+                                    Complete
+                               </button>`
+
+                            : ""
+                        }
+
+                    </div>
+                </td>
             </tr>`;
         });
 

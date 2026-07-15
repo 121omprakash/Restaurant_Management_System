@@ -510,18 +510,54 @@ html, body {
 }
 
 /* ===== View Button ===== */
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-btn,
+.start-btn,
+.complete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
 
 .view-btn {
-    background: #f59e0b;
+    background: #2563eb;
     color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
 }
 
     .view-btn:hover {
+        background: #1d4ed8;
+    }
+
+.start-btn {
+    background: #f59e0b;
+    color: white;
+}
+
+    .start-btn:hover {
         background: #d97706;
+    }
+
+.complete-btn {
+    background: #16a34a;
+    color: white;
+}
+
+    .complete-btn:hover {
+        background: #15803d;
     }
 
 /* ===== Pagination ===== */
@@ -656,15 +692,32 @@ html, body {
         background: #f9fafb;
         border: 1px solid #e5e7eb;
         padding: 14px;
-        text-align: left;
+        text-align: center;
         font-weight: 600;
+
     }
 
     .recipe-table td {
         border: 1px solid #e5e7eb;
         padding: 14px;
         text-align: left;
+        vertical-align: middle;
     }
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+.action-btn {
+    min-width: 120px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
 
     .recipe-table tbody tr:hover {
         background: #fafafa;
@@ -684,3 +737,12 @@ html, body {
         border-radius: 8px;
         cursor: pointer;
     }
+.action-btn {
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    flex-wrap:nowrap;
+    justify-content:center;
+
+}
+ 
