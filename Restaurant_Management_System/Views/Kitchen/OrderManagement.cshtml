@@ -1,19 +1,23 @@
-﻿@{
+﻿@model List< Restaurant_Management_System.Models.KitchenTicket>
+@using Restaurant_Management_System.ENUM
+
+@{
     ViewData["Title"] = "Order Management";
     Layout = "~/Views/Shared/_ChefLayout.cshtml";
 }
 <div class="page-header">
     <h2>Order Management</h2>
-    <p>Monitor and manage all kitchen orders from one place</p>
 </div>
 <div class="order-cards">
 
 
     <!-- Pending -->
-    <div class="order-card" onclick="showOrders('pending')" style="cursor:pointer;">
+    <div class="order-card"
+    onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.QUEUED })'"
+    style="cursor:pointer;">
         <div class="card-content">
             <h6>PENDING ORDERS</h6>
-            <h2 id="pendingCount">0</h2>
+            <h2 id="pendingCount">@ViewBag.PendingCount</h2>
         </div>
 
         <div class="card-icon pending">
@@ -22,10 +26,12 @@
     </div>
 
     <!-- Preparing -->
-    <div class="order-card" onclick="showOrders('preparing')" style="cursor:pointer;">
+    <div class="order-card"
+         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.IN_PROGRESS })'"
+         style="cursor:pointer;">
         <div class="card-content">
             <h6>PREPARING ORDERS</h6>
-            <h2 id="preparingCount">0</h2>
+            <h2 id="preparingCount">@ViewBag.PreparingCount</h2>
         </div>
 
         <div class="card-icon preparing">
@@ -34,10 +40,12 @@
     </div>
 
     <!-- Completed -->
-    <div class="order-card" onclick="showOrders('completed')" style="cursor:pointer;">
+    <div class="order-card"
+         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.READY })'"
+         style="cursor:pointer;">
         <div class="card-content">
             <h6>COMPLETED ORDERS</h6>
-            <h2 id="completedCount">0</h2>
+            <h2 id="completedCount">@ViewBag.CompletedCount</h2>
         </div>
 
         <div class="card-icon completed">
@@ -46,10 +54,12 @@
     </div>
 
     <!-- Delayed -->
-    <div class="order-card" onclick="showOrders('delayed')" style="cursor:pointer;">
+    <div class="order-card"
+         onclick="location.href='@Url.Action("OrderManagement", "Kitchen")'"
+         style="cursor:pointer;">
         <div class="card-content">
             <h6>DELAYED ORDERS</h6>
-            <h2 id="delayedCount">0</h2>
+            <h2 id="delayedCount">@ViewBag.DelayedCount</h2>
         </div>
 
         <div class="card-icon delayed">
@@ -65,18 +75,34 @@
 
     <div class="table-header">
         <h4> Order History</h4>
+        <form asp-action="OrderManagement" asp-controller="Kitchen" method="get">
+            <div class="table-tools">
 
-        <div class="table-tools">
-            <input type="text" class="search-box" placeholder="Search Order ID or Customer..." />
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="search-box"
+                       placeholder="Search Order ID or Customer..." />
+                <button type="submit" class="action-btn view-btn">
+                    Search
+                </button>
+                <select name="status"
+                        class="filter-box"
+                        onchange="this.form.submit()">
+                    
 
-            <select class="filter-box">
-                <option>All Status</option>
-                <option>Pending</option>
-                <option>Preparing</option>
-                <option>Completed</option>
-                <option>Delayed</option>
-            </select>
-        </div>
+                    <option value="">All Status</option>
+
+                    <option value="@TicketStatus.QUEUED">Pending</option>
+                    <option value="@TicketStatus.IN_PROGRESS">Preparing</option>
+                    <option value="@TicketStatus.READY">Completed</option>
+                    <option value="Delayed">Delayed</option>
+
+                </select>
+               
+
+            </div>
+        </form>
     </div>
 
     <table class="order-table">
@@ -90,48 +116,80 @@
                 <th>Action</th>
             </tr>
         </thead>
+        <tbody>
+            
 
-        <tbody id="orderTableBody">
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            No kitchen tickets available.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var ticket in Model)
+                    {
+                        <tr>
+                            <td>@ticket.OrderId</td>
 
-            <tr>
-                <td>#1001</td>
-                <td>Farm House Pizza</td>
-                <td><span class="status pending">Pending</span></td>
-                <td>@DateTime.Today.ToString("dd MMM yyyy")</td>
-                <td>
-                    <button class="view-btn">
-                        <i class="fa-solid fa-eye"></i> View
-                    </button>
-                </td>
-            </tr>
+                            <td>View Items</td>
 
-            <tr>
-                <td>#1002</td>
-              
-                <td>Chicken Pizza</td>
-                <td><span class="status preparing">Preparing</span></td>
-                <td>@DateTime.Today.ToString("dd MMM yyyy")</td>
-                <td>
-                    <button class="view-btn">
-                        <i class="fa-solid fa-eye"></i> View
-                    </button>
-                </td>
-            </tr>
+                            <td>
+                                <span class="status">
+                                    @ticket.TicketStatus
+                                </span>
+                            </td>
 
-            <tr>
-                <td>#1003</td>
-                
-                <td>Cheese Crust Maxx</td>
-                <td><span class="status completed">Completed</span></td>
-                <td>@DateTime.Today.ToString("dd MMM yyyy")</td>
-                <td>
-                    <button class="view-btn">
-                        <i class="fa-solid fa-eye"></i> View
-                    </button>
-                </td>
-            </tr>
+                            <td>
+                                @(ticket.StartTime?.ToString("dd MMM yyyy"))
+                            </td>
 
-        </tbody>
+                            <td>
+                            <a asp-action="ViewItems"
+                               asp-controller="Kitchen"
+                               asp-route-orderId="@ticket.OrderId"
+                               class="action-btn view-btn">
+                                <i class="fa-solid fa-eye"></i> View
+                            </a>
+
+                            @if (ticket.TicketStatus == TicketStatus.QUEUED)
+                            {
+                                <form asp-action="markItemPrepared"
+                                      asp-controller="Kitchen"
+                                      method="post"
+                                      style="display:inline;">
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@ticket.TicketId" />
+
+                                    <button type="submit" class="action-btn start-btn">
+                                        <i class="fa-solid fa-play"></i>
+                                        Start Preparing
+                                    </button>
+
+                                </form>
+                            }
+
+                            @if (ticket.TicketStatus == TicketStatus.IN_PROGRESS)
+                            {
+                                <form asp-action="completeOrder" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@ticket.TicketId" />
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fa-solid fa-check"></i> Complete
+                                    </button>
+                                </form>
+                            }
+                                                          
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        
 
     </table>
 
@@ -145,23 +203,7 @@
 
 </div>
  <script>
-    const pendingOrders = [
-        { id: "#1001",  item: "Farm House Pizza+3 more", status: "Pending", date: "13 Jul 2026" },
-        { id: "#1002",  item: "Chicken Biryani+1 more", status: "Pending", date: "13 Jul 2026" }
-    ];
-
-    const preparingOrders = [
-        { id: "#1003", item: "Veg Fried Rice +4 more", status: "Preparing", date: "13 Jul 2026" }
-    ];
-
-    const completedOrders = [
-        { id: "#1004",  item: "Paneer Butter Masala +4 more", status: "Completed", date: "13 Jul 2026" }
-    ];
-
-    const delayedOrders = [
-        { id: "#1005",  item: "Burger Combo", status: "Delayed", date: "13 Jul 2026" }
-    ];
-
+   
     function showOrders(type) {
 
         let orders = [];

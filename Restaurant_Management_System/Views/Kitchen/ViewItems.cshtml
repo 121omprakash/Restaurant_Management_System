@@ -1,0 +1,74 @@
+﻿@model List<Restaurant_Management_System.Models.OrderItem>
+
+@{
+    ViewData["Title"] = "Order Items";
+    Layout = "~/Views/Shared/_ChefLayout.cshtml";
+}
+<div class="view-items-container">
+
+    <div class="page-header">
+        <h2>Order #@ViewBag.OrderId</h2>
+        <a asp-action="OrderManagement" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+        </a>
+    </div>
+
+    <div class="items-card">
+
+        <table class="items-table">
+
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Recipe</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            No Items Found
+                        </td>
+                    </tr>
+                }
+
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.MenuItem.ItemName</td>
+
+                            <td>@item.Quantity</td>
+
+                            <td>
+
+                                <a asp-action="ViewRecipe"
+                                   asp-route-menuItemId="@item.MenuItemId"
+                                   class="recipe-btn">
+
+                                    <i class="fa-solid fa-book-open"></i>
+
+                                    View Recipe
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
