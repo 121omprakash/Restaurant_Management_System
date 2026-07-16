@@ -53,7 +53,7 @@ public class EmployeeController : Controller
         else if (role == "Chef" && user.IsActive)
         {
             // Fixed: Routes to ChefController matching your role-based folder structure
-            return RedirectToAction("Dashboard", "Kitchen");
+            return RedirectToAction("OrderManagement", "Kitchen");
         }
         else if (role == "Manager" && user.IsActive && user.IsActive)
         {

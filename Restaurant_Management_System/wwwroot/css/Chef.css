@@ -308,44 +308,10 @@ html, body {
     background-color: rgba(125, 125, 125, 0.04) !important;
 }
 
-.emp-id-badge {
-    font-family: 'SFMono-Regular', Consolas, monospace;
-    font-weight: 600;
-    color: var(--accent-color) !important;
-}
+
 
 /* Modern clean list items for summary sections */
-.kitchen-summary-list, .kitchen-notification-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
 
-    .kitchen-summary-list li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 0;
-        border-bottom: 1px solid var(--border-color);
-        color: var(--text-main);
-    }
-
-        .kitchen-summary-list li:last-child {
-            border-bottom: none;
-        }
-
-    .kitchen-notification-list li {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 0;
-        border-bottom: 1px solid var(--border-color);
-        color: var(--text-main);
-    }
-
-        .kitchen-notification-list li:last-child {
-            border-bottom: none;
-        }
 
 /* ORDER CARDS */
 
@@ -418,12 +384,14 @@ html, body {
     }
 /* ===== Order History Card ===== */
 
+
 .table-card {
-    background: #fff;
-    border: 1px solid #d9d9d9;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 22px;
     margin-top: 25px;
+    color: var(--text-main);
 }
 
 .table-header {
@@ -437,6 +405,7 @@ html, body {
         margin: 0;
         font-size: 24px;
         font-weight: 600;
+        color: var(--text-main);
     }
 
 .table-tools {
@@ -446,11 +415,14 @@ html, body {
 
 .search-box,
 .filter-box {
-    padding: 10px 14px;
-    border: 1px solid #cfcfcf;
-    border-radius: 10px;
-    outline: none;
+    background: var(--bg-primary);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
 }
+    .search-box::placeholder {
+        color: var(--text-muted);
+    }
+
 
 .search-box {
     width: 260px;
@@ -461,24 +433,30 @@ html, body {
 .order-table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #d9d9d9;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
 }
 
-    .order-table th {
-        background: #f7f7f7;
-        font-weight: 600;
-    }
+.order-table th {
+   
+        background: var(--bg-primary);
+        color: var(--text-main);
+   
 
-    .order-table th,
-    .order-table td {
-        border: 1px solid #d9d9d9;
-        padding: 15px;
-        text-align: left;
-    }
+    font-weight: 600;
+}
 
-    .order-table tbody tr:hover {
-        background: #fafafa;
-    }
+.order-table th,
+.order-table td {
+    border: 1px solid var(--border-color);
+     color:var(--text-main);
+    padding: 15px;
+    text-align: left;
+}
+
+.order-table tbody tr:hover {
+    background: rgba(255,255,255,0.05);
+}
 
 /* ===== Status Badges ===== */
 
@@ -571,43 +549,23 @@ html, body {
 }
 
     .pagination button {
-        border: 1px solid #d9d9d9;
-        background: white;
+        border: 1px solid var(--border-color);
+       background:var(--bg-card);
+         color:var(--text-main);
+        background: var(--bg-card);
         padding: 8px 16px;
         border-radius: 8px;
         cursor: pointer;
     }
-.prepare-btn {
-    background: #f59e0b;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-}
+ 
 
-.complete-btn {
-    background: #16a34a;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-}
 
-.view-btn {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-}
+
 .recipe-tabs {
     display: flex;
     gap: 15px;
     margin: 25px 0;
-    border-bottom: 2px solid #e5e7eb;
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 8px;
 }
 
@@ -617,7 +575,7 @@ html, body {
     padding: 12px 18px;
     font-size: 16px;
     font-weight: 600;
-    color: #6b7280;
+    color: var(--text-muted);
     cursor: pointer;
     position: relative;
     transition: all 0.3s ease;
@@ -645,20 +603,6 @@ html, body {
             background: #d97706;
             border-radius: 2px;
         }
-
-
-
-
-
-
-.recipe-card {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
 
 .recipe-card-header {
     display: flex;
@@ -689,27 +633,21 @@ html, body {
 }
 
     .recipe-table th {
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
+        background: var(--bg-primary);
+         color:var(--text-main);
+        border:1px solid var(--border-color);
         padding: 14px;
         text-align: center;
         font-weight: 600;
-
     }
 
     .recipe-table td {
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border-color);
+        color:var(--text-main);
         padding: 14px;
         text-align: left;
         vertical-align: middle;
     }
-.action-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap;
-}
 
 .action-btn {
     min-width: 120px;
@@ -719,30 +657,149 @@ html, body {
     gap: 6px;
 }
 
-    .recipe-table tbody tr:hover {
-        background: #fafafa;
-    }
-
-.pagination {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
+.recipe-table tbody tr:hover {
+    background: rgba(255,255,255,0.05);
 }
 
-    .pagination button {
-        border: 1px solid #d1d5db;
-        background: white;
-        padding: 8px 14px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
+.recipe-table-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    color: var(--text-main);
+}
+.recipe-card-header h3 {
+    color: var(--text-main);
+}
+
+.recipe-subtitle {
+    color: var(--text-muted);
+}
+.page-header h2 {
+    color: var(--text-main);
+}
+
+.page-header p {
+    color: var(--text-muted);
+}
 .action-btn {
-    display:flex;
-    align-items:center;
-    gap: 8px;
-    flex-wrap:nowrap;
-    justify-content:center;
-
+    text-decoration: none !important;
+    color: white !important;
 }
- 
+
+    .action-btn:hover {
+        text-decoration: none !important;
+        color: white !important;
+    }
+.view-items-container {
+    padding: 30px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+    .page-header h2 {
+        margin: 0;
+    }
+
+.back-btn {
+    text-decoration: none;
+    background: #3b82f6;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+    .back-btn:hover {
+        color: white;
+        text-decoration: none;
+    }
+
+.items-card {
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .items-table th {
+        padding: 16px;
+        text-align: left;
+    }
+
+    .items-table td {
+        padding: 16px;
+        border-top: 1px solid rgba(128,128,128,.2);
+    }
+
+.recipe-btn {
+    background: #22c55e;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+    .recipe-btn:hover {
+        color: white;
+        text-decoration: none;
+    }
+
+/* ---------- Light Theme ---------- */
+
+body.light-mode .items-card {
+    background: #ffffff;
+}
+
+body.light-mode .items-table th {
+    background: #f5f5f5;
+}
+
+body.light-mode .items-table td {
+    color: #333;
+}
+
+/* ---------- Dark Theme ---------- */
+
+body.dark-mode .items-card {
+    background: #2b3445;
+}
+
+body.dark-mode .items-table th {
+    background: #202938;
+    color: white;
+}
+
+body.dark-mode .items-table td {
+    color: #f3f4f6;
+}
+search-filter-form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.search-box {
+    width: 280px;
+}
+
+.status-filter {
+    width: 180px;
+}
+
+.search-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
