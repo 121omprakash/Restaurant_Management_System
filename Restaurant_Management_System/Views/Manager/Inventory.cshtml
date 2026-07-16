@@ -15,19 +15,7 @@
                 <i class="bi bi-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
                 <input type="text" placeholder="Search inventory items..." style="width: 100%; padding: 10px 10px 10px 36px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9rem; outline: none;" />
             </div>
-            <select style="padding: 10px 16px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9rem; background-color: white; color: #334155; cursor: pointer;">
-                <option>All Categories</option>
-                <option>Veggies & Dairy</option>
-                <option>Meat & Poultry</option>
-                <option>Spices & Oils</option>
-                <option>Beverages Stock</option>
-            </select>
         </div>
-
-        <!-- Right Side: Action Add Button -->
-        <button style="background-color: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-            <i class="bi bi-plus-lg"></i> Add Stock Item
-        </button>
     </div>
 
     <!-- INVENTORY DATA TABLE -->
@@ -36,11 +24,9 @@
             <thead>
                 <tr style="border-bottom: 2px solid #f1f5f9; color: #64748b; font-weight: 600;">
                     <th style="padding: 14px 16px;">Item Name</th>
-                    <th style="padding: 14px 16px;">Category</th>
                     <th style="padding: 14px 16px;">Unit Price</th>
                     <th style="padding: 14px 16px;">Current Stock</th>
                     <th style="padding: 14px 16px;">Status</th>
-                    <th style="padding: 14px 16px; text-align: right;">Actions</th>
                 </tr>
             </thead>
             <tbody style="color: #334155; font-weight: 500;">
@@ -49,11 +35,9 @@
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 16px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background-color: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #64748b;"><i class="bi bi-box"></i></div>
                             <span>Mozzarella Cheese block</span>
                         </div>
                     </td>
-                    <td style="padding: 16px; color: #64748b;">Dairy</td>
                     <td style="padding: 16px;">₹450 / kg</td>
                     <td style="padding: 16px;">2.0 kg</td>
                     <td style="padding: 16px;">
@@ -70,11 +54,9 @@
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 16px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background-color: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #64748b;"><i class="bi bi-box"></i></div>
                             <span>Fresh Tomatoes</span>
                         </div>
                     </td>
-                    <td style="padding: 16px; color: #64748b;">Veggies</td>
                     <td style="padding: 16px;">₹40 / kg</td>
                     <td style="padding: 16px;">45.5 kg</td>
                     <td style="padding: 16px;">
@@ -91,11 +73,9 @@
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 16px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background-color: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #64748b;"><i class="bi bi-box"></i></div>
                             <span>Chicken Breast crust</span>
                         </div>
                     </td>
-                    <td style="padding: 16px; color: #64748b;">Meat & Poultry</td>
                     <td style="padding: 16px;">₹280 / kg</td>
                     <td style="padding: 16px;">0.0 kg</td>
                     <td style="padding: 16px;">
@@ -110,16 +90,6 @@
 
             </tbody>
         </table>
-    </div>
-
-    <!-- BOTTOM PAGINATION ROW -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; font-size: 0.85rem; color: #64748b;">
-        <span>Showing 1 to 3 of 3 items</span>
-        <div style="display: flex; gap: 4px;">
-            <button style="border: 1px solid #cbd5e1; background: white; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: #64748b;"><i class="bi bi-chevron-left"></i></button>
-            <button style="border: none; background: #2563eb; color: white; padding: 6px 12px; border-radius: 6px; font-weight: 600; cursor: pointer;">1</button>
-            <button style="border: 1px solid #cbd5e1; background: white; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: #64748b;"><i class="bi bi-chevron-right"></i></button>
-        </div>
     </div>
 
 </div>

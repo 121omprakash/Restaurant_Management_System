@@ -23,20 +23,11 @@
             <select id="itemCategorySelect" class="form-select">
                 <option id="cat-veg" value="Veg Pizza">Veg Pizza</option>
                 <option id="cat-nonveg" value="Non-Veg Pizza">Non-Veg Pizza</option>
-                <option id="cat-sides" value="Sides">Sides</option>
             </select>
         </div>
         <div class="form-group">
             <label>Price (₹)</label>
             <input type="text" id="itemPriceInput" value="" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>Preparation Time</label>
-            <input type="text" id="itemTimeInput" value="" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>Description</label>
-            <textarea id="itemDescTextarea" rows="5" class="form-control"></textarea>
         </div>
         <div class="form-group">
             <label>Status</label>
@@ -71,21 +62,21 @@
 
         const menuItemsData = {
 
-            "1": { name: "Farm House Pizza", category: "Veg Pizza", price: "299", time: "15 Minutes", img: "farmhouse.jpg", desc: "Fresh vegetables, mozzarella cheese, tomato sauce and herbs." },
+            "1": { name: "Farm House Pizza", category: "Veg Pizza", price: "299", img: "farmhouse.jpg"},
 
-            "2": { name: "Veggie Supreme Pizza", category: "Veg Pizza", price: "349", time: "18 Minutes", img: "veggiesupreme.jpg", desc: "Loaded with crisp bell peppers, sweet corn, black olives, onions, and extra cheese." },
+            "2": { name: "Veggie Supreme Pizza", category: "Veg Pizza", price: "349", img: "veggiesupreme.jpg" },
 
-            "3": { name: "Ultimate Cheese Pizza", category: "Veg Pizza", price: "399", time: "12 Minutes", img: "ultimatecheese.jpg", desc: "An indulgent blend of Mozzarella, Cheddar, Gouda, and Parmesan cheeses with classic herb sauce." },
+            "3": { name: "Ultimate Cheese Pizza", category: "Veg Pizza", price: "399", img: "ultimatecheese.jpg"},
 
-            "4": { name: "Paneer Pizza", category: "Veg Pizza", price: "329", time: "15 Minutes", img: "paneerpizza.jpg", desc: "Spiced paneer cubes, capsicum, red paprika, and signature spicy sauce." },
+            "4": { name: "Paneer Pizza", category: "Veg Pizza", price: "329", img: "paneerpizza.jpg"},
 
-            "5": { name: "Chicken Tikka Pizza", category: "Non-Veg Pizza", price: "449", time: "20 Minutes", img: "chickentikka.jpg", desc: "Tandoori chicken tikka chunks, sliced onions, mint drizzle, and mozzarella." },
+            "5": { name: "Chicken Tikka Pizza", category: "Non-Veg Pizza", price: "449", img: "chickentikka.jpg" },
 
-            "6": { name: "BBQ Chicken Pizza", category: "Non-Veg Pizza", price: "459", time: "20 Minutes", img: "bbqchicken.jpg", desc: "Smoked grilled chicken pieces tossed in tangy BBQ sauce with red onions and cilantro." },
+            "6": { name: "BBQ Chicken Pizza", category: "Non-Veg Pizza", price: "459",  img: "bbqchicken.jpg" },
 
-            "7": { name: "Fries", category: "Sides", price: "99", time: "7 Minutes", img: "fries.jpg", desc: "Golden brown, crispy crinkled potato fries lightly seasoned with sea salt." },
+            "7": { name: "Fries", category: "Sides", price: "99", img: "fries.jpg"},
 
-            "8": { name: "Pepperoni Pizza", category: "Non-Veg Pizza", price: "499", time: "15 Minutes", img: "pepperoni.jpg", desc: "Classic American favorite loaded with pork pepperoni slices and stringy mozzarella." }
+            "8": { name: "Pepperoni Pizza", category: "Non-Veg Pizza", price: "499", img: "pepperoni.jpg"}
 
         };
 
