@@ -1,26 +1,34 @@
  /* 1. CORE ADMINISTRATIVE LAYOUT (Full Screen & Adaptive Scaling) */
 
-body {
+html, body {
     margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden; /* Prevents the entire window/body from scrolling */
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Force the main container to sit across the entire viewport */
+header {
+    height: 71px; /* Matches your navigation height */
+    flex-shrink: 0;
+}
+
+/* The wrapper holds the sidebar and main area, taking up remaining vertical space */
 .wrapper {
     display: flex;
+    height: calc(100vh - 71px - 45px); /* Subtracts Header (71px) and Footer (45px) */
     width: 100vw;
-    height: calc(100vh - 71px); /* Accounts for custom top navigation bar */
     overflow: hidden;
 }
 
-/* Updated Sidebar to occupy full height and push logout actions down */
+/* Sidebar is locked to the height of the wrapper, independently scrollable if items overflow */
 .sidebar {
     width: 260px;
     height: 100%;
     overflow-y: auto;
     flex-shrink: 0;
-    position: sticky;
-    top: 0;
     background-color: var(--bg-card);
     border-right: 1px solid var(--border-color);
     color: var(--text-main);
@@ -30,17 +38,39 @@ body {
     justify-content: space-between;
 }
 
+/* The workspace container takes remaining horizontal space and handles internal scrolling */
+.main-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+    min-width: 0;
+}
+
+/* Only this element will show a scrollbar if you have a long list of employees */
 .main-content {
     flex: 1;
-    height: 100%;
-    overflow-y: auto; /* Independent content container scrolling */
+    overflow-y: auto;
     padding: 30px;
     background-color: var(--bg-primary);
     transition: background-color 0.3s ease;
 }
 
+/* Full Width Global Footer pinned perfectly below the wrapper */
+.custom-footer {
+    height: 45px;
+    width: 100vw;
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border-color) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+
 /* 2. SIDEBAR PROFILE & NAVIGATION MENU (With Bottom Pins) */
-   
 
 .profile {
     text-align: center;
