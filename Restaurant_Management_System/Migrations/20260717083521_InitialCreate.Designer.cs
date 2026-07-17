@@ -12,8 +12,8 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-    [Migration("20260710104802_Add_All_tables")]
-    partial class Add_All_tables
+    [Migration("20260717083521_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,7 +101,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.Property<string>("EmpId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -119,6 +119,9 @@ namespace Restaurant_Management_System.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmpId")
+                        .IsUnique();
 
                     b.ToTable("Employees");
 
@@ -330,6 +333,67 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("Restaurant_Management_System.Models.SystemSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("BaseCgstPercentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BaseSgstPercentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CorporateEmail")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("LowStockThreshold")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhysicalAddress")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("PrimaryPhone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("RestaurantName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("TaxIdentifier")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SystemSettings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BaseCgstPercentage = 9.00m,
+                            BaseSgstPercentage = 9.00m,
+                            CorporateEmail = "operations@pizzahub.com",
+                            LowStockThreshold = 15,
+                            PhysicalAddress = "1024, Banjara Hills, Hyderabad, Telangana",
+                            PrimaryPhone = "+91 987654321",
+                            RestaurantName = "Pizza Hub",
+                            TaxIdentifier = "GSTIN9283471029B1Z4"
+                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.TableStatus", b =>

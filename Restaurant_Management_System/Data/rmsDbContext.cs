@@ -28,6 +28,7 @@ namespace Restaurant_Management_System.Data
         {
             base.OnModelCreating(modelBuilder);
 
+<<<<<<< HEAD
             // Store enum values as strings in the database to match existing DB data
             modelBuilder.Entity<Models.Ingredient>()
                 .Property(i => i.StockStatus)
@@ -36,6 +37,21 @@ namespace Restaurant_Management_System.Data
             modelBuilder.Entity<Models.Ingredient>()
                 .Property(i => i.UnitOfMeasure)
                 .HasConversion<string>();
+=======
+            // Fluent API configuration for uniqueness
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.EmpId)
+                .IsUnique();
+
+            modelBuilder.Entity<Ingredient>()
+               .HasIndex(i => i.IngredientName)
+               .IsUnique();
+
+            modelBuilder.Entity<MenuItem>()
+                .HasIndex(m => m.ItemName)
+                .IsUnique();
+
+>>>>>>> 7723e7d2dc8fa70eef0dcda366d7fc159c58a78c
 
             // Data Seeding for the User table using explicit primary keys (Id)
             modelBuilder.Entity<Employee>().HasData(
@@ -59,8 +75,7 @@ namespace Restaurant_Management_System.Data
                     PhysicalAddress = "1024, Banjara Hills, Hyderabad, Telangana",
                     TaxIdentifier = "GSTIN9283471029B1Z4",
                     BaseCgstPercentage = 9.00m,
-                    BaseSgstPercentage = 9.00m,
-                    LowStockThreshold = 15
+                    BaseSgstPercentage = 9.00m
                 }
             );
         }

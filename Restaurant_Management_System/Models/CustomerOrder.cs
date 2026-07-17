@@ -30,7 +30,7 @@ namespace Restaurant_Management_System.Models
 
         public ICollection<KitchenTicket> KitchenTickets { get; set; }
             = new List<KitchenTicket>();
-
+         
         public BillInvoice? BillInvoice { get; set; }
     }
 }

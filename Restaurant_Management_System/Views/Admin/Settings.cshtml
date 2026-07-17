@@ -99,20 +99,7 @@
                             <span asp-validation-for="BaseSgstPercentage" class="text-danger small"></span>
                         </div>
 
-                        <div class="col-12 mt-4 pt-2 border-top" style="border-color: var(--border-color) !important;">
-                            <div class="d-flex align-items-center gap-2 mb-3">
-                                <i class="fa-solid fa-triangle-exclamation text-danger"></i>
-                                <h6 class="mb-0 fw-bold" style="color: var(--text-main);">System Inventory Settings</h6>
-                            </div>
-                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Low Stock Notification Lower Limit Threshold</label>
-                            <div class="input-group">
-                                <input type="number" asp-for="LowStockThreshold" class="form-control" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-main);" required />
-                                <span class="input-group-text border-secondary" style="background-color: var(--border-color); color: var(--text-main);">Units</span>
-                            </div>
-                            <span asp-validation-for="LowStockThreshold" class="text-danger small"></span>
-                            <small class="text-muted d-block mt-1">Triggers platform alerts when tracking component inventories dip below this minimum unit count.</small>
-                        </div>
-
+                       
                         <!-- Restored original right-side configuration utility action button inside card container context -->
                         <div class="col-12 text-end mt-4">
                             <button type="submit" class="btn btn-warning rounded-pill text-dark px-4 py-2 small fw-bold">
