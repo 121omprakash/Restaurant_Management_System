@@ -28,6 +28,15 @@ namespace Restaurant_Management_System.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Store enum values as strings in the database to match existing DB data
+            modelBuilder.Entity<Models.Ingredient>()
+                .Property(i => i.StockStatus)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Models.Ingredient>()
+                .Property(i => i.UnitOfMeasure)
+                .HasConversion<string>();
+
             // Data Seeding for the User table using explicit primary keys (Id)
             modelBuilder.Entity<Employee>().HasData(
                 new Employee { Id = 1, Name = "Shaik", EmpId = "AD01", password = "AD01@123", Role = "Admin", IsActive= true}, // Admin

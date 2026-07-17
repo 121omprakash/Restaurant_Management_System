@@ -1,4 +1,5 @@
 ﻿@model Restaurant_Management_System.Models.Ingredient
+@using Restaurant_Management_System.ENUM
 @{
     ViewData["Title"] = "Edit Item";
     Layout = "~/Views/Shared/_InventoryLayout.cshtml";
@@ -14,9 +15,19 @@
         <input asp-for="IngredientName" class="form-control" />
     </div>
 
+
+    <div class="mb-3">
+        <label asp-for="UnitOfMeasure"></label>
+
+        <select asp-for="UnitOfMeasure"
+                asp-items="Html.GetEnumSelectList<UnitOfMeasure>()"
+                class="form-control">
+        </select>
+    </div>
+
   @*   <div class="mb-3">
         <label asp-for="Category" class="form-label"></label>
-        <input asp-for="Category" class="form-co    ntrol" />
+        <input asp-for="Category" class="form-control" />
     </div> *@
 
     <div class="mb-3">

@@ -1,4 +1,5 @@
-﻿@model List<Restaurant_Management_System.Models.Ingredient>
+﻿@using Restaurant_Management_System.ENUM
+@model List<Restaurant_Management_System.Models.Ingredient>
 
 @{
     ViewData["Title"] = "Inventory Management";
@@ -28,6 +29,7 @@
                 <thead>
                     <tr>
                         <th>Item</th>
+                        <th>Unit</th>
                         <th>Stock</th>
                         <th>Reorder Level</th>
                         <th>Status</th>
@@ -41,19 +43,23 @@
                     {
                         <tr>
                             <td>@item.IngredientName</td>
+                            <td>@item.UnitOfMeasure</td>
                             <td>@item.CurrentStock</td>
-              
                             <td>@item.ReorderLevel</td>
 
                             <!-- STATUS -->
                             <td>
-                                @if (item.CurrentStock < item.ReorderLevel)
+                             @if (item.StockStatus == StockStatus.OUT_OF_STOCK)
                                 {
-                                    <span class="badge bg-danger">Low</span>
+                                    <span class="badge bg-danger">Out Of Stock</span>
+                                }
+                                else if (item.StockStatus == StockStatus.LOW)
+                                {
+                                    <span class="badge bg-warning text-dark">Low</span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-success">In Stock</span>
+                                    <span class="badge bg-success">Available</span>
                                 }
                             </td>
 

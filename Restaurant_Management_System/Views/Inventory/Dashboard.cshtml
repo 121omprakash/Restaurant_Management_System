@@ -1,4 +1,5 @@
 ﻿@model Restaurant_Management_System.ViewModel.InventoryDashboardViewModel
+@using Restaurant_Management_System.ENUM
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_InventoryLayout.cshtml";
@@ -63,15 +64,18 @@
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <div>
                             <strong>@item.IngredientName</strong><br />
-                            <small>@item.CurrentStock @("units") - Reorder at @item.ReorderLevel</small>
+                            @* <small>@item.CurrentStock @("units") - Reorder at @item.ReorderLevel</small> *@
+                            <small>
+                                @item.CurrentStock @item.UnitOfMeasure
+                            </small>
                         </div>
-                        @if (item.CurrentStock < item.ReorderLevel / 2)
+                        @if (item.StockStatus == StockStatus.OUT_OF_STOCK)
                         {
-                            <span class="badge bg-danger">critical</span>
+                            <span class="badge bg-danger">Out Of Stock</span>
                         }
-                        else
+                        else if (item.StockStatus == StockStatus.LOW)
                         {
-                            <span class="badge bg-warning text-dark">low</span>
+                            <span class="badge bg-warning text-dark">Low</span>
                         }
                     </div>
                     <hr />
