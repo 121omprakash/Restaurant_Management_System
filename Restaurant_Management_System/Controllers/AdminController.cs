@@ -1,137 +1,133 @@
-﻿    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Restaurant_Management_System.Data;
 using Restaurant_Management_System.Models;
+using System.Linq;
+
 namespace Restaurant_Management_System.Controllers
+{
+    public class AdminController : Controller
     {
+        private readonly rmsDbContext _context;
 
-        public class AdminController : Controller
+        public AdminController(rmsDbContext context)
         {
-            // 1. Declare  Database Context variable
-            private readonly rmsDbContext _context;
+            _context = context;
+        }
 
-            // 2. Inject the context through the constructor
-            public AdminController(rmsDbContext context)
-            {
-                _context = context;
-            }
-
-        
         public IActionResult Employees()
         {
-            // Calculate profile totals
             ViewBag.TotalProfiles = _context.Employees.Count();
-            ViewBag.ActiveProfiles = _context.Employees.Count(e => e.IsActive); // Calculates active count here safely!
+            ViewBag.ActiveProfiles = _context.Employees.Count(e => e.IsActive);
             ViewBag.InactiveProfiles = _context.Employees.Count(e => !e.IsActive);
-
-            // Filter role statistics to ONLY count currently Active employees
             ViewBag.SecurityAdmins = _context.Employees.Count(e => e.Role == "Admin" && e.IsActive);
             ViewBag.OperationalStaff = _context.Employees.Count(e => e.Role != "Admin" && e.IsActive);
 
-            // Fetch the entire collection list for the data table grid
-            var usersList = _context.Employees.ToList();
-
-            return View(usersList);
+            return View(_context.Employees.ToList());
         }
 
-        // ADD EMPLOYEE: Receives the POST data from #addUserModal
         [HttpPost]
-        public IActionResult CreateUser(string name, string empId, string password, string role)
+        public IActionResult CreateUser(string name, string password, string role)
         {
-            if (ModelState.IsValid)
+            if (role == "Admin" && _context.Employees.Any(e => e.Role == "Admin"))
             {
-                var newEmp = new Employee { Name = name, EmpId = empId, password = password, Role = role, IsActive = true };
-                _context.Employees.Add(newEmp);
-                _context.SaveChanges();
-                TempData["SuccessMessage"] = "Employee Added Successfully!";
+                TempData["Message"] = "Error: An Administrator account already exists.";
+                return RedirectToAction("Employees");
             }
+
+            // Generate Unique ID
+            string prefix = role.Length >= 2 ? role.Substring(0, 2).ToUpper() : "ST";
+            int count = _context.Employees.Count(e => e.Role == role) + 1;
+            string generatedId = $"{prefix}{count:D2}";
+
+            var newEmp = new Employee
+            {
+                Name = name,
+                EmpId = generatedId,
+                password = password,
+                Role = role,
+                IsActive = true
+            };
+
+            _context.Employees.Add(newEmp);
+            _context.SaveChanges();
+
+            TempData["Message"] = $"Employee Added! ID: {generatedId}";
             return RedirectToAction("Employees");
         }
 
-        // EDIT EMPLOYEE: Receives the POST data from #editUserModal
         [HttpPost]
         public IActionResult EditUser(int id, string name, string role, bool isActive)
         {
             var emp = _context.Employees.Find(id);
-            if (emp != null)
+
+            if (emp == null) return RedirectToAction("Employees");
+            if (!emp.IsActive)
             {
-                emp.Name = name;
-                emp.Role = role;
-                emp.IsActive = isActive;
-                _context.SaveChanges();
-                TempData["SuccessMessage"] = "Employee Updated Successfully!";
+                TempData["Message"] = "Action Denied: You must reactivate the employee before editing their details.";
+                return RedirectToAction("Employees");
             }
+
+            // 1. Prevent deactivating the Admin
+            if (emp.Role == "Admin" && !isActive)
+            {
+                TempData["Message"] = "Action Denied: The Admin account cannot be deactivated.";
+                return RedirectToAction("Employees");
+            }
+
+            // 2. Update properties
+            emp.Name = name;
+            emp.Role = role;
+            emp.IsActive = isActive;
+
+            _context.SaveChanges();
+            TempData["Message"] = "Employee details updated.";
             return RedirectToAction("Employees");
         }
 
-        // DEACTIVATE/TOGGLE STATUS: Receives the POST data from #deleteConfirmModal
         [HttpPost]
         public IActionResult ToggleStatus(int id)
         {
             var emp = _context.Employees.Find(id);
-            if (emp != null)
+            if (emp == null) return RedirectToAction("Employees");
+
+            if (emp.Role == "Admin")
             {
-                emp.IsActive = !emp.IsActive; // Inverts status flag cleanly
+                TempData["Message"] = "Action Denied: The Administrator account cannot be deactivated.";
+            }
+            else
+            {
+                emp.IsActive = !emp.IsActive;
                 _context.SaveChanges();
-                TempData["SuccessMessage"] = emp.IsActive ? "Employee account reactivated!" : "Employee account deactivated successfully.";
+                TempData["Message"] = emp.IsActive ? "Employee reactivated successfully." : "Employee deactivated successfully.";
             }
             return RedirectToAction("Employees");
         }
 
-        public IActionResult Details(int id)
-            {
-                return View();
-            }
-
-        // GET: Admin/Settings
         public IActionResult Settings()
         {
-            // Fetch the single data row (Id = 1) that was populated by data seed
-            var currentSettings = _context.SystemSettings.FirstOrDefault(s => s.Id == 1);
-
-            // Safety check: if for some reason the database row isn't there, send a new empty object
-            if (currentSettings == null)
-            {
-                currentSettings = new SystemSetting { Id = 1 };
-            }
-
-            return View(currentSettings);
+            var settings = _context.SystemSettings.FirstOrDefault(s => s.Id == 1) ?? new SystemSetting { Id = 1 };
+            return View(settings);
         }
 
-        // POST: Admin/UpdateSettings
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateSettings(SystemSetting updatedData)
         {
-            if (!ModelState.IsValid)
+            var existing = _context.SystemSettings.FirstOrDefault(s => s.Id == 1);
+            if (existing != null)
             {
-                return View("Settings", updatedData);
-            }
-
-            // Grab the tracked row from database
-            var existingSettings = _context.SystemSettings.FirstOrDefault(s => s.Id == 1);
-
-            if (existingSettings != null)
-            {
-                // Map the edited form fields onto the database object
-                existingSettings.RestaurantName = updatedData.RestaurantName;
-                existingSettings.PrimaryPhone = updatedData.PrimaryPhone;
-                existingSettings.CorporateEmail = updatedData.CorporateEmail;
-                existingSettings.PhysicalAddress = updatedData.PhysicalAddress;
-                existingSettings.TaxIdentifier = updatedData.TaxIdentifier;
-                existingSettings.BaseCgstPercentage = updatedData.BaseCgstPercentage;
-                existingSettings.BaseSgstPercentage = updatedData.BaseSgstPercentage;
-                existingSettings.LowStockThreshold = updatedData.LowStockThreshold;
-
+                existing.RestaurantName = updatedData.RestaurantName;
+                existing.PrimaryPhone = updatedData.PrimaryPhone;
+                existing.CorporateEmail = updatedData.CorporateEmail;
+                existing.PhysicalAddress = updatedData.PhysicalAddress;
+                existing.TaxIdentifier = updatedData.TaxIdentifier;
+                existing.BaseCgstPercentage = updatedData.BaseCgstPercentage;
+                existing.BaseSgstPercentage = updatedData.BaseSgstPercentage;
                 _context.SaveChanges();
-                TempData["SuccessMessage"] = "System configurations updated successfully!";
+                TempData["Message"] = "Settings updated successfully!";
             }
-
             return RedirectToAction("Settings");
         }
-
-
-
     }
-    }
+}

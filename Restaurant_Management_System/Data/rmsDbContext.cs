@@ -28,6 +28,20 @@ namespace Restaurant_Management_System.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Fluent API configuration for uniqueness
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.EmpId)
+                .IsUnique();
+
+            modelBuilder.Entity<Ingredient>()
+               .HasIndex(i => i.IngredientName)
+               .IsUnique();
+
+            modelBuilder.Entity<MenuItem>()
+                .HasIndex(m => m.ItemName)
+                .IsUnique();
+
+
             // Data Seeding for the User table using explicit primary keys (Id)
             modelBuilder.Entity<Employee>().HasData(
                 new Employee { Id = 1, Name = "Shaik", EmpId = "AD01", password = "AD01@123", Role = "Admin", IsActive= true}, // Admin
@@ -50,8 +64,7 @@ namespace Restaurant_Management_System.Data
                     PhysicalAddress = "1024, Banjara Hills, Hyderabad, Telangana",
                     TaxIdentifier = "GSTIN9283471029B1Z4",
                     BaseCgstPercentage = 9.00m,
-                    BaseSgstPercentage = 9.00m,
-                    LowStockThreshold = 15
+                    BaseSgstPercentage = 9.00m
                 }
             );
         }

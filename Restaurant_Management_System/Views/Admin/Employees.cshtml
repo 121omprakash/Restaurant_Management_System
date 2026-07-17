@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Restaurant_Management_System.Models.Employee>
+
 @{
     ViewData["Title"] = "Employee Management";
     Layout = "_AdminLayout";
@@ -6,6 +7,8 @@
     // Data Definition: Valid local system role descriptors
     var availableRoles = new[] { "Admin", "Chef", "Manager", "Waiter", "Cashier", "Inventory Clerk" };
 }
+
+
 
 <!-- Content Header: Section Title and Primary Call-to-Action Add-Button Panel -->
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -192,10 +195,6 @@
                         <input type="text" name="name" class="form-control bg-transparent border-secondary rounded-3 py-2" required placeholder="Ex: John Doe" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small text-muted">Employee ID</label>
-                        <input type="text" name="empId" class="form-control bg-transparent border-secondary rounded-3 py-2" required placeholder="Ex: 1001" />
-                    </div>
-                    <div class="mb-3">
                         <label class="form-label small text-muted">Password</label>
                         <input type="password" name="password" class="form-control bg-transparent border-secondary rounded-3 py-2" required placeholder="••••••••" />
                     </div>
@@ -204,7 +203,11 @@
                         <select name="role" class="form-select bg-transparent border-secondary rounded-3 py-2" required>
                             @foreach (var role in availableRoles)
                             {
-                                <option value="@role">@role</option>
+                                // Simply skip "Admin" so it never appears in the list
+                                @if (role != "Admin")
+                                {
+                                    <option value="@role">@role</option>
+                                }
                             }
                         </select>
                     </div>
@@ -231,7 +234,7 @@
                 <div class="modal-body p-4">
                     <div class="mb-3">
                         <label class="form-label small text-muted">Employee ID</label>
-                        <input type="text" id="edit_UserId" class="form-control rounded-3 py-2 opacity-75 bg-body-secondary text-muted" readonly style="cursor: not-allowed;" />
+                        <input type="text" id="edit_UserId" class="form-control rounded-3 py-2 opacity-75 bg-body-secondary text-muted" readonly />
                     </div>
                     <div class="mb-3">
                         <label class="form-label small text-muted">Full Name</label>
@@ -242,17 +245,20 @@
                         <select name="role" id="edit_Role" class="form-select bg-transparent border-secondary rounded-3 py-2">
                             @foreach (var role in availableRoles)
                             {
-                                <option value="@role">@role</option>
+                                @if (role != "Admin")
+                                {
+                                    <option value="@role">@role</option>
+                                }
                             }
                         </select>
                     </div>
                     <div class="mb-0 form-check form-switch pt-2">
                         <input class="form-check-input" type="checkbox" name="isActive" id="edit_IsActive" value="true" />
-                        <label class="form-check-label small ms-2" for="edit_IsActive" style="color: var(--text-main); opacity: 0.7;">Account Active Status</label>
+                        <label class="form-check-label small ms-2" for="edit_IsActive">Account Active Status</label>
                     </div>
                 </div>
-                <div class="modal-footer border-top border-secondary px-4">
-                    <button type="button" class="btn btn-sm btn-outline-secondary px-3 py-2 rounded-3" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-footer ...">
+                    <button type="button" class="btn btn-sm btn-outline-secondary px-3 py-2 rounded-3" data-bs-dismiss="modal">Discard</button>
                     <button type="submit" class="btn btn-sm btn-warning text-dark fw-bold px-4 py-2 rounded-3">Update Changes</button>
                 </div>
             </form>

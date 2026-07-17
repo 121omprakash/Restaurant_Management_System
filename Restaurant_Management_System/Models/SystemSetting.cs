@@ -36,10 +36,6 @@ namespace Restaurant_Management_System.Models
 
         [Required]
         public decimal BaseSgstPercentage { get; set; } // State Tax
-
-        // Inventory Settings
-        [Required]
-        public int LowStockThreshold { get; set; }
     }
 }
 
