@@ -2,7 +2,7 @@
 
 namespace Restaurant_Management_System.Models
 {
-    public class SystemSetting
+    public class RestaurantProfile
     {
 
         [Key]
