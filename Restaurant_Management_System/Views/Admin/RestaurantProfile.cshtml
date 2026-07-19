@@ -1,14 +1,14 @@
-﻿@model Restaurant_Management_System.Models.SystemSetting
+﻿@model Restaurant_Management_System.Models.RestaurantProfile
 
 @{
-    ViewData["Title"] = "System Settings";
+    ViewData["Title"] = "Restaurant Profile";
     Layout = "_AdminLayout";
 }
 
 <div class="page-settings container-fluid p-0">
     <div class="mb-4 d-flex justify-content-between align-items-center">
         <div>
-            <h3 class="page-title mb-1" style="font-size: 1.6rem; color: var(--text-main);">System Configurations</h3>
+            <h3 class="page-title mb-1" style="font-size: 1.6rem; color: var(--text-main);">Restaurant Configurations</h3>
             <p class="small mb-0" style="color: var(--text-muted);">Manage global core restaurant assets, tax tracking structures, and inventory notification rules.</p>
         </div>
 
@@ -23,7 +23,7 @@
     </div>
 
     <!-- Master form wrapping both cards so either button successfully sends the full model state to the DB -->
-    <form asp-controller="Admin" asp-action="UpdateSettings" method="post">
+    <form asp-controller="Admin" asp-action="UpdateRestaurantProfile" method="post">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurant_Management_System.Models
 {
-    public class TableStatus
+    public class RestaurantTable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

@@ -23,7 +23,7 @@ namespace Restaurant_Management_System.Models
         public OrderStatus OrderStatus { get; set; }
 
         [ForeignKey(nameof(TableNumber))]
-        public TableStatus TableStatus { get; set; } = null!;
+        public RestaurantTable TableStatus { get; set; } = null!;
 
         public ICollection<OrderItem> OrderItems { get; set; }
             = new List<OrderItem>();
