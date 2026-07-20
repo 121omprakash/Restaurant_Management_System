@@ -1,6 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Restaurant_Management_System.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Restaurant_Management_System.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<rmsDbContext>(options => options.UseSqlServer(conn
 //builder.Services.AddAuthorization();
 
 ////added for authentication and authorization
-
+builder.Services.AddScoped<IBillingService, BillingService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,6 +31,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
