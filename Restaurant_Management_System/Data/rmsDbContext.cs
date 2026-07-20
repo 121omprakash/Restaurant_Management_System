@@ -18,10 +18,10 @@ namespace Restaurant_Management_System.Data
         public DbSet<CustomerOrder> CustomerOrders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<BillInvoice> BillInvoices { get; set; }
-        public DbSet<TableStatus> TableStatuses { get; set; }
+        public DbSet<RestaurantTable> RestaurantTables { get; set; }
         public DbSet<KitchenTicket> KitchenTickets { get; set; }
 
-        public DbSet<SystemSetting> SystemSettings { get; set; }
+        public DbSet<RestaurantProfile> RestaurantProfiles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -65,8 +65,8 @@ namespace Restaurant_Management_System.Data
 
 
             // 2. Data Seeding for the Global System Settings Table
-            modelBuilder.Entity<SystemSetting>().HasData(
-                new SystemSetting
+            modelBuilder.Entity<RestaurantProfile>().HasData(
+                new RestaurantProfile
                 {
                     Id = 1,
                     RestaurantName = "Pizza Hub",

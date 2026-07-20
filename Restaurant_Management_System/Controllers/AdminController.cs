@@ -104,17 +104,17 @@ namespace Restaurant_Management_System.Controllers
             return RedirectToAction("Employees");
         }
 
-        public IActionResult Settings()
+        public IActionResult RestaurantProfile()
         {
-            var settings = _context.SystemSettings.FirstOrDefault(s => s.Id == 1) ?? new SystemSetting { Id = 1 };
-            return View(settings);
+            var details = _context.RestaurantProfiles.FirstOrDefault(s => s.Id == 1) ?? new RestaurantProfile { Id = 1 };
+            return View(details);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateSettings(SystemSetting updatedData)
+        public IActionResult UpdateRestaurantProfile(RestaurantProfile updatedData)
         {
-            var existing = _context.SystemSettings.FirstOrDefault(s => s.Id == 1);
+            var existing = _context.RestaurantProfiles.FirstOrDefault(s => s.Id == 1);
             if (existing != null)
             {
                 existing.RestaurantName = updatedData.RestaurantName;
@@ -125,9 +125,9 @@ namespace Restaurant_Management_System.Controllers
                 existing.BaseCgstPercentage = updatedData.BaseCgstPercentage;
                 existing.BaseSgstPercentage = updatedData.BaseSgstPercentage;
                 _context.SaveChanges();
-                TempData["Message"] = "Settings updated successfully!";
+                TempData["Message"] = "Details updated successfully!";
             }
-            return RedirectToAction("Settings");
+            return RedirectToAction("RestaurantProfile");
         }
     }
 }
