@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Restaurant_Management_System.ViewModel.RecipeManagementViewModel
+
+@{
     ViewData["Title"] = "Recipe Management";
     Layout = "~/Views/Shared/_ChefLayout.cshtml";
 }
@@ -6,24 +8,30 @@
     <h2>Recipe Management</h2>
 </div>
 <div class="recipe-tabs">
-    <button class="recipe-tab active" id="existingTab">
+    <button class="recipe-tab @(Model.ActiveTab == "existing" ? "active" : "")"
+            onclick="location.href='@Url.Action("RecipeManagement", new { tab = "existing" })'">
         <i class="fa-solid fa-book-open"></i>
         Existing Recipes
     </button>
 
-    <button class="recipe-tab" id="pendingTab">
+    <button class="recipe-tab @(Model.ActiveTab == "pending" ? "active" : "")"
+            onclick="location.href='@Url.Action("RecipeManagement", new { tab = "pending" })'">
         <i class="fa-solid fa-clock"></i>
         Pending Recipe Requests
     </button>
+
 </div>
 <div class="recipe-table-card">
     <div class="recipe-card-header">
-
-        <div>
-            <h3 id="recipeTableTitle">Existing Recipes</h3>
-            <p class="recipe-subtitle">
-                View and update recipes for all pizza café menu items.
-            </p>
+                      @if (Model.ActiveTab == "existing")
+            {
+                <h3 id="recipeTableTitle">Existing Recipes</h3>
+            }
+            else
+            {
+                <h3 id="recipeTableTitle">Pending Recipe Requests</h3>
+            }
+        
         </div>
 
         <div class="recipe-table-tools">
@@ -59,10 +67,63 @@
                 <col style="width:15%">
             </colgroup>
 
-            <thead id="recipeTableHead">
+            <thead>
+                <tr>
+                    <th>Menu ID</th>
+                    <th>Menu Item</th>
+                    <th>Category</th>
+                    <th>Preparation Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
             </thead>
-
-            <tbody id="recipeTableBody">
+            <tbody>
+                @if (Model.ActiveTab == "existing")
+                {
+                    foreach (var item in Model.ExistingRecipes)
+                    {
+                        <tr>
+                            <td>@item.MenuItemId</td>
+                            <td>@item.ItemName</td>
+                            <td>@item.Category</td>
+                            <td>@item.PreparationTime min</td>
+                            <td>Recipe Added</td>
+                            <td>
+                                 <a asp-action="ViewRecipe"
+                                       asp-route-menuItemId="@item.MenuItemId"
+                                       class="btn btn-sm btn-info">
+                                        View
+                                    </a>
+ 
+                                    <a asp-action="EditRecipe"
+                                       asp-route-menuItemId="@item.MenuItemId"
+                                       class="btn btn-sm btn-warning">
+                                        Edit
+                                    </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    foreach (var item in Model.PendingRecipes)
+                    {
+                        <tr>
+                            <td>@item.MenuItemId</td>
+                            <td>@item.ItemName</td>
+                            <td>@item.Category</td>
+                            <td>@item.PreparationTime min</td>
+                            <td>Pending</td>
+                            <td>
+                                <a asp-action="AddRecipe"
+                                   asp-route-id="@item.MenuItemId"
+                                   class="btn btn-success btn-sm">
+                                    Add Recipe
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
             </tbody>
 
         </table>
@@ -77,185 +138,3 @@
 
  
 </div>
-<script>
-
-    const existingRecipes = [
-
-    {
-    id:"R001",
-    item:"Margherita Pizza",
-    category:"Pizza",
-    time:"15 mins",
-    updated:"Today"
-    },
-
-    {
-    id:"R002",
-    item:"Veg Supreme Pizza",
-    category:"Pizza",
-    time:"18 mins",
-    updated:"Yesterday"
-    },
-
-    {
-    id:"R003",
-    item:"Cheese Garlic Bread",
-    category:"Sides",
-    time:"8 mins",
-    updated:"Today"
-    }
-
-    ];
-
-    const pendingRecipes = [
-
-    {
-    id:"M101",
-    item:"Mexican Corn Pizza",
-    category:"Pizza",
-    date:"14 Jul 2026"
-    },
-
-    {
-    id:"M102",
-    item:"BBQ Paneer Pizza",
-    category:"Pizza",
-    date:"14 Jul 2026"
-    }
-
-    ];
-
-    loadExisting();
-
-    function loadExisting(){
-
-    document.getElementById("recipeTableTitle").innerHTML="Existing Recipes";
-
-    document.getElementById("recipeTableHead").innerHTML=`
-
-    <tr>
-    <th>Recipe ID</th>
-    <th>Menu Item</th>
-    <th>Category</th>
-    <th>Preparation Time</th>
-    <th>Last Updated</th>
-    <th>Action</th>
-    </tr>
-
-    `;
-
-    let body=document.getElementById("recipeTableBody");
-
-    body.innerHTML="";
-
-    existingRecipes.forEach(recipe=>{
-
-    body.innerHTML+=`
-
-    <tr>
-
-    <td>${recipe.id}</td>
-
-    <td>${recipe.item}</td>
-
-    <td>${recipe.category}</td>
-
-    <td>${recipe.time}</td>
-
-    <td>${recipe.updated}</td>
-
-    <td>
-
-    <button class="view-btn">
-    View / Edit
-    </button>
-
-    </td>
-
-    </tr>
-
-    `;
-
-    });
-
-    }
-
-    function loadPending(){
-
-    document.getElementById("recipeTableTitle").innerHTML="Pending Recipe Requests";
-
-    document.getElementById("recipeTableHead").innerHTML=`
-
-    <tr>
-
-    <th>Menu ID</th>
-
-    <th>Menu Item</th>
-
-    <th>Category</th>
-
-    <th>Date Added</th>
-
-    <th>Action</th>
-
-    </tr>
-
-    `;
-
-    let body=document.getElementById("recipeTableBody");
-
-    body.innerHTML="";
-
-    pendingRecipes.forEach(recipe=>{
-
-    body.innerHTML+=`
-
-    <tr>
-
-    <td>${recipe.id}</td>
-
-    <td>${recipe.item}</td>
-
-    <td>${recipe.category}</td>
-
-    <td>${recipe.date}</td>
-
-    <td>
-
-    <button class="add-btn">
-
-    Add Recipe
-
-    </button>
-
-    </td>
-
-    </tr>
-
-    `;
-
-    });
-
-    }
-
-    document.getElementById("existingTab").onclick=function(){
-
-    document.getElementById("existingTab").classList.add("active");
-
-    document.getElementById("pendingTab").classList.remove("active");
-
-    loadExisting();
-
-    };
-
-    document.getElementById("pendingTab").onclick=function(){
-
-    document.getElementById("pendingTab").classList.add("active");
-
-    document.getElementById("existingTab").classList.remove("active");
-
-    loadPending();
-
-    };
-
-</script>
