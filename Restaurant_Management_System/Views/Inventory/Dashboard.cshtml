@@ -92,7 +92,7 @@
     <!-- Chart -->
     <div class="col-md-6">
         <div class="card shadow-sm p-3 h-100">
-            <h5>Stock Levels Overview</h5>
+            <h5>Top 5 Critical Stock Items</h5>
             <div class="chart-container" style="position:relative;height:300px;">
                 <canvas id="stockChart"></canvas>
             </div>
@@ -105,8 +105,21 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // prepare data from server model
-    const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.IngredientName)));
-    const dataValues = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.CurrentStock)));
+    const labels = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(
+                Model.LowItems
+                     .OrderBy(i => i.CurrentStock)
+                     .Take(5)
+                     .Select(i => i.IngredientName)
+            ));
+
+    const dataValues = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(
+                Model.LowItems
+                     .OrderBy(i => i.CurrentStock)
+                     .Take(5)
+                     .Select(i => i.CurrentStock)
+            ));
 
     const ctx = document.getElementById('stockChart').getContext('2d');
     new Chart(ctx, {
