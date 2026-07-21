@@ -1,4 +1,5 @@
-﻿@model List<Restaurant_Management_System.Models.Ingredient>
+﻿@using Restaurant_Management_System.ENUM
+@model List<Restaurant_Management_System.Models.Ingredient>
 
 @{
     ViewData["Title"] = "Inventory Management";
@@ -14,7 +15,11 @@
             <p class="page-subtitle">Manage inventory items and stock levels</p>
         </div>
 
-
+        <div>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New Ingredient
+            </a>
+        </div>
     </div>
 
     <!-- TABLE CARD -->
@@ -24,10 +29,10 @@
         <div class="table-responsive">
             <table class="table align-middle">
 
-                <!-- TABLE HEADER -->
                 <thead>
                     <tr>
                         <th>Item</th>
+                        <th>Unit</th>
                         <th>Stock</th>
                         <th>Reorder Level</th>
                         <th>Status</th>
@@ -35,49 +40,76 @@
                     </tr>
                 </thead>
 
-                <!-- TABLE BODY -->
                 <tbody>
-                    @foreach (var item in Model)
+
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.IngredientName</td>
+
+                                <td>@item.UnitOfMeasure</td>
+
+                                <td>@item.CurrentStock</td>
+
+                                <td>@item.ReorderLevel</td>
+
+                                <td>
+                                    @if (item.StockStatus == StockStatus.OUT_OF_STOCK)
+                                    {
+                                        <span class="badge bg-danger">
+                                            Out Of Stock
+                                        </span>
+                                    }
+                                    else if (item.StockStatus == StockStatus.LOW)
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            Low
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">
+                                            Available
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-center">
+
+                                    <!-- Edit -->
+                                    
+
+                                    <!-- Delete -->
+                                    <form  class="align-self-sm-auto d-inline-block" asp-action="Delete" asp-route-id="@item.IngredientId" method="post" onsubmit="return confirm('Are you sure you want to delete this ingredient?');">
+                                        <a asp-action="Edit" asp-route-id="@item.IngredientId" class="btn btn-sm btn-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@item.IngredientName</td>
-                            <td>@item.CurrentStock</td>
-              
-                            <td>@item.ReorderLevel</td>
-
-                            <!-- STATUS -->
-                            <td>
-                                @if (item.CurrentStock < item.ReorderLevel)
-                                {
-                                    <span class="badge bg-danger">Low</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-success">In Stock</span>
-                                }
-                            </td>
-
-                            <!-- ACTION BUTTONS -->
-                            @* <td class="action-buttons"> *@
-                            <td class="text-center">
-
-                                                               <a 
-                                   class="btn btn-sm btn-outline-primary me-2">
-                                    <i class="fas fa-edit"></i>                        </a>
-
-                               
-                                <a
-                                        class="btn btn-sm btn-outline-danger me-2">
-                                         <i class="fas fa-trash"></i>
-                                 </a>
-
+                            <td colspan="6" class="text-center">
+                                No inventory items found.
                             </td>
                         </tr>
                     }
+
                 </tbody>
 
             </table>
         </div>
+
     </div>
 
 </div>

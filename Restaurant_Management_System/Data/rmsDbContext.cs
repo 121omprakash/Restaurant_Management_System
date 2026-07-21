@@ -28,6 +28,16 @@ namespace Restaurant_Management_System.Data
         {
             base.OnModelCreating(modelBuilder);
 
+
+            // Store enum values as strings in the database to match existing DB data
+            modelBuilder.Entity<Models.Ingredient>()
+                .Property(i => i.StockStatus)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Models.Ingredient>()
+                .Property(i => i.UnitOfMeasure)
+                .HasConversion<string>();
+
             // Fluent API configuration for uniqueness
             modelBuilder.Entity<Employee>()
                 .HasIndex(e => e.EmpId)
@@ -40,6 +50,7 @@ namespace Restaurant_Management_System.Data
             modelBuilder.Entity<MenuItem>()
                 .HasIndex(m => m.ItemName)
                 .IsUnique();
+
 
 
             // Data Seeding for the User table using explicit primary keys (Id)

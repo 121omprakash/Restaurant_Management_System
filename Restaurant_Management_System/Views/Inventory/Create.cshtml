@@ -1,8 +1,9 @@
-﻿@{
+﻿@using Restaurant_Management_System.ENUM
+@model Restaurant_Management_System.Models.Ingredient
+@{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_InventoryLayout.cshtml";
 }
-
 <h2 class="mb-4">Add New Inventory Item</h2>
 
 <form asp-controller="Inventory"
@@ -10,22 +11,25 @@
       method="post">
     <div class="mb-3">
         <label>Item Name</label>
-        <input type="text" name="Name" class="form-control" required />
+        <input asp-for="IngredientName" class="form-control" />
     </div>
 
     <div class="mb-3">
-        <label>Category</label>
-        <input type="text" name="Category" class="form-control" />
+        <label>Unit Of Measure</label>
+        <select asp-for="UnitOfMeasure"
+                asp-items="Html.GetEnumSelectList<UnitOfMeasure>()"
+                class="form-control">
+        </select>
     </div>
 
     <div class="mb-3">
         <label>Stock Quantity</label>
-        <input type="number" name="Stock" class="form-control" required />
+        <input asp-for="CurrentStock" class="form-control" />
     </div>
 
     <div class="mb-3">
         <label>Reorder Level</label>
-        <input type="number" name="ReorderLevel" class="form-control" />
+        <input asp-for="ReorderLevel" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-success">

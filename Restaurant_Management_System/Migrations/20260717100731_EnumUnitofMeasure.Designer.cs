@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant_Management_System.Data;
 
@@ -11,9 +12,11 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-    partial class rmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260717100731_EnumUnitofMeasure")]
+    partial class EnumUnitofMeasure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,9 +304,6 @@ namespace Restaurant_Management_System.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<string>("RecipeSteps")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("MenuItemId");
 
                     b.HasIndex("ItemName")
@@ -341,7 +341,7 @@ namespace Restaurant_Management_System.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("Restaurant_Management_System.Models.RestaurantProfile", b =>
+            modelBuilder.Entity("Restaurant_Management_System.Models.SystemSetting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -382,7 +382,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RestaurantProfiles");
+                    b.ToTable("SystemSettings");
 
                     b.HasData(
                         new
@@ -398,7 +398,7 @@ namespace Restaurant_Management_System.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Restaurant_Management_System.Models.RestaurantTable", b =>
+            modelBuilder.Entity("Restaurant_Management_System.Models.TableStatus", b =>
                 {
                     b.Property<string>("TableNumber")
                         .HasMaxLength(4)
@@ -409,7 +409,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasKey("TableNumber");
 
-                    b.ToTable("RestaurantTables");
+                    b.ToTable("TableStatuses");
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.BillInvoice", b =>
@@ -425,7 +425,7 @@ namespace Restaurant_Management_System.Migrations
 
             modelBuilder.Entity("Restaurant_Management_System.Models.CustomerOrder", b =>
                 {
-                    b.HasOne("Restaurant_Management_System.Models.RestaurantTable", "TableStatus")
+                    b.HasOne("Restaurant_Management_System.Models.TableStatus", "TableStatus")
                         .WithMany("CustomerOrders")
                         .HasForeignKey("TableNumber")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -502,7 +502,7 @@ namespace Restaurant_Management_System.Migrations
                     b.Navigation("ItemRecipes");
                 });
 
-            modelBuilder.Entity("Restaurant_Management_System.Models.RestaurantTable", b =>
+            modelBuilder.Entity("Restaurant_Management_System.Models.TableStatus", b =>
                 {
                     b.Navigation("CustomerOrders");
                 });
