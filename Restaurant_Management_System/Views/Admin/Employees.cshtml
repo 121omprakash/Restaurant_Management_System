@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Restaurant_Management_System.Models.Employee>
+﻿@model Restaurant_Management_System.ViewModel.AdminDashboardViewModel
 
 @{
     ViewData["Title"] = "Employee Management";
@@ -8,13 +8,10 @@
     var availableRoles = new[] { "Admin", "Chef", "Manager", "Waiter", "Cashier", "Inventory Clerk" };
 }
 
-
-
 <!-- Content Header: Section Title and Primary Call-to-Action Add-Button Panel -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h3 class="page-title mb-1" style="font-size: 1.6rem;">Welcome back, Admin</h3>
-        @* <h3 class="page-title mb-1" style="font-size: 1.6rem;">Employee Management</h3> *@
         <p class="page-subtitle small mb-0">Create, control, and configure staff accounts and role access models.</p>
     </div>
     <button class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
@@ -26,109 +23,93 @@
 <div class="row g-3 mb-4">
     <!-- Quick Stat: Overall Registered Profile Counts -->
     <div class="col-md-4">
-    <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
-        <div class="d-flex align-items-center justify-content-between">
-            <div>
-                <span class="text-uppercase fw-bold d-block mb-1"
-                      style="font-size:0.75rem;letter-spacing:0.5px;color:var(--text-main);opacity:.7;">
-                    Total Employees
-                </span>
+        <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size:0.75rem; letter-spacing:0.5px; color:var(--text-main); opacity:.7;">
+                        Total Employees
+                    </span>
 
-                <div class="d-flex align-items-baseline gap-2">
-                    <h3 class="mb-0 fw-bold"
-                        style="font-size:1.75rem;color:var(--text-main);">
-                        @ViewBag.TotalProfiles
-                    </h3>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="mb-0 fw-bold" style="font-size:1.75rem; color:var(--text-main);">
+                            @Model.TotalProfiles
+                        </h3>
 
-                    <div class="d-flex gap-2 ms-2">
-                        <small class="fw-semibold px-2 py-1 rounded bg-success bg-opacity-10 text-success"
-                               style="font-size:.75rem;">
-                            <i class="fa-solid fa-circle-check me-1"></i>
-                            @ViewBag.ActiveProfiles Active
-                        </small>
+                        <div class="d-flex gap-2 ms-2">
+                            <small class="fw-semibold px-2 py-1 rounded bg-success bg-opacity-10 text-success" style="font-size:.75rem;">
+                                <i class="fa-solid fa-circle-check me-1"></i>
+                                @Model.ActiveProfiles Active
+                            </small>
 
-                        <small class="fw-semibold px-2 py-1 rounded bg-danger bg-opacity-10 text-danger"
-                               style="font-size:.75rem;">
-                            <i class="fa-solid fa-circle-xmark me-1"></i>
-                            @ViewBag.InactiveProfiles Inactive
-                        </small>
+                            <small class="fw-semibold px-2 py-1 rounded bg-danger bg-opacity-10 text-danger" style="font-size:.75rem;">
+                                <i class="fa-solid fa-circle-xmark me-1"></i>
+                                @Model.InactiveProfiles Inactive
+                            </small>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="rounded-3 d-flex align-items-center justify-content-center"
-                 style="width:46px;height:46px;background-color:rgba(245,158,11,.15);color:#d97706;">
-                <i class="fa-solid fa-users fs-5"></i>
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width:46px; height:46px; background-color:rgba(245,158,11,.15); color:#d97706;">
+                    <i class="fa-solid fa-users fs-5"></i>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 
     <!-- Quick Stat: Admin and Manager Counts -->
-
-   
     <div class="col-md-4">
         <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-uppercase fw-bold d-block mb-1"
-                          style="font-size:0.75rem;letter-spacing:0.5px;color:var(--text-main);opacity:.7;">
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size:0.75rem; letter-spacing:0.5px; color:var(--text-main); opacity:.7;">
                         Management Staff
                     </span>
 
                     <div class="d-flex align-items-baseline gap-2">
-                        <h3 class="mb-0 fw-bold"
-                            style="font-size:1.75rem;color:var(--text-main);">
-                            @ViewBag.ManagementStaff
+                        <h3 class="mb-0 fw-bold" style="font-size:1.75rem; color:var(--text-main);">
+                            @Model.ManagementStaff
                         </h3>
 
-                        <small style="font-size:.75rem;color:var(--text-main);opacity:.7;">
+                        <small style="font-size:.75rem; color:var(--text-main); opacity:.7;">
                             Admin &amp; Managers
                         </small>
                     </div>
                 </div>
 
-                <div class="rounded-3 d-flex align-items-center justify-content-center"
-                     style="width:46px;height:46px;background-color:rgba(59,130,246,.15);color:#2563eb;">
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width:46px; height:46px; background-color:rgba(59,130,246,.15); color:#2563eb;">
                     <i class="fa-solid fa-user-tie fs-5"></i>
                 </div>
             </div>
         </div>
     </div>
 
-
     <!-- Quick Stat: Active Floor, Serving, and Production Kitchen Staff Counts -->
     <div class="col-md-4">
         <div class="card p-3 border border-secondary shadow-sm h-100" style="background-color: var(--bg-card); border-radius: 12px;">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-uppercase fw-bold d-block mb-1"
-                          style="font-size:0.75rem;letter-spacing:0.5px;color:var(--text-main);opacity:.7;">
+                    <span class="text-uppercase fw-bold d-block mb-1" style="font-size:0.75rem; letter-spacing:0.5px; color:var(--text-main); opacity:.7;">
                         Operational Staff
                     </span>
 
                     <div class="d-flex align-items-baseline gap-2">
-                        <h3 class="mb-0 fw-bold"
-                            style="font-size:1.75rem;color:var(--text-main);">
-                            @ViewBag.OperationalStaff
+                        <h3 class="mb-0 fw-bold" style="font-size:1.75rem; color:var(--text-main);">
+                            @Model.OperationalStaff
                         </h3>
 
-                        <small style="font-size:.75rem;color:var(--text-main);opacity:.7;">
-							 Floor and Kitchen Staff
+                        <small style="font-size:.75rem; color:var(--text-main); opacity:.7;">
+                            Floor and Kitchen Staff
                         </small>
                     </div>
                 </div>
 
-                <div class="rounded-3 d-flex align-items-center justify-content-center"
-                     style="width:46px;height:46px;background-color:rgba(16,185,129,.15);color:#059669;">
+                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width:46px; height:46px; background-color:rgba(16,185,129,.15); color:#059669;">
                     <i class="fa-solid fa-utensils fs-5"></i>
                 </div>
             </div>
         </div>
     </div>
-
-
+</div>
 
 <!-- Main Control Panel Card: Holds search tools, filters, and employee list data table -->
 <div class="card p-4 border border-secondary shadow-sm" style="background-color: var(--bg-card); border-radius: 16px;">
@@ -173,7 +154,7 @@
                 </tr>
             </thead>
             <tbody id="userTableBody">
-                @foreach (var emp in Model)
+                @foreach (var emp in Model.Employees)
                 {
                     <tr style="@(!emp.IsActive ? "opacity: 0.55;" : "")">
                         <td class="ps-3">
@@ -188,7 +169,6 @@
                             <span class="emp-id-badge">@emp.EmpId</span>
                         </td>
                         <td>
-                            <!-- Style Update: Icon and custom border bubble removed completely. Uses original dark/light background variable text instead. -->
                             <span class="fw-semibold">@emp.Role</span>
                         </td>
                         <td>
@@ -203,9 +183,9 @@
                         </td>
                         <td class="text-end pe-3">
                             <div class="btn-group">
-                                @if(emp.Role=="Admin")
+                                @if (emp.Role == "Admin")
                                 {
-                                    <button class="btn btn-sm btn-outline-info rounded-start px-3" disabled title="Admin Account cannot be eidted">
+                                    <button class="btn btn-sm btn-outline-info rounded-start px-3" disabled title="Admin Account cannot be edited">
                                         <i class="fa-solid fa-lock"></i>
                                     </button>
                                 }
@@ -222,7 +202,6 @@
                                         <i class="fa-solid fa-user-slash"></i>
                                     </button>
                                 }
-                               
                             </div>
                         </td>
                     </tr>
@@ -248,15 +227,14 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label small text-muted">Password</label>
-                        <input type="password" name="password" class="form-control bg-transparent border-secondary rounded-3 py-2" autocomplete="" required placeholder="••••••••" />
+                        <input type="password" name="password" class="form-control bg-transparent border-secondary rounded-3 py-2" autocomplete="new-password" required placeholder="••••••••" />
                     </div>
                     <div class="mb-0">
                         <label class="form-label small text-muted">Authorized System Role</label>
                         <select name="role" class="form-select bg-transparent border-secondary rounded-3 py-2" required>
                             @foreach (var role in availableRoles)
                             {
-                                
-                                @if (role != "Admin")
+                                if (role != "Admin")
                                 {
                                     <option value="@role">@role</option>
                                 }
@@ -273,50 +251,50 @@
     </div>
 </div>
 
-    <!-- MODAL POPUP WINDOW 2: EDIT EXISTING EMPLOYEE DETAILS ACTION FORM -->
-    <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border border-secondary" style="background-color: var(--bg-card); border-radius: 16px;">
-                <div class="modal-header border-bottom border-secondary px-4">
-                    <h5 class="modal-title">Modify Staff Account</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form asp-action="UpdateEmployee" asp-controller="Admin" method="POST">
-                    <input type="hidden" name="id" id="edit_Id" />
-                    <div class="modal-body p-4">
-                        <div class="mb-3">
-                            <label class="form-label small text-muted">Employee ID</label>
-                            <input type="text" id="edit_UserId" class="form-control rounded-3 py-2 opacity-75 bg-body-secondary text-muted" readonly />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small text-muted">Full Name</label>
-                            <input type="text" name="name" id="edit_Name" class="form-control bg-transparent border-secondary rounded-3 py-2" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small text-muted">New Password (leave blank to keep unchanged)</label>
-                            <input type="password" name="password" id="edit_Password" class="form-control bg-transparent border-secondary rounded-3 py-2" placeholder="••••••••" />
-                        </div>
-                        <div class="mb-0">
-                            <label class="form-label small text-muted">Authorized System Role</label>
-                            <select name="role" id="edit_Role" class="form-select bg-transparent border-secondary rounded-3 py-2">
-                                @foreach (var role in availableRoles)
-                                {
-                                    @if (role != "Admin")
-                                    {
-                                        <option value="@role">@role</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer border-top border-secondary px-4">
-                        <button type="button" class="btn btn-sm btn-outline-secondary px-3 py-2 rounded-3" data-bs-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-sm btn-warning text-dark fw-bold px-4 py-2 rounded-3">Update Changes</button>
-                    </div>
-                </form>
+<!-- MODAL POPUP WINDOW 2: EDIT EXISTING EMPLOYEE DETAILS ACTION FORM -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border border-secondary" style="background-color: var(--bg-card); border-radius: 16px;">
+            <div class="modal-header border-bottom border-secondary px-4">
+                <h5 class="modal-title">Modify Staff Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form asp-action="UpdateEmployee" asp-controller="Admin" method="POST">
+                <input type="hidden" name="id" id="edit_Id" />
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Employee ID</label>
+                        <input type="text" id="edit_UserId" class="form-control rounded-3 py-2 opacity-75 bg-body-secondary text-muted" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Full Name</label>
+                        <input type="text" name="name" id="edit_Name" class="form-control bg-transparent border-secondary rounded-3 py-2" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">New Password (leave blank to keep unchanged)</label>
+                        <input type="password" name="password" id="edit_Password" class="form-control bg-transparent border-secondary rounded-3 py-2" placeholder="••••••••" autocomplete="new-password" />
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label small text-muted">Authorized System Role</label>
+                        <select name="role" id="edit_Role" class="form-select bg-transparent border-secondary rounded-3 py-2">
+                            @foreach (var role in availableRoles)
+                            {
+                                if (role != "Admin")
+                                {
+                                    <option value="@role">@role</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary px-4">
+                    <button type="button" class="btn btn-sm btn-outline-secondary px-3 py-2 rounded-3" data-bs-dismiss="modal">Discard</button>
+                    <button type="submit" class="btn btn-sm btn-warning text-dark fw-bold px-4 py-2 rounded-3">Update Changes</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
 <!-- MODAL POPUP WINDOW 3: SUSPEND ACCESSIBILITY TERMINAL (CONFIRMATION WARNING PANEL) -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">

@@ -1,6 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Restaurant_Management_System.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Restaurant_Management_System.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 string connectionString = builder.Configuration.GetSection("ConnectionStrings")["MyConn"];
 builder.Services.AddDbContext<rmsDbContext>(options => options.UseSqlServer(connectionString));
+
+
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 //added for authentication and authorization
 
