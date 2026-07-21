@@ -48,5 +48,18 @@ namespace Restaurant_Management_System.Controllers
 
             return View("Invoice", completedInvoice);
         }
+
+        // GET: Billing/Invoice?invoiceId=123
+        public IActionResult Invoice(int invoiceId)
+        {
+            var invoice = _billingService.GetInvoiceById(invoiceId);
+
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+
+            return View(invoice);
+        }
     }
 }
