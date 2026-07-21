@@ -1,0 +1,187 @@
+﻿@model Restaurant_Management_System.Models.ViewModels.AddRecipeViewModel
+
+@using Restaurant_Management_System.Models
+
+
+@{
+    ViewData["Title"] = "Add Recipe";
+    Layout = "~/Views/Shared/_ChefLayout.cshtml";
+}    
+<form asp-action="AddRecipe" asp-controller="Kitchen" method="post">
+  <input asp-for="MenuItemId" type="hidden"/>
+<div class="container mt-4">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">@(Model.IsReadOnly ? "View Recipe" :Model.IsEdit ? "Edit Recipe" : "Add Recipe")</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label class="fw-bold">Menu Item</label>
+                    <input asp-for="ItemName" type="text" class="form-control" value="@Model.ItemName" readonly />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="fw-bold">Category</label>
+                    <input  asp-for="Category" type="text" class="form-control" value="@Model.Category" readonly />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="fw-bold">Preparation Time (Minutes)</label>
+                    <input  asp-for="PreparationTime" type="text" class="form-control" value="@Model.PreparationTime" readonly />
+                </div>
+            </div>
+
+            <hr />
+
+            <h4 class="mb-3">Ingredients</h4>
+
+            <table class="table table-bordered table-hover align-middle" id="ingredientsTable">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:40%">Ingredient</th>
+                        <th style="width:20%">Quantity</th>
+                        <th style="width:20%">Unit</th>
+                        <th style="width:20%">Action</th>
+                    </tr>
+                </thead>
+                    <tbody id="ingredientBody">
+
+                        @if (Model.IsReadOnly)
+                        {
+                            @for (int i = 0; i < Model.IngredientNames.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="@Model.IngredientNames[i]"
+                                               readonly />
+                                    </td>
+
+                                    <td>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="@Model.Quantities[i]"
+                                               readonly />
+                                    </td>
+
+                                    <td>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="@Model.Units[i]"
+                                               readonly />
+                                    </td>
+
+                                    <td class="text-center">
+                                        -
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    <select name="IngredientIds" class="form-select">
+                                        <option value="">Select Ingredient</option>
+
+                                        @foreach (var ingredient in ViewBag.Ingredients)
+                                        {
+                                            <option value="@ingredient.IngredientId">
+                                                @ingredient.IngredientName
+                                            </option>
+                                        }
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <input type="number"
+                                           name="Quantities"
+                                           class="form-control"
+                                           placeholder="Enter Quantity"
+                                           min="0" />
+                                </td>
+
+                                <td>
+                                    <select class="form-select">
+                                        <option value="g">Gram (g)</option>
+                                        <option value="kg">Kilogram (kg)</option>
+                                        <option value="ml">Millilitre (ml)</option>
+                                        <option value="L">Litre (L)</option>
+                                        <option value="pcs">Pieces (pcs)</option>
+                                    </select>
+                                </td>
+
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-danger removeIngredient">
+                                        Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+            </table>
+                    @if (!Model.IsReadOnly)
+                    {
+                        <button type="button" id="addIngredientBtn" class="btn btn-success">
+                            + Add Ingredient
+                        </button>
+                    }
+
+            <hr class="my-4" />
+
+            <h4 class="mb-3">Recipe Preparation Steps</h4>
+
+            <div id="stepsContainer">
+
+                <div class=" step mb-3">
+                    <label class="form-label"><strong>Step 1</strong></label>
+                    <textarea asp-for="RecipeSteps"
+                              class="form-control"
+                              rows="3"
+                              readonly="@Model.IsReadOnly"
+                              placeholder="Enter preparation step..."></textarea>
+                              @if (!Model.IsReadOnly){
+                                   <button type="button" class="btn btn-danger btn-sm mt-2 removeStep">Remove</button>
+                    }
+                </div>
+
+            </div>
+                    @if (!Model.IsReadOnly)
+                    {
+                        <button type="button" id="addStepBtn" class="btn btn-success" >
+                            + Add Step
+                        </button>
+                    }
+
+            <hr class="my-4" />
+
+
+            <div class="text-end">
+                        @if (!Model.IsReadOnly)
+                        {
+                            <button type="submit" class="btn btn-primary">
+                    Save Recipe
+                </button>
+                }
+
+                <a asp-action="RecipeManagement" class="btn btn-secondary">
+                   @(Model.IsReadOnly ? "Back" : "Cancel")
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</form>
+
+@section Scripts
+{
+    <script src="~/js/kitchen.js" asp-append-version="true"></script>
+}
