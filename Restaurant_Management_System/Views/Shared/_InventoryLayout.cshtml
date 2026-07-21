@@ -21,13 +21,22 @@
                 </a>
             </div>
 
-            <div class="d-flex align-items-center">
-                <button id="themeToggle" class="btn btn-outline-secondary rounded-pill" aria-label="Toggle Theme">
-                    <i id="themeIcon" class="fa-solid fa-sun"></i>
-                    <span id="themeText" class="ms-2">Day Mode</span>
-                </button>
+            <div>
+                <div class="d-flex align-items-center gap-2 ms-auto pt-2 pt-md-0">
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle System Theme">
+                        <i id="themeIcon" class="fa-solid fa-moon"></i>
+                        <span id="themeText">Night Mode</span>
+                    </button>
+                    <a style="text-decoration:none;" class="theme-toggle-btn" asp-controller="Employee" asp-action="Login">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="sidebar-text">Logout</span>
+                    </a>
+
+                </div>
+
             </div>
         </div>
+        
     </header>
 
     <div class="inventory-wrapper container-fluid px-4">
@@ -60,23 +69,14 @@
                         <i class="fa-solid fa-boxes-stacked"></i> Stock Management
                     </a>
                 </li>
-                <li class="mb-1">
-                    <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
-                       asp-controller="Inventory" asp-action="Create">
-                        <i class="fa-solid fa-plus"></i> Add Item
-                    </a>
-                </li>
+                
                 <li class="mb-1">
                     <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "LowStock" ? "active" : "")"
                        asp-controller="Inventory" asp-action="LowStock">
                         <i class="fa-solid fa-triangle-exclamation"></i> Low Stock
                     </a>
                 </li>
-                <li class="logout-item mt-5">
-                    <a class="nav-link" asp-controller="Employee" asp-action="Login">
-                        <i class="fa-solid fa-right-from-bracket"></i> Logout
-                    </a>
-                </li>
+                
             </ul>
         </aside>
         <!-- Main content area -->
