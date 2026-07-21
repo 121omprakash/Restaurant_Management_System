@@ -14,8 +14,7 @@ namespace Restaurant_Management_System.Models
         public string IngredientName { get; set; } = null!;
 
         [Required]
-        [StringLength(20)]
-        public string UnitOfMeasure { get; set; } = null!;
+        public UnitOfMeasure UnitOfMeasure { get; set; }
 
         [Column(TypeName = "decimal(10,2)")]
         public decimal CurrentStock { get; set; }
