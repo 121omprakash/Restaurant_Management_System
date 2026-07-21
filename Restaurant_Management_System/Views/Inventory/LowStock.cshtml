@@ -1,5 +1,5 @@
 ﻿@using Restaurant_Management_System.ENUM
-@model List<Restaurant_Management_System.Models.Ingredient>
+@model Restaurant_Management_System.ViewModel.InventoryListViewModel
 @{
     ViewData["Title"] = "Low Stock";
     Layout = "~/Views/Shared/_InventoryLayout.cshtml";
@@ -18,9 +18,9 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model != null && Model.Any())
+        @if (Model != null && Model.Items != null && Model.Items.Any())
         {
-            foreach (var item in Model)
+            foreach (var item in Model.Items)
             {
                 <tr>
                     <td>@item.IngredientName</td>

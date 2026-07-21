@@ -304,6 +304,7 @@ p, .page-subtitle {
     }
 
 .chart-container {
+    position: relative;
     width: 100%;
     height: 300px;
     background-color: var(--bg-primary);
@@ -442,3 +443,4 @@ hr {
 body.night-mode .sidebar-name {
     color: #ffffff;
 }
+

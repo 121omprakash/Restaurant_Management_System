@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Restaurant_Management_System.ENUM;
 
 namespace Restaurant_Management_System.Models.ViewModels
 {
@@ -20,7 +21,7 @@ namespace Restaurant_Management_System.Models.ViewModels
 
         public List<string> IngredientNames { get; set; } = new();
 
-        public List<string> Units { get; set; } = new();
+        public List<UnitOfMeasure> Units { get; set; } = new();
 
         public bool IsReadOnly { get; set; }
 
