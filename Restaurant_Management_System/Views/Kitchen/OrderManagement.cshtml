@@ -55,7 +55,7 @@
 
     <!-- Delayed -->
     <div class="order-card"
-         onclick="location.href='@Url.Action("OrderManagement", "Kitchen")'"
+         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { delayed = true })#ordersTable'"
          style="cursor:pointer;">
         <div class="card-content">
             <h6>DELAYED ORDERS</h6>

@@ -26,25 +26,75 @@ namespace Restaurant_Management_System.Controllers
             return RedirectToAction("OrderManagement");
         }
 
-        public IActionResult OrderManagement(TicketStatus? status, string? search)
+        public IActionResult OrderManagement(TicketStatus? status, string? search,bool delayed=false)
         {
             // Dashboard Card Counts
             ViewBag.PendingCount = _context.KitchenTickets.Count(x => x.TicketStatus == TicketStatus.QUEUED);
-            ViewBag.PreparingCount = _context.KitchenTickets.Count(x => x.TicketStatus == TicketStatus.IN_PROGRESS);
+
+            ViewBag.PreparingCount = _context.KitchenTickets
+                       .Include(k => k.CustomerOrder)
+                           .ThenInclude(o => o.OrderItems)
+                               .ThenInclude(oi => oi.MenuItem)
+                       .Count(k =>
+                           k.TicketStatus == TicketStatus.IN_PROGRESS &&
+                           (
+                               !k.StartTime.HasValue ||
+                               DateTime.Now <=
+                               k.StartTime.Value.AddMinutes(
+                                   k.CustomerOrder.OrderItems.Max(oi => oi.MenuItem.PreparationTime) + 3
+                               )
+                           ));
+
             ViewBag.CompletedCount = _context.KitchenTickets.Count(x => x.TicketStatus == TicketStatus.READY);
-            ViewBag.DelayedCount = 0;
+
+            ViewBag.DelayedCount = _context.KitchenTickets
+                .Include(k => k.CustomerOrder)
+                    .ThenInclude(o => o.OrderItems)
+                        .ThenInclude(oi => oi.MenuItem)
+                .Count(k =>
+                    k.TicketStatus == TicketStatus.IN_PROGRESS &&
+                    k.StartTime.HasValue &&
+                    DateTime.Now >
+                    k.StartTime.Value.AddMinutes(
+                        k.CustomerOrder.OrderItems.Max(oi => oi.MenuItem.PreparationTime) + 3));
 
             ViewBag.Search = search;
             ViewBag.SelectedStatus = status;
 
             var tickets = _context.KitchenTickets
                 .Include(k => k.CustomerOrder)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.MenuItem)
                 .AsQueryable();
 
             // Filter by Status
-            if (status.HasValue)
+            if (delayed)
             {
-                tickets = tickets.Where(k => k.TicketStatus == status.Value);
+                tickets = tickets.Where(k =>
+                    k.TicketStatus == TicketStatus.IN_PROGRESS &&
+                    k.StartTime.HasValue &&
+                    DateTime.Now >
+                    k.StartTime.Value.AddMinutes(
+                        k.CustomerOrder.OrderItems.Max(oi => oi.MenuItem.PreparationTime) + 3));
+            }
+            else if (status.HasValue)
+            {
+                if (status == TicketStatus.IN_PROGRESS)
+                {
+                    tickets = tickets.Where(k =>
+                        k.TicketStatus == TicketStatus.IN_PROGRESS &&
+                        (
+                            !k.StartTime.HasValue ||
+                            DateTime.Now <=
+                            k.StartTime.Value.AddMinutes(
+                                k.CustomerOrder.OrderItems.Max(oi => oi.MenuItem.PreparationTime) + 3
+                            )
+                        ));
+                }
+                else
+                {
+                    tickets = tickets.Where(k => k.TicketStatus == status.Value);
+                }
             }
 
             // Search by Order ID or Customer Name
@@ -200,13 +250,16 @@ namespace Restaurant_Management_System.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRecipe(AddRecipeViewModel model)
         {
-           
+
             if (!ModelState.IsValid)
             {
                 ViewBag.Ingredients = _context.Ingredients.ToList();
+                ViewBag.Units = Enum.GetValues(typeof(UnitOfMeasure))
+                                    .Cast<UnitOfMeasure>()
+                                    .ToList();
+
                 return View(model);
             }
-
             // Find the menu item
             var menuItem = await _context.MenuItems.FindAsync(model.MenuItemId);
 
@@ -217,6 +270,7 @@ namespace Restaurant_Management_System.Controllers
 
             // Save recipe steps
             menuItem.RecipeSteps = model.RecipeSteps;
+            menuItem.PreparationTime = model.PreparationTime;
 
             // Remove old ingredients (if any)
             var oldRecipes = _context.ItemRecipes
