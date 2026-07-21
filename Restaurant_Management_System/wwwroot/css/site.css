@@ -92,3 +92,12 @@ footer.custom-footer {
         color: var(--text-main);
         border-color: var(--text-muted);
     }
+.full-width-footer a {
+    color: #c97a00 !important;
+    text-decoration: none;
+}
+
+    .full-width-footer a:hover {
+        color: #a35f00 !important;
+        text-decoration: underline;
+    }

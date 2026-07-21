@@ -22,6 +22,8 @@ namespace Restaurant_Management_System.Models
 
         public ItemStatus ItemStatus { get; set; }
 
+        public string? RecipeSteps { get; set; }
+
         public ICollection<ItemRecipe> ItemRecipes { get; set; }
             = new List<ItemRecipe>();
     }
