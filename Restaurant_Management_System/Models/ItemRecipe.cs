@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Restaurant_Management_System.ENUM;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurant_Management_System.Models
@@ -14,6 +15,8 @@ namespace Restaurant_Management_System.Models
 
         [Column(TypeName = "decimal(10,2)")]
         public decimal Quantity { get; set; }
+
+        public UnitOfMeasure UnitOfMeasure { get; set; }
 
         [ForeignKey(nameof(MenuItemId))]
         public MenuItem MenuItem { get; set; } = null!;

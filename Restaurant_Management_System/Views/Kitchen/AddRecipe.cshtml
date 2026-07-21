@@ -1,6 +1,7 @@
 ﻿@model Restaurant_Management_System.Models.ViewModels.AddRecipeViewModel
 
 @using Restaurant_Management_System.Models
+@using Restaurant_Management_System.ENUM
 
 
 @{
@@ -107,12 +108,11 @@
                                 </td>
 
                                 <td>
-                                    <select class="form-select">
-                                        <option value="g">Gram (g)</option>
-                                        <option value="kg">Kilogram (kg)</option>
-                                        <option value="ml">Millilitre (ml)</option>
-                                        <option value="L">Litre (L)</option>
-                                        <option value="pcs">Pieces (pcs)</option>
+                                    <select name="Units" class="form-select">
+                                        @foreach (UnitOfMeasure unit in ViewBag.Units)
+                                        {
+                                            <option value="@unit">@unit</option>
+                                        }
                                     </select>
                                 </td>
 
