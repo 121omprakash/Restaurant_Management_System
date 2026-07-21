@@ -103,6 +103,50 @@ namespace Restaurant_Management_System.Controllers
             ticket.TicketStatus = TicketStatus.READY;
             ticket.CompletionTime = DateTime.Now;
 
+            // Get all items in this order
+            var orderItems = _context.OrderItems
+                .Where(o => o.OrderId == ticket.OrderId)
+                .ToList();
+
+            foreach (var orderItem in orderItems)
+            {
+                // Get recipe ingredients for this menu item
+                var recipes = _context.ItemRecipes
+                    .Where(r => r.MenuItemId == orderItem.MenuItemId)
+                    .ToList();
+
+                foreach (var recipe in recipes)
+                {
+                    var ingredient = _context.Ingredients
+                        .FirstOrDefault(i => i.IngredientId == recipe.IngredientId);
+
+                    if (ingredient == null)
+                        continue;
+
+                    // Quantity required for ordered quantity
+                    decimal convertedQuantity = ConvertToIngredientUnit(
+                                        recipe.Quantity,
+                                        recipe.UnitOfMeasure,
+                                        ingredient.UnitOfMeasure);
+
+                    decimal quantityToReduce = convertedQuantity * orderItem.Quantity;
+
+                    ingredient.CurrentStock -= quantityToReduce;
+
+                    // Don't allow negative stock
+                    if (ingredient.CurrentStock < 0)
+                        ingredient.CurrentStock = 0;
+
+                    // Update Stock Status
+                    if (ingredient.CurrentStock == 0)
+                        ingredient.StockStatus = StockStatus.OUT_OF_STOCK;
+                    else if (ingredient.CurrentStock <= ingredient.ReorderLevel)
+                        ingredient.StockStatus = StockStatus.LOW;
+                    else
+                        ingredient.StockStatus = StockStatus.AVAILABLE;
+                }
+            }
+
             _context.SaveChanges();
 
             return RedirectToAction(nameof(OrderManagement));
@@ -147,6 +191,7 @@ namespace Restaurant_Management_System.Controllers
             };
 
             ViewBag.Ingredients = _context.Ingredients.ToList();
+            ViewBag.Units=Enum.GetValues(typeof(UnitOfMeasure)).Cast<UnitOfMeasure>().ToList();
 
             return View(model);
         }
@@ -186,7 +231,8 @@ namespace Restaurant_Management_System.Controllers
                 {
                     MenuItemId = model.MenuItemId,
                     IngredientId = model.IngredientIds[i],
-                    Quantity = model.Quantities[i]
+                    Quantity = model.Quantities[i],
+                    UnitOfMeasure = model.Units[i]
                 };
 
                 _context.ItemRecipes.Add(recipe);
@@ -235,6 +281,9 @@ namespace Restaurant_Management_System.Controllers
             };
 
             ViewBag.Ingredients = _context.Ingredients.ToList();
+            ViewBag.Units = Enum.GetValues(typeof(UnitOfMeasure)).Cast<UnitOfMeasure>().ToList();
+
+
 
             return View("AddRecipe", model);
         }
@@ -281,8 +330,35 @@ namespace Restaurant_Management_System.Controllers
             };
 
             ViewBag.Ingredients = _context.Ingredients.ToList();
+            ViewBag.Units= Enum.GetValues(typeof(UnitOfMeasure)).Cast<UnitOfMeasure>().ToList();
 
             return View("AddRecipe", model);
         }
+        private decimal ConvertToIngredientUnit(decimal quantity, UnitOfMeasure recipeUnit, UnitOfMeasure ingredientUnit)
+        {
+            if (recipeUnit == ingredientUnit)
+                return quantity;
+
+            // Weight
+            if (recipeUnit == UnitOfMeasure.KG && ingredientUnit == UnitOfMeasure.G)
+                return quantity * 1000;
+
+            if (recipeUnit == UnitOfMeasure.G && ingredientUnit == UnitOfMeasure.KG)
+                return quantity / 1000;
+
+            // Liquid
+            if (recipeUnit == UnitOfMeasure.L && ingredientUnit == UnitOfMeasure.ML)
+                return quantity * 1000;
+
+            if (recipeUnit == UnitOfMeasure.ML && ingredientUnit == UnitOfMeasure.L)
+                return quantity / 1000;
+
+            // Pieces
+            if (recipeUnit == UnitOfMeasure.P && ingredientUnit == UnitOfMeasure.P)
+                return quantity;
+
+            throw new Exception("Unsupported unit conversion.");
+        }
     }
+
 }

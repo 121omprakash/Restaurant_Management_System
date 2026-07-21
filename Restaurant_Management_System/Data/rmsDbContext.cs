@@ -32,7 +32,7 @@ namespace Restaurant_Management_System.Data
 
             // Store enum values as strings in the database to match existing DB data
             modelBuilder.Entity<Models.Ingredient>()
-                .Property(i => i.StockStatus)
+               .Property(i => i.StockStatus)
                 .HasConversion<string>();
 
             modelBuilder.Entity<Models.Ingredient>()
