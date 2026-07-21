@@ -1,97 +1,107 @@
-﻿@{
+﻿@model IEnumerable<Restaurant_Management_System.Models.Ingredient>
+@using Restaurant_Management_System.ENUM
+
+@{
     ViewData["Title"] = "Inventory";
     Layout = "_ManagerLayout";
 }
 
-<!-- MAIN CONTAINER CARD -->
-<div style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+<div class="inventory-container">
 
-    <!-- TOP CONTROL BAR (Search, Filter, Add button) -->
-    <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;">
+    <div class="inventory-toolbar">
 
-        <!-- Left Side: Search and Dropdown Filter -->
-        <div style="display: flex; gap: 12px; flex: 1; max-width: 500px;">
-            <div style="position: relative; flex: 1;">
-                <i class="bi bi-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
-                <input type="text" placeholder="Search inventory items..." style="width: 100%; padding: 10px 10px 10px 36px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9rem; outline: none;" />
-            </div>
+        <div class="inventory-search-wrapper">
+
+            <i class="bi bi-search inventory-search-icon"></i>
+
+            <input type="text"
+                   placeholder="Search inventory items..."
+                   class="inventory-search" />
+
         </div>
+
     </div>
 
-    <!-- INVENTORY DATA TABLE -->
-    <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+    <div class="inventory-table-wrapper">
+
+        <table class="inventory-table">
+
             <thead>
-                <tr style="border-bottom: 2px solid #f1f5f9; color: #64748b; font-weight: 600;">
-                    <th style="padding: 14px 16px;">Item Name</th>
-                    <th style="padding: 14px 16px;">Unit Price</th>
-                    <th style="padding: 14px 16px;">Current Stock</th>
-                    <th style="padding: 14px 16px;">Status</th>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Unit</th>
+                    <th>Current Stock</th>
+                    <th>Status</th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody style="color: #334155; font-weight: 500;">
 
-                <!-- Row 1 -->
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 16px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <span>Mozzarella Cheese block</span>
-                        </div>
-                    </td>
-                    <td style="padding: 16px;">₹450 / kg</td>
-                    <td style="padding: 16px;">2.0 kg</td>
-                    <td style="padding: 16px;">
-                        <span style="background-color: #fef2f2; color: #ef4444; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Low Stock</span>
-                    </td>
-                    <td style="padding: 16px; text-align: right; color: #94a3b8; font-size: 1.1rem;">
-                        <i class="bi bi-eye" style="margin-right: 12px; cursor: pointer; color: #64748b;"></i>
-                        <i class="bi bi-pencil" style="margin-right: 12px; cursor: pointer; color: #2563eb;"></i>
-                        <i class="bi bi-trash" style="cursor: pointer; color: #ef4444;"></i>
-                    </td>
-                </tr>
+            <tbody>
 
-                <!-- Row 2 -->
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 16px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <span>Fresh Tomatoes</span>
-                        </div>
-                    </td>
-                    <td style="padding: 16px;">₹40 / kg</td>
-                    <td style="padding: 16px;">45.5 kg</td>
-                    <td style="padding: 16px;">
-                        <span style="background-color: #f0fdf4; color: #16a34a; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Available</span>
-                    </td>
-                    <td style="padding: 16px; text-align: right; color: #94a3b8; font-size: 1.1rem;">
-                        <i class="bi bi-eye" style="margin-right: 12px; cursor: pointer; color: #64748b;"></i>
-                        <i class="bi bi-pencil" style="margin-right: 12px; cursor: pointer; color: #2563eb;"></i>
-                        <i class="bi bi-trash" style="cursor: pointer; color: #ef4444;"></i>
-                    </td>
-                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
 
-                <!-- Row 3 -->
-                <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 16px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <span>Chicken Breast crust</span>
-                        </div>
-                    </td>
-                    <td style="padding: 16px;">₹280 / kg</td>
-                    <td style="padding: 16px;">0.0 kg</td>
-                    <td style="padding: 16px;">
-                        <span style="background-color: #f3f4f6; color: #6b7280; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Out of Stock</span>
-                    </td>
-                    <td style="padding: 16px; text-align: right; color: #94a3b8; font-size: 1.1rem;">
-                        <i class="bi bi-eye" style="margin-right: 12px; cursor: pointer; color: #64748b;"></i>
-                        <i class="bi bi-pencil" style="margin-right: 12px; cursor: pointer; color: #2563eb;"></i>
-                        <i class="bi bi-trash" style="cursor: pointer; color: #ef4444;"></i>
-                    </td>
-                </tr>
+                        <td>
+                            <div class="inventory-item-name">
+                                @item.IngredientName
+                            </div>
+                        </td>
+
+                        <td>
+                            @item.UnitOfMeasure
+                        </td>
+
+                        <td>
+                            @item.CurrentStock
+                        </td>
+
+                        <td>
+
+                            @if (item.StockStatus == StockStatus.LOW)
+                            {
+                                <span class="inventory-status status-low">
+                                    Low Stock
+                                </span>
+                            }
+                            else if (item.StockStatus == StockStatus.OUT_OF_STOCK)
+                            {
+                                <span class="inventory-status status-out">
+                                    Out Of Stock
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inventory-status status-available">
+                                    Available
+                                </span>
+                            }
+
+                        </td>
+
+                        <td class="inventory-actions">
+
+                            
+                                <i class="bi bi-eye"></i>
+                           
+
+                          
+                                <i class="bi bi-pencil"></i>
+                           
+
+                 
+                                <i class="bi bi-trash"></i>
+                            
+
+                        </td>
+
+                    </tr>
+                }
 
             </tbody>
+
         </table>
+
     </div>
 
 </div>
-
- 

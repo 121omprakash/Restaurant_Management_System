@@ -1,42 +1,39 @@
-﻿@{
+﻿@model Restaurant_Management_System.ViewModel.DashboardVM
+
+@{
     ViewData["Title"] = "Dashboard";
     Layout = "_ManagerLayout";
 }
 
-
 <div class="stats-row">
 
-    
     <div class="stat-card">
         <div>
-            <h2>145</h2>
+            <h2>@Model.TotalOrders</h2>
             <p>Total Orders</p>
         </div>
         <span class="muted">Today</span>
     </div>
 
-    
     <div class="stat-card">
         <div>
-            <h2>₹52,000</h2>
+            <h2>₹@Model.Revenue.ToString("N0")</h2>
             <p>Revenue</p>
         </div>
         <span class="muted">Today</span>
     </div>
 
-    
     <div class="stat-card">
         <div>
-            <h2>18 / 25</h2>
+            <h2>@Model.OccupiedTables / @Model.TotalTables</h2>
             <p>Occupied Tables</p>
         </div>
         <span class="muted">Today</span>
     </div>
 
-    
     <div class="stat-card stat-card--danger">
         <div>
-            <h2>7</h2>
+            <h2>@Model.PendingOrders</h2>
             <p>Pending Orders</p>
         </div>
         <span class="muted">Today</span>
@@ -47,81 +44,155 @@
 
 <div class="charts-row">
 
-    <!-- Left Column: Orders by Status Chart Block -->
     <div class="card orders-status-card">
+
         <h5>Orders by Status</h5>
+
         <div class="orders-status-inner">
+
             <div class="donut-mock">
                 <span class="muted small">Total</span>
-                <span class="donut-value">145</span>
+                <span class="donut-value">
+                    @Model.TotalOrders
+                </span>
             </div>
 
             <div class="status-list">
-                <div class="status-row"><span><i class="bi bi-circle-fill status-dot status-dot--blue"></i> Preparing</span> <strong>7</strong></div>
-                <div class="status-row"><span><i class="bi bi-circle-fill status-dot status-dot--green"></i> Ready</span> <strong>5</strong></div>
-                <div class="status-row"><span><i class="bi bi-circle-fill status-dot status-dot--muted"></i> Served</span> <strong>130</strong></div>
-                <div class="status-row"><span><i class="bi bi-circle-fill status-dot status-dot--red"></i> Cancelled</span> <strong>3</strong></div>
+
+                <div class="status-row">
+                    <span>
+                        <i class="bi bi-circle-fill status-dot status-dot--blue"></i>
+                        Preparing
+                    </span>
+                    <strong>@Model.PreparingOrders</strong>
+                </div>
+
+                <div class="status-row">
+                    <span>
+                        <i class="bi bi-circle-fill status-dot status-dot--green"></i>
+                        Ready
+                    </span>
+                    <strong>@Model.ReadyOrders</strong>
+                </div>
+
+                <div class="status-row">
+                    <span>
+                        <i class="bi bi-circle-fill status-dot status-dot--muted"></i>
+                        Served
+                    </span>
+                    <strong>@Model.ServedOrders</strong>
+                </div>
+
+                <div class="status-row">
+                    <span>
+                        <i class="bi bi-circle-fill status-dot status-dot--red"></i>
+                        Cancelled
+                    </span>
+                    <strong>@Model.CancelledOrders</strong>
+                </div>
+
             </div>
+
         </div>
+
     </div>
 
-    
+
     <div class="card revenue-card">
+
         <h5>Revenue Trend (This Week)</h5>
+
         <div class="revenue-chart">
             <svg viewBox="0 0 500 100" class="revenue-svg">
-                <path d="M 0 80 Q 80 40 160 50 T 320 20 T 500 40" fill="none" stroke="#3b82f6" stroke-width="3" />
+                <path d="M 0 80 Q 80 40 160 50 T 320 20 T 500 40"
+                      fill="none"
+                      stroke="#3b82f6"
+                      stroke-width="3" />
                 <circle cx="160" cy="50" r="4" fill="#3b82f6" />
                 <circle cx="320" cy="20" r="4" fill="#3b82f6" />
             </svg>
         </div>
+
         <div class="chart-days">
-            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
         </div>
+
     </div>
 
 </div>
 
-<!-- SECTION 3: BOTTOM ALERTS PANEL -->
+
 <div class="card alerts-panel">
+
     <h5>Alerts & Notifications</h5>
 
     <div class="alerts-list">
 
-        <div class="alert-item alert-item--lowstock">
-            <div class="alert-left">
-                <i class="bi bi-exclamation-triangle-fill"></i>
-                <div>
-                    <span class="alert-title">Low stock alert: Cheese</span>
-                    <p class="alert-sub">Current stock is 2 kg (Reorder level: 5 kg)</p>
+        @if (Model.LowStockItems.Any())
+        {
+            @foreach (var item in Model.LowStockItems)
+            {
+                <div class="alert-item alert-item--lowstock">
+
+                    <div class="alert-left">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                        <div>
+
+                            <span class="alert-title">
+                                Low stock alert: @item.IngredientName
+                            </span>
+
+                            <p class="alert-sub">
+                                Current stock is @item.CurrentStock
+                                (Reorder level: @item.ReorderLevel)
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <button class="alert-btn btn-amber">
+                        View
+                    </button>
+
                 </div>
-            </div>
-            <button class="alert-btn btn-amber">View</button>
-        </div>
+            }
+        }
 
         <div class="alert-item alert-item--delayed">
-            <div class="alert-left">
-                <i class="bi bi-exclamation-circle-fill"></i>
-                <div>
-                    <span class="alert-title">3 Orders are delayed</span>
-                    <p class="alert-sub">Orders are not yet ready from kitchen</p>
-                </div>
-            </div>
-            <button class="alert-btn btn-red">View</button>
-        </div>
 
-        <div class="alert-item alert-item--reserved">
             <div class="alert-left">
-                <i class="bi bi-clock-fill"></i>
+
+                <i class="bi bi-exclamation-circle-fill"></i>
+
                 <div>
-                    <span class="alert-title">Table 12 is reserved in 15 mins</span>
-                    <p class="alert-sub">Time: 07:00 PM</p>
+
+                    <span class="alert-title">
+                        @Model.DelayedOrders Orders are delayed
+                    </span>
+
+                    <p class="alert-sub">
+                        Orders are not yet ready from kitchen
+                    </p>
+
                 </div>
+
             </div>
-            <button class="alert-btn btn-brown">View</button>
+
+            <button class="alert-btn btn-red">
+                View
+            </button>
+
         </div>
 
     </div>
-</div>
 
- 
+</div>
