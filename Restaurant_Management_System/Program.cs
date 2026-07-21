@@ -24,7 +24,8 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 //builder.Services.AddAuthorization();
 
 ////added for authentication and authorization
-
+builder.Services.AddScoped<IBillingService, BillingService>();
+builder.Services.AddScoped<Restaurant_Management_System.Services.IInventory, Restaurant_Management_System.Services.InventoryService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +35,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

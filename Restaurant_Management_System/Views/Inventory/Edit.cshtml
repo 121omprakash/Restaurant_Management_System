@@ -1,4 +1,5 @@
-﻿@model Restaurant_Management_System.Models.Ingredient
+﻿@model Restaurant_Management_System.ViewModel.InventoryItemViewModel
+@using Restaurant_Management_System.ENUM
 @{
     ViewData["Title"] = "Edit Item";
     Layout = "~/Views/Shared/_InventoryLayout.cshtml";
@@ -7,26 +8,36 @@
 <h2 class="mb-4">Edit Inventory Item</h2>
 
 <form asp-controller="Inventory" asp-action="ConsumeIngredients" method="post">
-    <input asp-for="IngredientId" type="hidden" />
+    <input asp-for="Ingredient.IngredientId" type="hidden" />
 
     <div class="mb-3">
-        <label asp-for="IngredientName" class="form-label"></label>
-        <input asp-for="IngredientName" class="form-control" />
+        <label asp-for="Ingredient.IngredientName" class="form-label"></label>
+        <input asp-for="Ingredient.IngredientName" class="form-control" />
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Ingredient.UnitOfMeasure"></label>
+
+        <select asp-for="Ingredient.UnitOfMeasure"
+                asp-items="Html.GetEnumSelectList<UnitOfMeasure>()"
+                class="form-control">
+        </select>
     </div>
 
   @*   <div class="mb-3">
         <label asp-for="Category" class="form-label"></label>
-        <input asp-for="Category" class="form-co    ntrol" />
+        <input asp-for="Category" class="form-control" />
     </div> *@
 
     <div class="mb-3">
-        <label asp-for="CurrentStock" class="form-label"></label>
-        <input asp-for="CurrentStock" class="form-control" type="number" />
+        <label asp-for="Ingredient.CurrentStock" class="form-label"></label>
+        <input asp-for="Ingredient.CurrentStock" class="form-control" type="number" />
     </div>
 
     <div class="mb-3">
-        <label asp-for="ReorderLevel" class="form-label"></label>
-        <input asp-for="ReorderLevel" class="form-control" type="number" />
+        <label asp-for="Ingredient.ReorderLevel" class="form-label"></label>
+        <input asp-for="Ingredient.ReorderLevel" class="form-control" type="number" />
     </div>
 
     <button type="submit" class="btn btn-primary">Update Item</button>

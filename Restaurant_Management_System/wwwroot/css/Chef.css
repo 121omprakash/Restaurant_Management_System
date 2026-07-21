@@ -803,3 +803,272 @@ search-filter-form {
     border-radius: 8px;
     cursor: pointer;
 }
+
+/* ==========================================
+   ADD RECIPE PAGE
+========================================== */
+
+.container {
+    max-width: 1200px;
+}
+
+/* Card */
+
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+    transition: .3s ease;
+}
+
+.card-header {
+    padding: 18px 24px;
+}
+
+    .card-header h3 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+.card-body {
+    padding: 30px;
+}
+
+    /* Labels */
+
+    .card-body label {
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+/* Inputs */
+
+.form-control,
+.form-select {
+    height: 46px;
+    border-radius: 8px;
+    transition: .3s;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+    }
+
+/* Textarea */
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Readonly */
+
+input[readonly] {
+    cursor: not-allowed;
+}
+
+/* Headings */
+
+.card-body h4 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* HR */
+
+hr {
+    margin: 30px 0;
+}
+
+/* ==========================================
+   TABLE
+========================================== */
+
+#ingredientsTable {
+    margin-top: 20px;
+}
+
+    #ingredientsTable thead th {
+        text-align: center;
+        vertical-align: middle;
+        font-weight: 600;
+        padding: 14px;
+    }
+
+    #ingredientsTable td {
+        padding: 14px;
+        vertical-align: middle;
+    }
+
+    #ingredientsTable input,
+    #ingredientsTable select {
+        width: 100%;
+    }
+
+    /* Hover */
+
+    #ingredientsTable tbody tr:hover {
+        transition: .2s;
+    }
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 8px 18px;
+}
+
+.btn-success {
+    margin-top: 12px;
+}
+
+.text-end {
+    margin-top: 30px;
+}
+
+/* ==========================================
+   RECIPE STEPS
+========================================== */
+
+#stepsContainer {
+    margin-top: 15px;
+}
+
+    #stepsContainer .mb-3 {
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    #stepsContainer textarea {
+        margin-top: 8px;
+    }
+
+/* ==========================================
+   LIGHT THEME
+========================================== */
+
+html[data-theme="light"] .card,
+html:not([data-theme]) .card {
+    background: #ffffff;
+}
+
+html[data-theme="light"] .card-body,
+html:not([data-theme]) .card-body {
+    background: #ffffff;
+}
+
+html[data-theme="light"] .form-control,
+html[data-theme="light"] .form-select,
+html:not([data-theme]) .form-control,
+html:not([data-theme]) .form-select {
+    background: #ffffff;
+    color: #212529;
+    border: 1px solid #ced4da;
+}
+
+html[data-theme="light"] #ingredientsTable thead,
+html:not([data-theme]) #ingredientsTable thead {
+    background: #f8f9fa;
+}
+
+/* ==========================================
+   DARK THEME
+========================================== */
+
+html[data-theme="dark"] .card {
+    background: #232b3b;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .card-header {
+    background: linear-gradient(90deg,#0d6efd,#3b82f6);
+}
+
+html[data-theme="dark"] .card-body {
+    background: #232b3b;
+}
+
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] label {
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select {
+    background: #2f3a4f;
+    color: #ffffff;
+    border: 1px solid #4c5a73;
+}
+
+    html[data-theme="dark"] .form-control::placeholder {
+        color: #c8d1df;
+    }
+
+    html[data-theme="dark"] .form-control:focus,
+    html[data-theme="dark"] .form-select:focus {
+        background: #2f3a4f;
+        color: #ffffff;
+    }
+
+html[data-theme="dark"] input[readonly] {
+    background: #39465d;
+}
+
+html[data-theme="dark"] textarea {
+    background: #2f3a4f;
+    color: #ffffff;
+    border: 1px solid #4c5a73;
+}
+
+html[data-theme="dark"] #ingredientsTable {
+    color: #ffffff;
+}
+
+    html[data-theme="dark"] #ingredientsTable thead {
+        background: #39465d;
+    }
+
+    html[data-theme="dark"] #ingredientsTable th {
+        color: #ffffff;
+    }
+
+    html[data-theme="dark"] #ingredientsTable td {
+        background: #232b3b;
+        color: #ffffff;
+    }
+
+html[data-theme="dark"] hr {
+    border-color: #4c5a73;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:768px) {
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .text-end {
+        text-align: center !important;
+    }
+
+    #ingredientsTable {
+        font-size: 14px;
+    }
+}

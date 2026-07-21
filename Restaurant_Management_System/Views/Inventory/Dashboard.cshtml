@@ -1,15 +1,16 @@
-﻿@model Restaurant_Management_System.ViewModel.InventoryDashboardViewModel;
+﻿@model Restaurant_Management_System.ViewModel.InventoryDashboardViewModel
+@using Restaurant_Management_System.ENUM
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_InventoryLayout.cshtml";
 }
 
       <!-- Page Title -->
-    <!-- Welcome Header Section matching Anusha/Waiter Theme Layout -->
+    <!-- Welcome Header Section matching Waiter Theme Layout -->
     <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
         <div>
-            <h2 class="page-title mb-1" style="font-size: 26px; font-weight: 700; color: var(--text-main);">Welcome back, Rishabh</h2>
-            <p class="page-subtitle mb-0" style="font-size: 14px; color: var(--text-muted);">
+            <h2 class="page-title mb-1">Welcome back, Rishabh</h2>
+            <p class="page-subtitle mb-0">
                 <i class="fa-solid fa-calendar-days text-warning me-1"></i> &bull; @DateTime.Now.ToString("d MMM yyyy")
             </p>
         </div>
@@ -63,15 +64,18 @@
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <div>
                             <strong>@item.IngredientName</strong><br />
-                            <small>@item.CurrentStock @("units") - Reorder at @item.ReorderLevel</small>
+                            @* <small>@item.CurrentStock @("units") - Reorder at @item.ReorderLevel</small> *@
+                            <small>
+                                @item.CurrentStock @item.UnitOfMeasure
+                            </small>
                         </div>
-                        @if (item.CurrentStock < item.ReorderLevel / 2)
+                        @if (item.StockStatus == StockStatus.OUT_OF_STOCK)
                         {
-                            <span class="badge bg-danger">critical</span>
+                            <span class="badge bg-danger">Out Of Stock</span>
                         }
-                        else
+                        else if (item.StockStatus == StockStatus.LOW)
                         {
-                            <span class="badge bg-warning text-dark">low</span>
+                            <span class="badge bg-warning text-dark">Low</span>
                         }
                     </div>
                     <hr />
@@ -88,8 +92,8 @@
     <!-- Chart -->
     <div class="col-md-6">
         <div class="card shadow-sm p-3 h-100">
-            <h5>Stock Levels Overview</h5>
-            <div class="chart-container" style="position:relative;height:300px;">
+            <h5>Top 5 Critical Stock Items</h5>
+            <div class="chart-container">
                 <canvas id="stockChart"></canvas>
             </div>
         </div>
@@ -101,8 +105,21 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // prepare data from server model
-    const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.IngredientName)));
-    const dataValues = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AllItems.Select(i => i.CurrentStock)));
+    const labels = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(
+                Model.LowItems
+                     .OrderBy(i => i.CurrentStock)
+                     .Take(5)
+                     .Select(i => i.IngredientName)
+            ));
+
+    const dataValues = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(
+                Model.LowItems
+                     .OrderBy(i => i.CurrentStock)
+                     .Take(5)
+                     .Select(i => i.CurrentStock)
+            ));
 
     const ctx = document.getElementById('stockChart').getContext('2d');
     new Chart(ctx, {

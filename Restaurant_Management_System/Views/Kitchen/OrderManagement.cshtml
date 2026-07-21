@@ -13,7 +13,7 @@
 
     <!-- Pending -->
     <div class="order-card"
-    onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.QUEUED })'"
+         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.QUEUED })#ordersTable'"
     style="cursor:pointer;">
         <div class="card-content">
             <h6>PENDING ORDERS</h6>
@@ -27,7 +27,7 @@
 
     <!-- Preparing -->
     <div class="order-card"
-         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.IN_PROGRESS })'"
+         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.IN_PROGRESS })#ordersTable'"
          style="cursor:pointer;">
         <div class="card-content">
             <h6>PREPARING ORDERS</h6>
@@ -41,7 +41,7 @@
 
     <!-- Completed -->
     <div class="order-card"
-         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.READY })'"
+         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { status = TicketStatus.READY })#ordersTable'"
          style="cursor:pointer;">
         <div class="card-content">
             <h6>COMPLETED ORDERS</h6>
@@ -55,7 +55,7 @@
 
     <!-- Delayed -->
     <div class="order-card"
-         onclick="location.href='@Url.Action("OrderManagement", "Kitchen")'"
+         onclick="location.href='@Url.Action("OrderManagement", "Kitchen", new { delayed = true })#ordersTable'"
          style="cursor:pointer;">
         <div class="card-content">
             <h6>DELAYED ORDERS</h6>
@@ -71,7 +71,7 @@
 <!-- Today's Order History -->
 <!-- ========================= -->
 
-<div class="table-card">
+<div   id="ordersTable" class="table-card">
 
     <div class="table-header">
         <h4> Order History</h4>
