@@ -17,13 +17,52 @@ namespace Restaurant_Management_System.Controllers
 
         public IActionResult Dashboard()
         {
-            return View();
+            DashboardVM vm = new();
+
+            vm.TotalOrders = _context.CustomerOrders.Count();
+
+            vm.Revenue = _context.BillInvoices.Any()
+                ? _context.BillInvoices.Sum(x => x.TotalAmount)
+                : 0;
+
+            vm.TotalTables = _context.RestaurantTables.Count();
+
+            vm.OccupiedTables = _context.RestaurantTables
+                .Count(x => x.IsOccupied);
+
+            vm.PendingOrders = _context.CustomerOrders
+                .Count(x => x.OrderStatus == OrderStatus.NEW);
+
+            vm.PreparingOrders = _context.CustomerOrders
+                .Count(x => x.OrderStatus == OrderStatus.PREPARING);
+
+            vm.ReadyOrders = _context.CustomerOrders
+                .Count(x => x.OrderStatus == OrderStatus.READY);
+
+            vm.ServedOrders = _context.CustomerOrders
+                .Count(x => x.OrderStatus == OrderStatus.SERVED);
+
+            vm.CancelledOrders = _context.CustomerOrders
+                .Count(x => x.OrderStatus == OrderStatus.CANCEL);
+
+            vm.DelayedOrders = _context.CustomerOrders
+                .Count(x => x.OrderStatus == OrderStatus.PREPARING
+                         && x.OrderTime < DateTime.Now.AddMinutes(-30));
+
+            vm.LowStockItems = _context.Ingredients
+                .Where(x => x.CurrentStock <= x.ReorderLevel)
+                .ToList();
+
+            return View(vm);
         }
 
         public IActionResult MenuManagement()
         {
-            return View();
+            var menuItems = _context.MenuItems.ToList();
+
+            return View(menuItems);
         }
+
 
         public IActionResult MenuAdd()
         {
@@ -75,9 +114,17 @@ namespace Restaurant_Management_System.Controllers
             return View();
         }
 
-        public IActionResult Inventory()
+        public IActionResult Inventory(string search)
         {
-            return View();
+            var ingredients = _context.Ingredients.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                ingredients = ingredients.Where(x =>
+                    x.IngredientName.Contains(search));
+            }
+
+            return View(ingredients.ToList());
         }
 
         public IActionResult Reports()
