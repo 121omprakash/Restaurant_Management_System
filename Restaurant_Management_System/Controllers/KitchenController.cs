@@ -20,7 +20,7 @@ namespace Restaurant_Management_System.Controllers
         public kitchenController(rmsDbContext context)
         {
             _context = context;
-        } 
+        }
         public IActionResult Index()
         {
             return RedirectToAction("OrderManagement");
@@ -65,7 +65,7 @@ namespace Restaurant_Management_System.Controllers
                 .Where(o => o.OrderId == orderId)
                 .Include(o => o.MenuItem)
                 .ToList();
-               ViewBag.OrderId = orderId;
+            ViewBag.OrderId = orderId;
 
             return View(items);
         }
@@ -152,8 +152,8 @@ namespace Restaurant_Management_System.Controllers
             return RedirectToAction(nameof(OrderManagement));
         }
 
-       
-        public IActionResult RecipeManagement(string tab="existing")
+
+        public IActionResult RecipeManagement(string tab = "existing")
         {
             var vm = new RecipeManagementViewModel();
 
@@ -200,7 +200,7 @@ namespace Restaurant_Management_System.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRecipe(AddRecipeViewModel model)
         {
-           
+
             if (!ModelState.IsValid)
             {
                 ViewBag.Ingredients = _context.Ingredients.ToList();

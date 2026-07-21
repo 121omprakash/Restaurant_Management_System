@@ -24,6 +24,8 @@ namespace Restaurant_Management_System.Models
 
         public string? RecipeSteps { get; set; }
 
+        public string? ImagePath { get; set; }
+
         public ICollection<ItemRecipe> ItemRecipes { get; set; }
             = new List<ItemRecipe>();
     }

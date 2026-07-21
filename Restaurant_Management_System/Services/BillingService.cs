@@ -173,5 +173,11 @@ namespace Restaurant_Management_System.Services
 
             return completedInvoice;
         }
+
+        public BillInvoice? GetInvoiceById(int invoiceId)
+        {
+            return _context.BillInvoices
+                .FirstOrDefault(b => b.InvoiceId == invoiceId);
+        }
     }
 }

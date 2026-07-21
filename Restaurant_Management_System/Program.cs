@@ -22,6 +22,7 @@ builder.Services.AddDbContext<rmsDbContext>(options => options.UseSqlServer(conn
 
 ////added for authentication and authorization
 builder.Services.AddScoped<IBillingService, BillingService>();
+builder.Services.AddScoped<Restaurant_Management_System.Services.IInventory, Restaurant_Management_System.Services.InventoryService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
