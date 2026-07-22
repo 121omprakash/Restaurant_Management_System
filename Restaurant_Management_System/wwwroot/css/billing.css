@@ -148,3 +148,8 @@ body {
     flex-direction: column;
     min-width: 0;
 }
+
+.reset_filter{
+    color: var(--text-main);
+    border: solid 1px red;
+}

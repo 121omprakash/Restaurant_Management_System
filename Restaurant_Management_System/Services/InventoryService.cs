@@ -31,10 +31,18 @@ namespace Restaurant_Management_System.Services
             };
         }
 
-        public InventoryListViewModel GetAll()
+        public InventoryListViewModel GetAll(string searchTerm = null)
         {
-            var items = _context.Ingredients.ToList();
-            return new InventoryListViewModel { Items = items };
+            var query = _context.Ingredients.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var s = searchTerm.Trim();
+                query = query.Where(i => i.IngredientName.Contains(s));
+            }
+
+            var items = query.ToList();
+            return new InventoryListViewModel { Items = items, SearchTerm = searchTerm ?? string.Empty };
         }
 
         public InventoryItemViewModel GetItem(int id)

@@ -10,6 +10,9 @@ builder.Services.AddControllersWithViews();
 string connectionString = builder.Configuration.GetSection("ConnectionStrings")["MyConn"];
 builder.Services.AddDbContext<rmsDbContext>(options => options.UseSqlServer(connectionString));
 
+
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 //added for authentication and authorization
 
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -22,7 +25,7 @@ builder.Services.AddDbContext<rmsDbContext>(options => options.UseSqlServer(conn
 
 ////added for authentication and authorization
 builder.Services.AddScoped<IBillingService, BillingService>();
-builder.Services.AddScoped<Restaurant_Management_System.Services.IInventory, Restaurant_Management_System.Services.InventoryService>();
+builder.Services.AddScoped<IKitchenService, KitchenService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
