@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Restaurant_Management_System.Data;
 using Restaurant_Management_System.ENUM;
+using Restaurant_Management_System.Models;
 using Restaurant_Management_System.ViewModel;
 
 namespace Restaurant_Management_System.Controllers
@@ -64,9 +65,24 @@ namespace Restaurant_Management_System.Controllers
         }
 
 
+        [HttpGet]
         public IActionResult MenuAdd()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult MenuAdd(MenuItem item)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.MenuItems.Add(item);
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(MenuManagement));
+            }
+
+            return View(item);
         }
 
         public IActionResult MenuView()
@@ -74,14 +90,53 @@ namespace Restaurant_Management_System.Controllers
             return View();
         }
 
-        public IActionResult MenuEdit()
+        [HttpGet]
+        public IActionResult MenuEdit(int id)
         {
-            return View();
+            var item = _context.MenuItems.Find(id);
+
+            if (item == null)
+                return NotFound();
+
+            return View(item);
         }
 
-        public IActionResult MenuDelete()
+        [HttpPost]
+        public IActionResult MenuEdit(MenuItem item)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                _context.MenuItems.Update(item);
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(MenuManagement));
+            }
+
+            return View(item);
+        }
+        [HttpPost]
+        public IActionResult ToggleStatus(int id)
+        {
+            var item = _context.MenuItems.Find(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            // Toggle between AVAILABLE and UNAVAILABLE (or RETIRED based on your ENUM)
+            if (item.ItemStatus == ItemStatus.AVAILABLE)
+            {
+                item.ItemStatus = ItemStatus.RETIRED; // Change to ItemStatus.RETIRED if UNAVAILABLE isn't in your enum
+            }
+            else
+            {
+                item.ItemStatus = ItemStatus.AVAILABLE;
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(MenuManagement));
         }
 
         public IActionResult OrderMonitoring(OrderStatus? status)
@@ -134,12 +189,26 @@ namespace Restaurant_Management_System.Controllers
                     x.IngredientName.Contains(search));
             }
 
-            return View(ingredients.ToList());
-        }
+            // Maps DB Entities to ManagerInventoryViewModel
+            var inventoryList = ingredients.Select(i => new ManagerInventoryViewModel
+            {
+                Id = i.IngredientId,
+                ItemName = i.IngredientName,
 
+                // Convert the UnitOfMeasure Enum to a readable string (e.g., "KG", "Liters", "Pcs")
+                Unit = i.UnitOfMeasure.ToString(),
+
+                CurrentStock = i.CurrentStock,
+
+                // Use your existing StockStatus enum string, or calculate dynamic status
+                Status = i.StockStatus.ToString()
+            }).ToList();
+
+            return View(inventoryList);
+        }
         public IActionResult Reports()
         {
-            var vm = new Restaurant_Management_System.ViewModel.ReportsViewModel();
+            var vm = new ReportsViewModel();
 
             var today = DateTime.Today;
 
