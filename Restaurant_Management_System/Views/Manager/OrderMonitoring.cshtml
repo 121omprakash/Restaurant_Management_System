@@ -7,16 +7,17 @@
 
 <div class="order-monitor-container">
 
+    <!-- Status Tabs -->
     <div class="order-tabs">
-        <button class="order-tab active">All</button>
-        <button class="order-tab">Preparing</button>
-        <button class="order-tab">Ready</button>
-        <button class="order-tab">Served</button>
+        <a asp-controller="Manager" asp-action="OrderMonitoring" class="order-tab @(!Context.Request.Query.ContainsKey("status") ? "active" : "")">All</a>
+        <a asp-controller="Manager" asp-action="OrderMonitoring" asp-route-status="@Restaurant_Management_System.ENUM.OrderStatus.PREPARING" class="order-tab @(Context.Request.Query["status"] == "PREPARING" ? "active" : "")">Preparing</a>
+        <a asp-controller="Manager" asp-action="OrderMonitoring" asp-route-status="@Restaurant_Management_System.ENUM.OrderStatus.READY" class="order-tab @(Context.Request.Query["status"] == "READY" ? "active" : "")">Ready</a>
+        <a asp-controller="Manager" asp-action="OrderMonitoring" asp-route-status="@Restaurant_Management_System.ENUM.OrderStatus.SERVED" class="order-tab @(Context.Request.Query["status"] == "SERVED" ? "active" : "")">Served</a>
     </div>
 
+    <!-- Orders Table -->
     <div class="order-table-wrapper">
-        <table class="order-table">
-
+        <table class="order-table" id="ordersTable">
             <thead>
                 <tr>
                     <th>Order ID</th>
@@ -27,47 +28,71 @@
                     <th>Total</th>
                 </tr>
             </thead>
+            <tbody id="ordersTableBody">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        var statusClass = order.OrderStatus switch
+                        {
+                            Restaurant_Management_System.ENUM.OrderStatus.NEW => "status-new",
+                            Restaurant_Management_System.ENUM.OrderStatus.PREPARING => "status-preparing",
+                            Restaurant_Management_System.ENUM.OrderStatus.READY => "status-ready",
+                            Restaurant_Management_System.ENUM.OrderStatus.SERVED => "status-served",
+                            Restaurant_Management_System.ENUM.OrderStatus.CANCEL => "status-cancel",
+                            _ => ""
+                        };
 
-            <tbody>
-                <tbody>
-
-@if (Model.Any())
-{
-    @foreach (var order in Model)
-    {
-        <tr>
-            <td class="order-id">#@order.OrderId</td>
-            <td>@order.CustomerName</td>
-            <td>@order.TableNumber</td>
-
-            <td class="order-time">
-                @order.OrderTime.ToString("hh:mm tt")
-            </td>
-
-            <td>
-                <span class="status-badge">
-                    @order.OrderStatus
-                </span>
-            </td>
-
-            <td>₹@order.TotalAmount</td>
-        </tr>
-    }
-}
-else
-{
-    <tr>
-        <td colspan="6" style="text-align:center;padding:25px;">
-            No orders available.
-        </td>
-    </tr>
-}
-
-</tbody>
-                
+                        <tr>
+                            <td class="order-id">#@order.OrderId</td>
+                            <td>@order.CustomerName</td>
+                            <td>@order.TableNumber</td>
+                            <td class="order-time">@order.OrderTime.ToString("hh:mm tt")</td>
+                            <td>
+                                <span class="status-badge @statusClass">
+                                    @order.OrderStatus
+                                </span>
+                            </td>
+                            <td>₹@order.TotalAmount.ToString("F2")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" style="text-align:center; padding:25px; color: var(--text-muted);">
+                            No orders available.
+                        </td>
+                    </tr>
+                }
             </tbody>
-
         </table>
     </div>
-
 </div>
+
+@section Scripts {
+    <script>
+        // Auto-refresh order data every 5 seconds to sync kitchen updates live
+        setInterval(async function() {
+            try {
+                const currentUrl = window.location.href;
+                const response = await fetch(currentUrl, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+
+                if (response.ok) {
+                    const htmlText = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlText, 'text/html');
+
+                    const newTableBody = doc.getElementById('ordersTableBody');
+                    if (newTableBody) {
+                        document.getElementById('ordersTableBody').innerHTML = newTableBody.innerHTML;
+                    }
+                }
+            } catch (error) {
+                console.error("Auto-sync error:", error);
+            }
+        }, 5000);
+    </script>
+}
