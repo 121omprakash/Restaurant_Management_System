@@ -1,133 +1,89 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Restaurant_Management_System.Data;
 using Restaurant_Management_System.Models;
-using System.Linq;
+using Restaurant_Management_System.Services;
+using Restaurant_Management_System.ViewModel;
 
 namespace Restaurant_Management_System.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly rmsDbContext _context;
+        private readonly IAdminService _adminService;
 
-        public AdminController(rmsDbContext context)
+        public AdminController(IAdminService adminService)
         {
-            _context = context;
+            _adminService = adminService;
         }
 
-        public IActionResult Employees()
+        // Employee Management Dashboard
+        [HttpGet]
+        public async Task<IActionResult> Employees()
         {
-            ViewBag.TotalProfiles = _context.Employees.Count();
-            ViewBag.ActiveProfiles = _context.Employees.Count(e => e.IsActive);
-            ViewBag.InactiveProfiles = _context.Employees.Count(e => !e.IsActive);
-            ViewBag.SecurityAdmins = _context.Employees.Count(e => e.Role == "Admin" && e.IsActive);
-            ViewBag.OperationalStaff = _context.Employees.Count(e => e.Role != "Admin" && e.IsActive);
-
-            return View(_context.Employees.ToList());
+            var dashboardData = await _adminService.GetEmployeeDashboardDataAsync();
+            return View(dashboardData);
         }
 
-        [HttpPost]
-        public IActionResult CreateUser(string name, string password, string role)
-        {
-            if (role == "Admin" && _context.Employees.Any(e => e.Role == "Admin"))
-            {
-                TempData["Message"] = "Error: An Administrator account already exists.";
-                return RedirectToAction("Employees");
-            }
-
-            // Generate Unique ID
-            string prefix = role.Length >= 2 ? role.Substring(0, 2).ToUpper() : "ST";
-            int count = _context.Employees.Count(e => e.Role == role) + 1;
-            string generatedId = $"{prefix}{count:D2}";
-
-            var newEmp = new Employee
-            {
-                Name = name,
-                EmpId = generatedId,
-                password = password,
-                Role = role,
-                IsActive = true
-            };
-
-            _context.Employees.Add(newEmp);
-            _context.SaveChanges();
-
-            TempData["Message"] = $"Employee Added! ID: {generatedId}";
-            return RedirectToAction("Employees");
-        }
-
-        [HttpPost]
-        public IActionResult EditUser(int id, string name, string role, bool isActive)
-        {
-            var emp = _context.Employees.Find(id);
-
-            if (emp == null) return RedirectToAction("Employees");
-            if (!emp.IsActive)
-            {
-                TempData["Message"] = "Action Denied: You must reactivate the employee before editing their details.";
-                return RedirectToAction("Employees");
-            }
-
-            // 1. Prevent deactivating the Admin
-            if (emp.Role == "Admin" && !isActive)
-            {
-                TempData["Message"] = "Action Denied: The Admin account cannot be deactivated.";
-                return RedirectToAction("Employees");
-            }
-
-            // 2. Update properties
-            emp.Name = name;
-            emp.Role = role;
-            emp.IsActive = isActive;
-
-            _context.SaveChanges();
-            TempData["Message"] = "Employee details updated.";
-            return RedirectToAction("Employees");
-        }
-
-        [HttpPost]
-        public IActionResult ToggleStatus(int id)
-        {
-            var emp = _context.Employees.Find(id);
-            if (emp == null) return RedirectToAction("Employees");
-
-            if (emp.Role == "Admin")
-            {
-                TempData["Message"] = "Action Denied: The Administrator account cannot be deactivated.";
-            }
-            else
-            {
-                emp.IsActive = !emp.IsActive;
-                _context.SaveChanges();
-                TempData["Message"] = emp.IsActive ? "Employee reactivated successfully." : "Employee deactivated successfully.";
-            }
-            return RedirectToAction("Employees");
-        }
-
-        public IActionResult RestaurantProfile()
-        {
-            var details = _context.RestaurantProfiles.FirstOrDefault(s => s.Id == 1) ?? new RestaurantProfile { Id = 1 };
-            return View(details);
-        }
-
+        // Create Employee
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateRestaurantProfile(RestaurantProfile updatedData)
+        public async Task<IActionResult> CreateEmployee(EmployeeViewModel employee)
         {
-            var existing = _context.RestaurantProfiles.FirstOrDefault(s => s.Id == 1);
-            if (existing != null)
+            if (!ModelState.IsValid)
             {
-                existing.RestaurantName = updatedData.RestaurantName;
-                existing.PrimaryPhone = updatedData.PrimaryPhone;
-                existing.CorporateEmail = updatedData.CorporateEmail;
-                existing.PhysicalAddress = updatedData.PhysicalAddress;
-                existing.TaxIdentifier = updatedData.TaxIdentifier;
-                existing.BaseCgstPercentage = updatedData.BaseCgstPercentage;
-                existing.BaseSgstPercentage = updatedData.BaseSgstPercentage;
-                _context.SaveChanges();
-                TempData["Message"] = "Details updated successfully!";
+                TempData["Message"] = "Please enter valid employee details.";
+                return RedirectToAction(nameof(Employees));
             }
-            return RedirectToAction("RestaurantProfile");
+
+            var (_, message) = await _adminService.CreateEmployeeAsync(employee);
+            TempData["Message"] = message;
+
+            return RedirectToAction(nameof(Employees));
+        }
+
+        // Update Employee
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateEmployee(EmployeeViewModel updatedEmployee)
+        {
+            var (_, message) = await _adminService.UpdateEmployeeAsync(updatedEmployee);
+            TempData["Message"] = message;
+
+            return RedirectToAction(nameof(Employees));
+        }
+
+        // Activate / Deactivate Employee
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ToggleStatus(int id)
+        {
+            var (_, message) = await _adminService.ToggleEmployeeStatusAsync(id);
+            TempData["Message"] = message;
+
+            return RedirectToAction(nameof(Employees));
+        }
+
+        // Restaurant Profile
+        [HttpGet]
+        public async Task<IActionResult> RestaurantProfile()
+        {
+            var profile = await _adminService.GetRestaurantProfileAsync();
+            return View(profile);
+        }
+
+        // Update Restaurant Profile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRestaurantProfile(RestaurantProfile updatedProfile)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "Please enter valid details.";
+                return RedirectToAction(nameof(RestaurantProfile));
+            }
+
+            var (_, message) = await _adminService.UpdateRestaurantProfileAsync(updatedProfile);
+            TempData["Message"] = message;
+
+            return RedirectToAction(nameof(RestaurantProfile));
         }
     }
 }
