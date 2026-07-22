@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Restaurant_Management_System.ViewModel.MenuItemCreateViewModel
+@{
     ViewData["Title"] = "Add Menu Item";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
@@ -14,55 +15,53 @@
 
     <div class="menu-form">
 
-        <div class="form-group">
-            <label>Item Name</label>
-            <input type="text" placeholder="Enter Item Name" />
-        </div>
+        <form asp-action="MenuAdd" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="ItemName"></label>
+                <input asp-for="ItemName" class="form-control" />
+            </div>
 
-        <div class="form-group">
-            <label>Category</label>
+            <div class="form-group">
+                <label asp-for="Category"></label>
+                <select asp-for="Category" class="form-control">
+                    @foreach (var val in Enum.GetValues(typeof(Restaurant_Management_System.ENUM.MenuCategory)))
+                    {
+                        <option value="@val">@val</option>
+                    }
+                </select>
+            </div>
 
-            <select>
-                <option>Veg Pizza</option>
-                <option>Non-Veg Pizza</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" />
+            </div>
 
-        <div class="form-group">
-            <label>Price</label>
-            <input type="text" placeholder="Enter Price" />
-        </div>
+            <!-- PreparationTime removed from create form per request -->
 
-        <div class="form-group">
-            <label>Status</label>
+            <div class="form-group">
+                <label asp-for="ItemStatus"></label>
+                <select asp-for="ItemStatus" class="form-control">
+                    @foreach (var val in Enum.GetValues(typeof(Restaurant_Management_System.ENUM.ItemStatus)))
+                    {
+                        <option value="@val">@val</option>
+                    }
+                </select>
+            </div>
 
-            <select>
-                <option>Available</option>
-                <option>Unavailable</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label asp-for="ImageFile">Upload Image</label>
+                <input asp-for="ImageFile" type="file" class="form-control" />
+            </div>
 
-        <div class="form-group">
-            <label>Upload Image</label>
-            <input type="file" />
-        </div>
+            
 
-        <div class="button-group">
-
-            <a asp-action="MenuManagement"
-               class="cancel-btn">
-                Cancel
-            </a>
-
-            <a asp-action="MenuManagement"
-               class="save-btn">
-                Save Item
-            </a>
-
-        </div>
+            <div class="button-group">
+                <a asp-action="MenuManagement" class="cancel-btn">Cancel</a>
+                <button type="submit" class="save-btn">Save Item</button>
+            </div>
+        </form>
 
     </div>
 
 </div>
 
- 

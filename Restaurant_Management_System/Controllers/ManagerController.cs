@@ -3,16 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Restaurant_Management_System.Data;
 using Restaurant_Management_System.ENUM;
 using Restaurant_Management_System.ViewModel;
+using System.IO;
 
 namespace Restaurant_Management_System.Controllers
 {
     public class ManagerController : Controller
     {
         private readonly rmsDbContext _context;
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
 
-        public ManagerController(rmsDbContext context)
+        public ManagerController(rmsDbContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public IActionResult Dashboard()
@@ -66,7 +69,57 @@ namespace Restaurant_Management_System.Controllers
 
         public IActionResult MenuAdd()
         {
-            return View();
+            var vm = new ViewModel.MenuItemCreateViewModel();
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MenuAdd(ViewModel.MenuItemCreateViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            // if an image file was uploaded, save it to wwwroot/images/menu and set ImagePath
+            string? savedImagePath = null;
+            if (vm.ImageFile != null && vm.ImageFile.Length > 0)
+            {
+                var uploadsRoot = Path.Combine(_env.WebRootPath ?? "wwwroot", "images", "menu");
+                if (!Directory.Exists(uploadsRoot)) Directory.CreateDirectory(uploadsRoot);
+
+                var fileExt = Path.GetExtension(vm.ImageFile.FileName);
+                var fileName = $"menu_{Guid.NewGuid():N}{fileExt}";
+                var fullPath = Path.Combine(uploadsRoot, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    vm.ImageFile.CopyTo(stream);
+                }
+
+                // store web-relative path
+                savedImagePath = $"/images/menu/{fileName}";
+            }
+
+            // create menu item (variable name: menuItem)
+            var menuItem = new Models.MenuItem
+            {
+                ItemName = vm.ItemName,
+                Category = vm.Category,
+                Price = vm.Price,
+                // keep model default for PreparationTime (removed from form)
+                ItemStatus = vm.ItemStatus,
+                RecipeSteps = null, // recipiePath/steps null by default
+                ImagePath = savedImagePath
+            };
+
+            _context.MenuItems.Add(menuItem);
+            _context.SaveChanges();
+
+            // Ingredients removed from create flow per request
+
+            return RedirectToAction("MenuManagement");
         }
 
         public IActionResult MenuView()
