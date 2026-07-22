@@ -25,7 +25,7 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 
 ////added for authentication and authorization
 builder.Services.AddScoped<IBillingService, BillingService>();
-builder.Services.AddScoped<Restaurant_Management_System.Services.IInventory, Restaurant_Management_System.Services.InventoryService>();
+builder.Services.AddScoped<IInventory, InventoryService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
