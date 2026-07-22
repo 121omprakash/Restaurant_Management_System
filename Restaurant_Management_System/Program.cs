@@ -25,6 +25,7 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 
 ////added for authentication and authorization
 builder.Services.AddScoped<IBillingService, BillingService>();
+builder.Services.AddScoped<IInventory, InventoryService>();
 builder.Services.AddScoped<IKitchenService, KitchenService>();
 var app = builder.Build();
 
