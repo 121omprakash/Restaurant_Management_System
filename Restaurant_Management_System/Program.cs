@@ -10,6 +10,9 @@ builder.Services.AddControllersWithViews();
 string connectionString = builder.Configuration.GetSection("ConnectionStrings")["MyConn"];
 builder.Services.AddDbContext<rmsDbContext>(options => options.UseSqlServer(connectionString));
 
+
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 //added for authentication and authorization
 
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
