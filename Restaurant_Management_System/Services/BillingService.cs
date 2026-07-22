@@ -20,8 +20,9 @@ namespace Restaurant_Management_System.Services
         {
             CashierDashboardViewModel dashboardData = new CashierDashboardViewModel();
 
-            dashboardData.PendingBillsCount =
-                _context.BillInvoices.Count(b => b.PaymentStatus == PaymentStatus.PENDING);
+            dashboardData.PendingBillsCount = 
+                _context.BillInvoices.Count(b =>
+                 b.PaymentStatus == PaymentStatus.PENDING);
 
             dashboardData.SettledTodayCount =
                 _context.BillInvoices.Count(b => b.PaymentStatus == PaymentStatus.PAID);
@@ -44,30 +45,44 @@ namespace Restaurant_Management_System.Services
 
             foreach (var order in allDbOrders)
             {
-                if (currentTab == "PENDING" &&
-                    (order.OrderStatus == OrderStatus.READY ||
-                     order.OrderStatus == OrderStatus.PREPARING))
+                switch (currentTab)
                 {
-                    dashboardData.ActiveOrders.Add(order);
-                }
-                else if (currentTab == "SETTLED" &&
-                    order.OrderStatus == OrderStatus.SERVED)
-                {
-                    dashboardData.ActiveOrders.Add(order);
-                }
-                else if (currentTab == "TIPS" &&
-                    order.BillInvoice?.TipAmount > 0)
-                {
-                    dashboardData.ActiveOrders.Add(order);
-                }
-                else if (currentTab == "SALES" &&
-                    order.OrderStatus == OrderStatus.SERVED)
-                {
-                    dashboardData.ActiveOrders.Add(order);
-                }
-                else if (currentTab == "ALL")
-                {
-                    dashboardData.ActiveOrders.Add(order);
+                    case "PENDING":
+                        if (order.BillInvoice != null &&
+                            order.BillInvoice.PaymentStatus == PaymentStatus.PENDING)
+                        {
+                            dashboardData.ActiveOrders.Add(order);
+                        }
+                        break;
+
+                    case "SETTLED":
+                        if (order.BillInvoice != null &&
+                            order.BillInvoice.PaymentStatus == PaymentStatus.PAID)
+                        {
+                            dashboardData.ActiveOrders.Add(order);
+                        }
+                        break;
+
+                    case "TIPS":
+                        if (order.BillInvoice != null &&
+                            order.BillInvoice.PaymentStatus == PaymentStatus.PAID &&
+                            order.BillInvoice.TipAmount > 0)
+                        {
+                            dashboardData.ActiveOrders.Add(order);
+                        }
+                        break;
+
+                    case "SALES":
+                        if (order.BillInvoice != null &&
+                            order.BillInvoice.PaymentStatus == PaymentStatus.PAID)
+                        {
+                            dashboardData.ActiveOrders.Add(order);
+                        }
+                        break;
+
+                    default:
+                        dashboardData.ActiveOrders.Add(order);
+                        break;
                 }
             }
 
@@ -88,7 +103,7 @@ namespace Restaurant_Management_System.Services
 
                     var itemsList = selectedOrder.OrderItems
                         .Select(oi =>
-                            $"{oi.MenuItem?.ItemName ?? "Item"} (Qty: {oi.Quantity})");
+                            $"{oi.MenuItem?.ItemName ?? "Item"} (Qty: {oi.Quantity}) : ₹{oi.Price}");
 
                     dashboardData.DrillItems = itemsList.Any()
                         ? string.Join("<br/>", itemsList)
@@ -145,19 +160,23 @@ namespace Restaurant_Management_System.Services
             decimal subtotal = order.OrderItems.Sum(oi => oi.Price * oi.Quantity);
             decimal tax = subtotal * 0.0825m;
 
-            BillInvoice completedInvoice = new BillInvoice
+            // Get existing invoice
+            var invoice = _context.BillInvoices
+                .FirstOrDefault(b => b.OrderId == orderId);
+
+            if (invoice == null)
             {
-                OrderId = orderId,
-                SubtotalAmount = subtotal,
-                TaxAmount = tax,
-                TipAmount = tipAmount,
-                TotalAmount = subtotal + tax + tipAmount,
-                PaymentStatus = PaymentStatus.PAID
-            };
+                return null; // or create a new one if that's your business logic
+            }
 
-            _context.BillInvoices.Add(completedInvoice);
+            // Update existing invoice
+            invoice.SubtotalAmount = subtotal;
+            invoice.TaxAmount = tax;
+            invoice.TipAmount = tipAmount;
+            invoice.TotalAmount = subtotal + tax + tipAmount;
+            invoice.PaymentStatus = PaymentStatus.PAID;
 
-            // Update Order Status
+            // Update order status
             order.OrderStatus = OrderStatus.SERVED;
 
             // Free the table
@@ -171,7 +190,13 @@ namespace Restaurant_Management_System.Services
 
             _context.SaveChanges();
 
-            return completedInvoice;
+            return invoice;
+        }
+
+        public BillInvoice? GetInvoiceById(int invoiceId)
+        {
+            return _context.BillInvoices
+                .FirstOrDefault(b => b.InvoiceId == invoiceId);
         }
     }
 }
