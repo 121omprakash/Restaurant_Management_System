@@ -75,43 +75,18 @@
 
     <div class="table-header">
         <h4> Order History</h4>
-        <form asp-action="OrderManagement" asp-controller="Kitchen" method="get">
+        
             <div class="table-tools">
 
                 <input type="text"
                        name="search"
-                       value="@Model.Search"
+                       
                        class="search-box"
-                       placeholder="Search Order ID or Customer..." />
-                <button type="submit" class="action-btn view-btn">
-                    Search
-                </button>
-                <select name="status"
-                        class="filter-box"
-                        onchange="this.form.submit()">
-
-                    <option value="">All Status</option>
-
-                    <option value="@TicketStatus.QUEUED"
-                            selected="@(Model.SelectedStatus == TicketStatus.QUEUED)">
-                        Pending
-                    </option>
-
-                    <option value="@TicketStatus.IN_PROGRESS"
-                            selected="@(Model.SelectedStatus == TicketStatus.IN_PROGRESS)">
-                        Preparing
-                    </option>
-
-                    <option value="@TicketStatus.READY"
-                            selected="@(Model.SelectedStatus == TicketStatus.READY)">
-                        Completed
-                    </option>
-
-                </select>
-               
+                       placeholder="Search Order ID or Customer..." 
+                       oninput="searchOrders()" />
 
             </div>
-        </form>
+       
     </div>
 
     <table class="order-table">
@@ -282,5 +257,21 @@
 
     window.onload = function () {
         showOrders("pending");
-    };
+
+     
+}
+   function searchOrders() {
+    const search = document.querySelector(".search-box").value.toLowerCase();
+    const rows = document.querySelectorAll(".order-table tbody tr");
+ 
+    rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+ 
+        if (text.includes(search)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
 </script>
