@@ -1,4 +1,4 @@
-﻿@model List< Restaurant_Management_System.Models.KitchenTicket>
+﻿@model Restaurant_Management_System.ViewModel.OrderManagementViewModel
 @using Restaurant_Management_System.ENUM
 
 @{
@@ -17,7 +17,7 @@
     style="cursor:pointer;">
         <div class="card-content">
             <h6>PENDING ORDERS</h6>
-            <h2 id="pendingCount">@ViewBag.PendingCount</h2>
+            <h2 id="pendingCount">@Model.PendingCount</h2>
         </div>
 
         <div class="card-icon pending">
@@ -31,7 +31,7 @@
          style="cursor:pointer;">
         <div class="card-content">
             <h6>PREPARING ORDERS</h6>
-            <h2 id="preparingCount">@ViewBag.PreparingCount</h2>
+            <h2 id="preparingCount">@Model.PreparingCount</h2>
         </div>
 
         <div class="card-icon preparing">
@@ -45,7 +45,7 @@
          style="cursor:pointer;">
         <div class="card-content">
             <h6>COMPLETED ORDERS</h6>
-            <h2 id="completedCount">@ViewBag.CompletedCount</h2>
+            <h2 id="completedCount">@Model.CompletedCount</h2>
         </div>
 
         <div class="card-icon completed">
@@ -59,7 +59,7 @@
          style="cursor:pointer;">
         <div class="card-content">
             <h6>DELAYED ORDERS</h6>
-            <h2 id="delayedCount">@ViewBag.DelayedCount</h2>
+            <h2 id="delayedCount">@Model.DelayedCount</h2>
         </div>
 
         <div class="card-icon delayed">
@@ -80,7 +80,7 @@
 
                 <input type="text"
                        name="search"
-                       value="@ViewBag.Search"
+                       value="@Model.Search"
                        class="search-box"
                        placeholder="Search Order ID or Customer..." />
                 <button type="submit" class="action-btn view-btn">
@@ -89,14 +89,23 @@
                 <select name="status"
                         class="filter-box"
                         onchange="this.form.submit()">
-                    
 
                     <option value="">All Status</option>
 
-                    <option value="@TicketStatus.QUEUED">Pending</option>
-                    <option value="@TicketStatus.IN_PROGRESS">Preparing</option>
-                    <option value="@TicketStatus.READY">Completed</option>
-                    <option value="Delayed">Delayed</option>
+                    <option value="@TicketStatus.QUEUED"
+                            selected="@(Model.SelectedStatus == TicketStatus.QUEUED)">
+                        Pending
+                    </option>
+
+                    <option value="@TicketStatus.IN_PROGRESS"
+                            selected="@(Model.SelectedStatus == TicketStatus.IN_PROGRESS)">
+                        Preparing
+                    </option>
+
+                    <option value="@TicketStatus.READY"
+                            selected="@(Model.SelectedStatus == TicketStatus.READY)">
+                        Completed
+                    </option>
 
                 </select>
                
@@ -119,7 +128,7 @@
         <tbody>
             
 
-                @if (!Model.Any())
+                @if (!Model.Tickets.Any())
                 {
                     <tr>
                         <td colspan="5" class="text-center">
@@ -129,7 +138,7 @@
                 }
                 else
                 {
-                    @foreach (var ticket in Model)
+                    @foreach (var ticket in Model.Tickets)
                     {
                         <tr>
                             <td>@ticket.OrderId</td>
@@ -156,7 +165,7 @@
 
                             @if (ticket.TicketStatus == TicketStatus.QUEUED)
                             {
-                                <form asp-action="markItemPrepared"
+                                <form asp-action="MarkItemPrepared"
                                       asp-controller="Kitchen"
                                       method="post"
                                       style="display:inline;">
@@ -175,7 +184,7 @@
 
                             @if (ticket.TicketStatus == TicketStatus.IN_PROGRESS)
                             {
-                                <form asp-action="completeOrder" method="post" style="display:inline;">
+                                <form asp-action="CompleteOrder" method="post" style="display:inline;">
                                     <input type="hidden" name="id" value="@ticket.TicketId" />
                                     <button type="submit" class="btn btn-success">
                                         <i class="fa-solid fa-check"></i> Complete
