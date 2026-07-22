@@ -1,60 +1,130 @@
-﻿@model Restaurant_Management_System.Models.MenuItem
-@using Restaurant_Management_System.ENUM
+﻿@{
 
-@{
+    ViewData["Title"] = "Edit Menu Item (Prototype)";
+
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+
 }
 
-
-MenuEdit
-
-    <input type="hidden"
-           asp-for="MenuItemId" />
-
-    <div class="form-group">
-
-        <label>Item Name</label>
-
-        <input asp-for="ItemName"
-               class="form-control" />
-
+<div class="menu-container">
+    <div class="page-header">
+        <div>
+            <h2>Edit Menu Item</h2>
+            <p>Update menu information (<span id="proto-subtitle">Loading Item...</span>)</p>
+        </div>
     </div>
-
-    <div class="form-group">
-
-        <label>Category</label>
-
-        <input asp-for="Category"
-               class="form-control" />
-
+    <div class="menu-form">
+        <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" id="itemNameInput" value="" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <select id="itemCategorySelect" class="form-select">
+                <option id="cat-veg" value="Veg Pizza">Veg Pizza</option>
+                <option id="cat-nonveg" value="Non-Veg Pizza">Non-Veg Pizza</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Price (₹)</label>
+            <input type="text" id="itemPriceInput" value="" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <select class="form-select">
+                <option selected>Available</option>
+                <option>Unavailable</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Current Image</label>
+            <div class="mb-2">
+                <img id="itemImgPreview" src="" class="food-image" style="max-width: 200px; border-radius: 8px;" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Change Image</label>
+            <input type="file" class="form-control" />
+        </div>
+        <div class="button-group mt-4">
+            <a asp-action="MenuManagement" class="btn btn-secondary cancel-btn">Cancel</a>
+            <a asp-action="MenuManagement" class="btn btn-primary save-btn" onclick="alert('Prototype Saved Successfully!')">Update Item</a>
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
+<!-- PROTOTYPE DATA ENGINE ROUTER -->
+<script>
 
-        <label>Price</label>
+    document.addEventListener("DOMContentLoaded", function () {
 
-        <input asp-for="Price"
-               class="form-control" />
+        // 1. Core Mock Static Data Repository for all 8 items
 
-    </div>
+        const menuItemsData = {
 
-    <div class="form-group">
+            "1": { name: "Farm House Pizza", category: "Veg Pizza", price: "299", img: "farmhouse.jpg"},
 
-        <label>Status</label>
+            "2": { name: "Veggie Supreme Pizza", category: "Veg Pizza", price: "349", img: "veggiesupreme.jpg" },
 
-        <select asp-for="ItemStatus"
-                asp-items="Html.GetEnumSelectList<ItemStatus>()"
-                class="form-control">
-        </select>
+            "3": { name: "Ultimate Cheese Pizza", category: "Veg Pizza", price: "399", img: "ultimatecheese.jpg"},
 
-    </div>
-                            
-    <button type="submit"
-            class="btn btn-primary">
-        Update Item
-    </button>
+            "4": { name: "Paneer Pizza", category: "Veg Pizza", price: "329", img: "paneerpizza.jpg"},
 
-    MenuManagement
-        Cancel
-    </a>
+            "5": { name: "Chicken Tikka Pizza", category: "Non-Veg Pizza", price: "449", img: "chickentikka.jpg" },
 
+            "6": { name: "BBQ Chicken Pizza", category: "Non-Veg Pizza", price: "459",  img: "bbqchicken.jpg" },
+
+            "7": { name: "Fries", category: "Sides", price: "99", img: "fries.jpg"},
+
+            "8": { name: "Pepperoni Pizza", category: "Non-Veg Pizza", price: "499", img: "pepperoni.jpg"}
+
+        };
+
+        // 2. Read the "?id=" value out from the browser's current URL link string
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        let itemId = urlParams.get('id') || "1"; // Default fallback to Farm House if link lacks parameter
+
+        // 3. Fallback protection layer
+
+        if (!menuItemsData[itemId]) itemId = "1";
+
+        const selectedItem = menuItemsData[itemId];
+
+        // 4. Inject static content straight into inputs
+
+        document.getElementById("proto-subtitle").innerText = selectedItem.name + " Mock Profile";
+
+        document.getElementById("itemNameInput").value = selectedItem.name;
+
+        document.getElementById("itemPriceInput").value = selectedItem.price;
+
+        document.getElementById("itemTimeInput").value = selectedItem.time;
+
+        document.getElementById("itemDescTextarea").value = selectedItem.desc;
+
+        // Dynamic image resolver path mapping
+
+        document.getElementById("itemImgPreview").src = "/Images/" + selectedItem.img;
+
+        // Auto-select correct category fallback dropdown options
+
+        const catSelect = document.getElementById("itemCategorySelect");
+
+        for (let option of catSelect.options) {
+
+            if (option.value === selectedItem.category) {
+
+                option.selected = true;
+
+                break;
+
+            }
+
+        }
+
+    });
+</script>
+
+ 
