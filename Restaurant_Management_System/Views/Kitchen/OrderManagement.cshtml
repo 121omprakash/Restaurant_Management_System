@@ -119,9 +119,9 @@
         <thead>
             <tr>
                 <th>Order ID</th>
-                <th>Items</th>
-                <th>Status</th>
-                <th>Date</th>
+                <th>Customer Name</th>
+                <th>Order Type</th>
+                <th>No .of Items</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -143,16 +143,16 @@
                         <tr>
                             <td>@ticket.OrderId</td>
 
-                            <td>View Items</td>
+                            <td>@ticket.CustomerOrder.CustomerName</td>
 
                             <td>
-                                <span class="status">
-                                    @ticket.TicketStatus
-                                </span>
+                                
+                                    @ticket.CustomerOrder.OrderType
+                                
                             </td>
 
                             <td>
-                                @(ticket.StartTime?.ToString("dd MMM yyyy"))
+                               @ticket.CustomerOrder.OrderItems.Count
                             </td>
 
                             <td>
