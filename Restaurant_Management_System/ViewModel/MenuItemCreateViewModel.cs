@@ -6,6 +6,8 @@ namespace Restaurant_Management_System.ViewModel
 {
     public class MenuItemCreateViewModel
     {
+        public int MenuItemId { get; set; }
+
         [Required]
         public string ItemName { get; set; } = string.Empty;
 

@@ -1,22 +1,43 @@
 ﻿@model IEnumerable<Restaurant_Management_System.ViewModel.OrderMonitoringViewModel>
+@using Restaurant_Management_System.ENUM
 
 @{
     ViewData["Title"] = "Order Monitoring";
     Layout = "_ManagerLayout";
+
+    // Read current status from Query String to set the active tab class
+    var currentStatus = Context.Request.Query["status"].ToString();
 }
 
 <div class="order-monitor-container">
 
     <div class="order-tabs">
-        <button class="order-tab active">All</button>
-        <button class="order-tab">Preparing</button>
-        <button class="order-tab">Ready</button>
-        <button class="order-tab">Served</button>
+        <a asp-action="OrderMonitoring"
+           class="order-tab @(string.IsNullOrEmpty(currentStatus) ? "active" : "")">
+            All
+        </a>
+
+        <a asp-action="OrderMonitoring"
+           asp-route-status="@OrderStatus.PREPARING"
+           class="order-tab @(currentStatus == OrderStatus.PREPARING.ToString() ? "active" : "")">
+            Preparing
+        </a>
+
+        <a asp-action="OrderMonitoring"
+           asp-route-status="@OrderStatus.READY"
+           class="order-tab @(currentStatus == OrderStatus.READY.ToString() ? "active" : "")">
+            Ready
+        </a>
+
+        <a asp-action="OrderMonitoring"
+           asp-route-status="@OrderStatus.SERVED"
+           class="order-tab @(currentStatus == OrderStatus.SERVED.ToString() ? "active" : "")">
+            Served
+        </a>
     </div>
 
     <div class="order-table-wrapper">
         <table class="order-table">
-
             <thead>
                 <tr>
                     <th>Order ID</th>
@@ -29,45 +50,33 @@
             </thead>
 
             <tbody>
-                <tbody>
-
-@if (Model.Any())
-{
-    @foreach (var order in Model)
-    {
-        <tr>
-            <td class="order-id">#@order.OrderId</td>
-            <td>@order.CustomerName</td>
-            <td>@order.TableNumber</td>
-
-            <td class="order-time">
-                @order.OrderTime.ToString("hh:mm tt")
-            </td>
-
-            <td>
-                <span class="status-badge">
-                    @order.OrderStatus
-                </span>
-            </td>
-
-            <td>₹@order.TotalAmount</td>
-        </tr>
-    }
-}
-else
-{
-    <tr>
-        <td colspan="6" style="text-align:center;padding:25px;">
-            No orders available.
-        </td>
-    </tr>
-}
-
-</tbody>
-                
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td class="order-id">#@order.OrderId</td>
+                            <td>@order.CustomerName</td>
+                            <td>@order.TableNumber</td>
+                            <td class="order-time">@order.OrderTime.ToString("hh:mm tt")</td>
+                            <td>
+                                <span class="status-badge">
+                                    @order.OrderStatus
+                                </span>
+                            </td>
+                            <td>₹@order.TotalAmount.ToString("F2")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" style="text-align:center; padding:25px; color:#64748b;">
+                            No orders found for this status.
+                        </td>
+                    </tr>
+                }
             </tbody>
-
         </table>
     </div>
-
 </div>

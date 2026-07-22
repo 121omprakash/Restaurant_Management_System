@@ -5,13 +5,13 @@
     ViewData["Title"] = "Menu Management";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
+
 <style>
-    /* Styling to make the image act like a clean icon/thumbnail */
     .menu-item-icon {
         width: 40px;
         height: 40px;
         object-fit: cover;
-        border-radius: 6px; /* Change to 50% if you want them perfectly circular */
+        border-radius: 6px;
         border: 1px solid #e2e8f0;
     }
 </style>
@@ -30,21 +30,21 @@
     </div>
 
     <div class="filter-section">
-
         <input type="text"
+               id="menuSearchInput"
                class="search-box"
                placeholder="Search menu item..." />
 
-        <select class="category-dropdown">
-            <option>All Categories</option>
-            <option>Veg Pizza</option>
-            <option>Non-Veg Pizza</option>
+        <select id="categoryFilter" class="category-dropdown">
+            <option value="">All Categories</option>
+            @foreach (var category in Enum.GetValues(typeof(MenuCategory)))
+            {
+                <option value="@category">@category</option>
+            }
         </select>
-
     </div>
 
-    <table class="menu-table">
-
+    <table class="menu-table" id="menuTable">
         <thead>
             <tr>
                 <th>Image</th>
@@ -57,104 +57,72 @@
         </thead>
 
         <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    var statusCss = item.ItemStatus == ItemStatus.AVAILABLE ? "available" : "unavailable";
+                    var displayImage = !string.IsNullOrEmpty(item.ImagePath) 
+                                       ? item.ImagePath 
+                                       : Url.Content("~/images/default-food.png");
 
-            <tr>
-                <td><img src="~/manager/farmhouse.jpg" alt="Farm House Pizza" class="menu-item-icon" /></td>
-                <td>Farm House Pizza</td>
-                <td>Veg Pizza</td>
-                <td>₹299</td>
-                <td><span class="status available">Available</span></td>
-                <td>
-                    <a asp-action="MenuView" class="view-btn">View</a>
-                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
-                </td>
-            </tr>
-
-            <tr>
-                <td><img src="~/manager/veggie_supreme.jpg" alt="Veggie Supreme" class="menu-item-icon" /></td>
-                <td>Veggie Supreme</td>
-                <td>Veg Pizza</td>
-                <td>₹329</td>
-                <td><span class="status available">Available</span></td>
-                <td>
-                    <a asp-action="MenuView" class="view-btn">View</a>
-                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
-                </td>
-            </tr>
-
-            <tr>
-                <td><img src="~/manager/ultimate_cheese.jpg" alt="Ultimate Cheese" class="menu-item-icon" /></td>
-                <td>Ultimate Cheese Pizza</td>
-                <td>Veg Pizza</td>
-                <td>₹279</td>
-                <td><span class="status available">Available</span></td>
-                <td>
-                    <a asp-action="MenuView" class="view-btn">View</a>
-                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
-                </td>
-            </tr>
-
-            <tr>
-                <td><img src="~/manager/paneer_pizza.jpg" alt="Paneer Pizza" class="menu-item-icon" /></td>
-                <td>Paneer Pizza</td>
-                <td>Veg Pizza</td>
-                <td>₹319</td>
-                <td><span class="status available">Available</span></td>
-                <td>
-                    <a asp-action="MenuView" class="view-btn">View</a>
-                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
-                </td>
-            </tr>
-
-            <tr>
-                <td><img src="~/manager/chicken_tikka.jpg" alt="Chicken Tikka" class="menu-item-icon" /></td>
-                <td>Chicken Tikka Pizza</td>
-                <td>Non-Veg Pizza</td>
-                <td>₹399</td>
-                <td><span class="status available">Available</span></td>
-                <td>
-                    <a asp-action="MenuView" class="view-btn">View</a>
-                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
-                </td>
-            </tr>
-
-            <tr>
-                <td><img src="~/manager/pepperoni.jpg" alt="Pepperoni" class="menu-item-icon" /></td>
-                <td>Pepperoni Pizza</td>
-                <td>Non-Veg Pizza</td>
-                <td>₹429</td>
-                <td><span class="status available">Available</span></td>
-                <td>
-                    <a asp-action="MenuView" class="view-btn">View</a>
-                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
-                </td>
-            </tr>
-
-            <tr>
-                <td><img src="~/manager/bbq_chicken.jpg" alt="BBQ Chicken" class="menu-item-icon" /></td>
-                <td>BBQ Chicken Pizza</td>
-                <td>Non-Veg Pizza</td>
-                <td>₹449</td>
-				<td><span class="status available">Available</span></td>
-                <td>
-                    <a asp-action="MenuView" class="view-btn">View</a>
-                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
-                </td>
-            </tr>
-
-            <tr>
-                <td><img src="~/manager/fries.jpg" alt="Fries" class="menu-item-icon" /></td>
-                <td>Fries</td>
-                <td>Sides</td>
-                <td>₹129</td>
-                <td><span class="status available">Available</span></td>
-                <td>
-                    <a asp-action="MenuView" class="view-btn">View</a>
-                    <a asp-action="MenuEdit" class="edit-btn">Edit</a>
-                </td>
-            </tr>
-
+                    <tr data-category="@item.Category">
+                        <td>
+                            <img src="@displayImage" alt="@item.ItemName" class="menu-item-icon" />
+                        </td>
+                        <td class="item-name"><strong>@item.ItemName</strong></td>
+                        <td>@item.Category</td>
+                        <td>₹@item.Price.ToString("F2")</td>
+                        <td>
+                            <span class="status @statusCss">@item.ItemStatus</span>
+                        </td>
+                        <td>
+                            <a asp-action="MenuView" asp-route-id="@item.MenuItemId" class="view-btn">View</a>
+                            <a asp-action="MenuEdit" asp-route-id="@item.MenuItemId" class="edit-btn">Edit</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr id="noResultsRow">
+                    <td colspan="6" style="text-align: center; padding: 30px; color: #64748b;">
+                        No menu items found.
+                    </td>
+                </tr>
+            }
         </tbody>
-
     </table>
 </div>
+
+@section Scripts {
+    <script>
+        const searchInput = document.getElementById('menuSearchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+
+        function filterMenu() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const selectedCategory = categoryFilter.value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#menuTable tbody tr');
+
+            rows.forEach(row => {
+                if (row.id === 'noResultsRow') return;
+
+                const nameText = (row.querySelector('.item-name')?.textContent || '').toLowerCase();
+                const rowCategory = (row.getAttribute('data-category') || '').toLowerCase();
+
+                const matchesSearch = nameText.includes(searchTerm);
+                const matchesCategory = !selectedCategory || rowCategory === selectedCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        searchInput.addEventListener('keyup', filterMenu);
+        categoryFilter.addEventListener('change', filterMenu);
+    </script>
+}
