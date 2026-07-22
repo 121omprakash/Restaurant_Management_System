@@ -9,8 +9,8 @@
     <!-- Welcome Header Section matching Waiter Theme Layout -->
     <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
         <div>
-            <h2 class="page-title mb-1" style="font-size: 26px; font-weight: 700; color: var(--text-main);">Welcome back, Rishabh</h2>
-            <p class="page-subtitle mb-0" style="font-size: 14px; color: var(--text-muted);">
+            <h2 class="page-title mb-1">Welcome back, Rishabh</h2>
+            <p class="page-subtitle mb-0">
                 <i class="fa-solid fa-calendar-days text-warning me-1"></i> &bull; @DateTime.Now.ToString("d MMM yyyy")
             </p>
         </div>
@@ -33,7 +33,7 @@
         <div class="card shadow-sm p-3 w-100 h-100">
             <h6 class="text-muted">LOW STOCK</h6>
             <h2>@Model.LowStockCount</h2>
-            <p class="mb-0 text-warning">@Model.CriticalCount critical</p>
+            @* <p class="mb-0 text-warning">@Model.CriticalCount critical</p> *@
             <a asp-action="LowStock" class="btn btn-sm btn-primary mt-3">View low stock items</a>
         </div>
     </div>
@@ -41,25 +41,27 @@
                            <!-- Purchase Requests -->
     <div class="col-md-4 d-flex">
         <div class="card shadow-sm p-3 w-100 h-100">
-            <h6 class="text-muted">PURCHASE REQUESTS</h6>
-            <h2>@Model.PurchaseRequests</h2>
-            <p class="mb-0">Pending approval</p>
+            <h6 class="text-muted">OUT OF STOCK</h6>
+            <h2>@Model.CriticalCount</h2>
+            <p class="mb-0 text-danger">
+                Require immediate action
+            </p>
         </div>
     </div>
 
-</div>
+</div> 
 
 <!-- Second Row -->
-<div class="row mt-4">
+<div class="row mt-4 align-items-start">
 
     <!-- Attention Required (list low items) -->
     <div class="col-md-6">
-        <div class="card shadow-sm p-3 h-100">
+        <div class="card shadow-sm p-3">
             <h5 class="mb-3">Attention Required</h5>
 
             @if (Model.LowItems != null && Model.LowItems.Any())
             {
-                foreach (var item in Model.LowItems)
+                foreach (var item in Model.LowItems.Take(5))
                 {
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <div>
@@ -92,8 +94,8 @@
     <!-- Chart -->
     <div class="col-md-6">
         <div class="card shadow-sm p-3 h-100">
-            <h5>Top 5 Critical Stock Items</h5>
-            <div class="chart-container" style="position:relative;height:300px;">
+            <h5>Inventory Summary</h5>
+            <div class="chart-container">
                 <canvas id="stockChart"></canvas>
             </div>
         </div>
@@ -105,41 +107,38 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // prepare data from server model
-    const labels = @Html.Raw(
-            System.Text.Json.JsonSerializer.Serialize(
-                Model.LowItems
-                     .OrderBy(i => i.CurrentStock)
-                     .Take(5)
-                     .Select(i => i.IngredientName)
-            ));
-
-    const dataValues = @Html.Raw(
-            System.Text.Json.JsonSerializer.Serialize(
-                Model.LowItems
-                     .OrderBy(i => i.CurrentStock)
-                     .Take(5)
-                     .Select(i => i.CurrentStock)
-            ));
-
     const ctx = document.getElementById('stockChart').getContext('2d');
+
     new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Stock Quantity',
-                data: dataValues,
-                backgroundColor: 'rgba(106,60,30,0.8)',
-                borderColor: 'rgba(106,60,30,1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
+    type: 'doughnut',
+    data: {
+    labels: [
+    'Total Items',
+    'Low Stock',
+    'Out Of Stock'
+    ],
+    datasets: [{
+    data: [
+    @Model.TotalItems,
+    @Model.LowStockCount,
+    @Model.CriticalCount
+    ],
+    backgroundColor: [
+    '#3B82F6',
+    '#F59E0B',
+    '#EF4444'
+    ],
+    borderWidth: 1
+    }]
+    },
+    options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+    legend: {
+    position: 'bottom'
+    }
+    }
+    }
     });
 </script>

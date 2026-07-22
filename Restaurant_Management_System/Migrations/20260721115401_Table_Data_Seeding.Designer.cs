@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant_Management_System.Data;
 
@@ -11,9 +12,11 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-    partial class rmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260721115401_Table_Data_Seeding")]
+    partial class Table_Data_Seeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,48 +57,6 @@ namespace Restaurant_Management_System.Migrations
                         .IsUnique();
 
                     b.ToTable("BillInvoices");
-
-                    b.HasData(
-                        new
-                        {
-                            InvoiceId = 5001,
-                            OrderId = 1001,
-                            PaymentStatus = 1,
-                            SubtotalAmount = 1220.00m,
-                            TaxAmount = 219.60m,
-                            TipAmount = 50.00m,
-                            TotalAmount = 1489.60m
-                        },
-                        new
-                        {
-                            InvoiceId = 5002,
-                            OrderId = 1002,
-                            PaymentStatus = 0,
-                            SubtotalAmount = 500.00m,
-                            TaxAmount = 90.00m,
-                            TipAmount = 0.00m,
-                            TotalAmount = 590.00m
-                        },
-                        new
-                        {
-                            InvoiceId = 5003,
-                            OrderId = 1003,
-                            PaymentStatus = 1,
-                            SubtotalAmount = 240.00m,
-                            TaxAmount = 43.20m,
-                            TipAmount = 0.00m,
-                            TotalAmount = 283.20m
-                        },
-                        new
-                        {
-                            InvoiceId = 5004,
-                            OrderId = 1004,
-                            PaymentStatus = 2,
-                            SubtotalAmount = 350.00m,
-                            TaxAmount = 63.00m,
-                            TipAmount = 0.00m,
-                            TotalAmount = 413.00m
-                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.CustomerOrder", b =>
@@ -128,44 +89,6 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("TableNumber");
 
                     b.ToTable("CustomerOrders");
-
-                    b.HasData(
-                        new
-                        {
-                            OrderId = 1001,
-                            CustomerName = "Ravi",
-                            OrderStatus = 3,
-                            OrderTime = new DateTime(2026, 5, 21, 12, 30, 0, 0, DateTimeKind.Unspecified),
-                            OrderType = 0,
-                            TableNumber = "T07"
-                        },
-                        new
-                        {
-                            OrderId = 1002,
-                            CustomerName = "Anita",
-                            OrderStatus = 1,
-                            OrderTime = new DateTime(2026, 5, 21, 13, 15, 0, 0, DateTimeKind.Unspecified),
-                            OrderType = 0,
-                            TableNumber = "T08"
-                        },
-                        new
-                        {
-                            OrderId = 1003,
-                            CustomerName = "Karan",
-                            OrderStatus = 0,
-                            OrderTime = new DateTime(2026, 5, 21, 13, 45, 0, 0, DateTimeKind.Unspecified),
-                            OrderType = 1,
-                            TableNumber = "T03"
-                        },
-                        new
-                        {
-                            OrderId = 1004,
-                            CustomerName = "Sita",
-                            OrderStatus = 4,
-                            OrderTime = new DateTime(2026, 5, 20, 19, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderType = 2,
-                            TableNumber = "T02"
-                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.Employee", b =>
@@ -292,80 +215,6 @@ namespace Restaurant_Management_System.Migrations
                         .IsUnique();
 
                     b.ToTable("Ingredients");
-
-                    b.HasData(
-                        new
-                        {
-                            IngredientId = 1,
-                            CurrentStock = 100.00m,
-                            IngredientName = "Flour",
-                            ReorderLevel = 20.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 2,
-                            CurrentStock = 50.00m,
-                            IngredientName = "Chicken",
-                            ReorderLevel = 10.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 3,
-                            CurrentStock = 40.00m,
-                            IngredientName = "Cheese",
-                            ReorderLevel = 10.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 4,
-                            CurrentStock = 60.00m,
-                            IngredientName = "Potato",
-                            ReorderLevel = 15.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 5,
-                            CurrentStock = 30.00m,
-                            IngredientName = "Tomato",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "LOW",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 6,
-                            CurrentStock = 500.00m,
-                            IngredientName = "Garlic",
-                            ReorderLevel = 100.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "G"
-                        },
-                        new
-                        {
-                            IngredientId = 7,
-                            CurrentStock = 10.00m,
-                            IngredientName = "Oil",
-                            ReorderLevel = 2.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 8,
-                            CurrentStock = 20.00m,
-                            IngredientName = "Sugar",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.ItemRecipe", b =>
@@ -385,9 +234,6 @@ namespace Restaurant_Management_System.Migrations
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("UnitOfMeasure")
-                        .HasColumnType("int");
-
                     b.HasKey("RecipeId");
 
                     b.HasIndex("IngredientId");
@@ -395,64 +241,6 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("MenuItemId");
 
                     b.ToTable("ItemRecipes");
-
-                    b.HasData(
-                        new
-                        {
-                            RecipeId = 1,
-                            IngredientId = 1,
-                            MenuItemId = 1,
-                            Quantity = 0.30m
-                        },
-                        new
-                        {
-                            RecipeId = 2,
-                            IngredientId = 2,
-                            MenuItemId = 1,
-                            Quantity = 0.20m
-                        },
-                        new
-                        {
-                            RecipeId = 3,
-                            IngredientId = 3,
-                            MenuItemId = 1,
-                            Quantity = 0.15m
-                        },
-                        new
-                        {
-                            RecipeId = 4,
-                            IngredientId = 1,
-                            MenuItemId = 2,
-                            Quantity = 0.28m
-                        },
-                        new
-                        {
-                            RecipeId = 5,
-                            IngredientId = 3,
-                            MenuItemId = 2,
-                            Quantity = 0.12m
-                        },
-                        new
-                        {
-                            RecipeId = 6,
-                            IngredientId = 4,
-                            MenuItemId = 4,
-                            Quantity = 0.25m
-                        },
-                        new
-                        {
-                            RecipeId = 7,
-                            IngredientId = 8,
-                            MenuItemId = 5,
-                            Quantity = 0.33m
-                        },
-                        new
-                        {
-                            RecipeId = 8,
-                            IngredientId = 6,
-                            MenuItemId = 6,
-                            Quantity = 0.02m
-                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.KitchenTicket", b =>
@@ -489,41 +277,6 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("KitchenTickets");
-
-                    b.HasData(
-                        new
-                        {
-                            TicketId = 3001,
-                            AssignedChef = "Sai",
-                            OrderId = 1002,
-                            StartTime = new DateTime(2026, 5, 21, 13, 20, 0, 0, DateTimeKind.Unspecified),
-                            Station = "Pizza Oven",
-                            TicketStatus = 1
-                        },
-                        new
-                        {
-                            TicketId = 3002,
-                            AssignedChef = "Rishab",
-                            CompletionTime = new DateTime(2026, 5, 21, 12, 50, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = 1001,
-                            StartTime = new DateTime(2026, 5, 21, 12, 35, 0, 0, DateTimeKind.Unspecified),
-                            Station = "Grill",
-                            TicketStatus = 3
-                        },
-                        new
-                        {
-                            TicketId = 3003,
-                            OrderId = 1003,
-                            Station = "Fryer",
-                            TicketStatus = 0
-                        },
-                        new
-                        {
-                            TicketId = 3004,
-                            OrderId = 1004,
-                            Station = "Oven",
-                            TicketStatus = 2
-                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.MenuItem", b =>
@@ -563,62 +316,6 @@ namespace Restaurant_Management_System.Migrations
                         .IsUnique();
 
                     b.ToTable("MenuItems");
-
-                    b.HasData(
-                        new
-                        {
-                            MenuItemId = 1,
-                            Category = "Pizza",
-                            ItemName = "BBQ Chicken Pizza",
-                            ItemStatus = 0,
-                            PreparationTime = 20,
-                            Price = 550.00m
-                        },
-                        new
-                        {
-                            MenuItemId = 2,
-                            Category = "Pizza",
-                            ItemName = "Farm House Pizza",
-                            ItemStatus = 0,
-                            PreparationTime = 18,
-                            Price = 500.00m
-                        },
-                        new
-                        {
-                            MenuItemId = 3,
-                            Category = "Pizza",
-                            ItemName = "Margherita",
-                            ItemStatus = 0,
-                            PreparationTime = 15,
-                            Price = 350.00m
-                        },
-                        new
-                        {
-                            MenuItemId = 4,
-                            Category = "Sides",
-                            ItemName = "Fries",
-                            ItemStatus = 0,
-                            PreparationTime = 8,
-                            Price = 120.00m
-                        },
-                        new
-                        {
-                            MenuItemId = 5,
-                            Category = "Beverage",
-                            ItemName = "Coke",
-                            ItemStatus = 0,
-                            PreparationTime = 1,
-                            Price = 50.00m
-                        },
-                        new
-                        {
-                            MenuItemId = 6,
-                            Category = "Sides",
-                            ItemName = "Garlic Bread",
-                            ItemStatus = 0,
-                            PreparationTime = 7,
-                            Price = 90.00m
-                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.OrderItem", b =>
@@ -648,48 +345,6 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
-
-                    b.HasData(
-                        new
-                        {
-                            OrderItemId = 2001,
-                            MenuItemId = 1,
-                            OrderId = 1001,
-                            Price = 550.00m,
-                            Quantity = 2
-                        },
-                        new
-                        {
-                            OrderItemId = 2002,
-                            MenuItemId = 4,
-                            OrderId = 1001,
-                            Price = 120.00m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            OrderItemId = 2003,
-                            MenuItemId = 2,
-                            OrderId = 1002,
-                            Price = 500.00m,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            OrderItemId = 2004,
-                            MenuItemId = 4,
-                            OrderId = 1003,
-                            Price = 120.00m,
-                            Quantity = 2
-                        },
-                        new
-                        {
-                            OrderItemId = 2005,
-                            MenuItemId = 3,
-                            OrderId = 1004,
-                            Price = 350.00m,
-                            Quantity = 1
-                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.RestaurantProfile", b =>
