@@ -142,27 +142,33 @@
 
             <h4 class="mb-3">Recipe Preparation Steps</h4>
 
-            <div id="stepsContainer">
+             @if (!Model.IsReadOnly && System.String.IsNullOrWhiteSpace(Model.RecipeSteps))
+                {
+                    <button type="button"
+                            id="addStepBtn"
+                            class="btn btn-success">
+                        + Add Steps
+                    </button>
+                }
+             <div id="stepsContainer"
+            
 
                 <div class=" step mb-3">
-                    <label class="form-label"><strong>Step 1</strong></label>
+                    <label class="form-label"><strong>Recipe Steps</strong></label>
                     <textarea asp-for="RecipeSteps"
                               class="form-control"
-                              rows="3"
+                              rows="8"
                               readonly="@Model.IsReadOnly"
                               placeholder="Enter preparation step..."></textarea>
+
+                              <span asp-validation-for="RecipeSteps" class="text-danger"></span>
                               @if (!Model.IsReadOnly){
-                                   <button type="button" class="btn btn-danger btn-sm mt-2 removeStep">Remove</button>
+                                   <button type="button" id="removeStepBtn" class="btn btn-danger btn-sm mt-2 removeStepBtn">Remove</button>
                     }
                 </div>
 
             </div>
-                    @if (!Model.IsReadOnly)
-                    {
-                        <button type="button" id="addStepBtn" class="btn btn-success" >
-                            + Add Step
-                        </button>
-                    }
+                   
 
             <hr class="my-4" />
 
@@ -188,5 +194,6 @@
 
 @section Scripts
 {
+    <partial name="_ValidationScriptsPartial" />
     <script src="~/js/kitchen.js" asp-append-version="true"></script>
 }
