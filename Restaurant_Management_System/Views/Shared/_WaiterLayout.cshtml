@@ -52,6 +52,15 @@
                                 <i id="themeIcon" class="fa-solid fa-moon"></i>
                                 <span id="themeText">Night Mode</span>
                             </button>
+
+                            <!-- Logout Button in Top Bar -->
+                            <form asp-controller="Home" asp-action="Logout" method="post" class="m-0 p-0">
+                                <button class="theme-toggle-btn" type="submit">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -90,38 +99,8 @@
                                     <span class="sidebar-text">Order Monitoring</span>
                                 </a>
                             </li>
-                            @* <li data-menu="TakeOrder">
-                                <a href="/Waiter/TakeOrder">
-                                    <i class="fa-solid fa-chair"></i>
-                                    <span class="sidebar-text">Take Order</span>
-                                </a>
-                            </li>
-                            <li data-menu="ManageOrders">
-                                <a href="/Waiter/ManageOrders">
-                                    <i class="fa-solid fa-clipboard-list"></i>
-                                    <span class="sidebar-text">Manage Orders</span>
-                                </a>
-                            </li>
-                            <li data-menu="OrderStatus">
-                                <a href="/Waiter/OrderStatus">
-                                    <i class="fa-solid fa-truck"></i>
-                                    <span class="sidebar-text">Order Status</span>
-                                </a>
-                            </li> *@
-
                         </ul>
                     </div>          
-                </div>
-
-                <div class="sidebar-nav-container">
-                    <ul>
-                        <li class="logout-item" style="border-top: 1px solid var(--border-color); padding-top: 15px; margin: 6px 12px;">
-                            <a asp-controller="Employee" asp-action="Login">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                <span class="sidebar-text">Logout</span>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </aside>
 
