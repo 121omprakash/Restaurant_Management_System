@@ -25,9 +25,9 @@ namespace Restaurant_Management_System.Controllers
         }
 
         // Inventory List
-        public IActionResult InventoryManagement()
+        public IActionResult InventoryManagement(string q)
         {
-            var vm = _inventoryService.GetAll();
+            var vm = _inventoryService.GetAll(q);
             vm.UserRole = User?.Identity?.Name ?? string.Empty;
             return View(vm);
         }

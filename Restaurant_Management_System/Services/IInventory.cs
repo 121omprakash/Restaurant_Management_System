@@ -7,7 +7,7 @@ namespace Restaurant_Management_System.Services
     public interface IInventory
     {
         InventoryDashboardViewModel GetDashboard();
-        InventoryListViewModel GetAll();
+        InventoryListViewModel GetAll(string searchTerm = null);
         InventoryItemViewModel GetItem(int id);
         void Create(Ingredient ingredient);
         void Update(Ingredient ingredient);

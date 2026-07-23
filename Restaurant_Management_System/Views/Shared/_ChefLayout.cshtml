@@ -52,6 +52,10 @@
                                 <i id="themeIcon" class="fa-solid fa-moon"></i>
                                 <span id="themeText">Night Mode</span>
                             </button>
+                            <a style="text-decoration:none;" class="theme-toggle-btn" asp-controller="Employee" asp-action="Login">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span class="sidebar-text">Logout</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -61,11 +65,7 @@
         <div class="content-workspace">
 
             <aside class="sidebar position-relative">
-                <button id="sidebarToggle" class="btn btn-link p-1 position-absolute"
-                        style="top: 12px; right: 12px; color: var(--text-main); z-index: 100; text-decoration: none;">
-                    <i class="fa-solid fa-bars fs-5"></i>
-                </button>
-
+               
                 <div class="profile">
                     <div class="logo-container">
                         <i class="fa-solid fa-utensils fs-2" style="color: var(--accent-color, #f59e0b);"></i>
@@ -92,14 +92,7 @@
                         
                     </ul>
 
-                    <ul>
-                        <li class="logout-item" style="border-top: 1px solid var(--border-color); padding-top: 15px;">
-                            <a asp-controller="Employee" asp-action="Login">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                <span class="sidebar-text">Logout</span>
-                            </a>
-                        </li>
-                    </ul>
+                    
                 </div>
             </aside>
 

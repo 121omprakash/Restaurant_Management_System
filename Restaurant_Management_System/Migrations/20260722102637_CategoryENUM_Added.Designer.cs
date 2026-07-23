@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant_Management_System.Data;
 
@@ -11,9 +12,11 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-    partial class rmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260722102637_CategoryENUM_Added")]
+    partial class CategoryENUM_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,36 +300,36 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             IngredientId = 1,
-                            CurrentStock = 200.00m,
-                            IngredientName = "Pizza Flour",
-                            ReorderLevel = 40.00m,
+                            CurrentStock = 100.00m,
+                            IngredientName = "Flour",
+                            ReorderLevel = 20.00m,
                             StockStatus = "AVAILABLE",
                             UnitOfMeasure = "KG"
                         },
                         new
                         {
                             IngredientId = 2,
-                            CurrentStock = 5000.00m,
-                            IngredientName = "Yeast",
-                            ReorderLevel = 1000.00m,
+                            CurrentStock = 50.00m,
+                            IngredientName = "Chicken",
+                            ReorderLevel = 10.00m,
                             StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "G"
+                            UnitOfMeasure = "KG"
                         },
                         new
                         {
                             IngredientId = 3,
-                            CurrentStock = 25.00m,
-                            IngredientName = "Sugar",
-                            ReorderLevel = 5.00m,
+                            CurrentStock = 40.00m,
+                            IngredientName = "Cheese",
+                            ReorderLevel = 10.00m,
                             StockStatus = "AVAILABLE",
                             UnitOfMeasure = "KG"
                         },
                         new
                         {
                             IngredientId = 4,
-                            CurrentStock = 20.00m,
-                            IngredientName = "Salt",
-                            ReorderLevel = 4.00m,
+                            CurrentStock = 60.00m,
+                            IngredientName = "Potato",
+                            ReorderLevel = 15.00m,
                             StockStatus = "AVAILABLE",
                             UnitOfMeasure = "KG"
                         },
@@ -334,460 +337,37 @@ namespace Restaurant_Management_System.Migrations
                         {
                             IngredientId = 5,
                             CurrentStock = 30.00m,
-                            IngredientName = "Olive Oil",
+                            IngredientName = "Tomato",
                             ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
+                            StockStatus = "LOW",
+                            UnitOfMeasure = "KG"
                         },
                         new
                         {
                             IngredientId = 6,
-                            CurrentStock = 80.00m,
-                            IngredientName = "Tomato Puree",
-                            ReorderLevel = 15.00m,
+                            CurrentStock = 500.00m,
+                            IngredientName = "Garlic",
+                            ReorderLevel = 100.00m,
                             StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
+                            UnitOfMeasure = "G"
                         },
                         new
                         {
                             IngredientId = 7,
-                            CurrentStock = 30.00m,
-                            IngredientName = "Tomato Paste",
-                            ReorderLevel = 5.00m,
+                            CurrentStock = 10.00m,
+                            IngredientName = "Oil",
+                            ReorderLevel = 2.00m,
                             StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
+                            UnitOfMeasure = "L"
                         },
                         new
                         {
                             IngredientId = 8,
-                            CurrentStock = 15.00m,
-                            IngredientName = "Garlic",
-                            ReorderLevel = 3.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 9,
-                            CurrentStock = 4000.00m,
-                            IngredientName = "Oregano",
-                            ReorderLevel = 500.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "G"
-                        },
-                        new
-                        {
-                            IngredientId = 10,
-                            CurrentStock = 3000.00m,
-                            IngredientName = "Basil",
-                            ReorderLevel = 500.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "G"
-                        },
-                        new
-                        {
-                            IngredientId = 11,
-                            CurrentStock = 100.00m,
-                            IngredientName = "Mozzarella Cheese",
-                            ReorderLevel = 20.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 12,
-                            CurrentStock = 50.00m,
-                            IngredientName = "Cheddar Cheese",
-                            ReorderLevel = 10.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 13,
                             CurrentStock = 20.00m,
-                            IngredientName = "Parmesan Cheese",
+                            IngredientName = "Sugar",
                             ReorderLevel = 5.00m,
                             StockStatus = "AVAILABLE",
                             UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 14,
-                            CurrentStock = 40.00m,
-                            IngredientName = "Onion",
-                            ReorderLevel = 10.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 15,
-                            CurrentStock = 35.00m,
-                            IngredientName = "Capsicum",
-                            ReorderLevel = 8.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 16,
-                            CurrentStock = 30.00m,
-                            IngredientName = "Tomato",
-                            ReorderLevel = 8.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 17,
-                            CurrentStock = 20.00m,
-                            IngredientName = "Mushroom",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 18,
-                            CurrentStock = 15.00m,
-                            IngredientName = "Black Olive",
-                            ReorderLevel = 3.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 19,
-                            CurrentStock = 15.00m,
-                            IngredientName = "Green Olive",
-                            ReorderLevel = 3.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 20,
-                            CurrentStock = 12.00m,
-                            IngredientName = "Jalapeno",
-                            ReorderLevel = 2.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 21,
-                            CurrentStock = 30.00m,
-                            IngredientName = "Sweet Corn",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 22,
-                            CurrentStock = 10.00m,
-                            IngredientName = "Pineapple",
-                            ReorderLevel = 2.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 23,
-                            CurrentStock = 12.00m,
-                            IngredientName = "Spinach",
-                            ReorderLevel = 2.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 24,
-                            CurrentStock = 80.00m,
-                            IngredientName = "Chicken Breast",
-                            ReorderLevel = 15.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 25,
-                            CurrentStock = 40.00m,
-                            IngredientName = "Chicken Sausage",
-                            ReorderLevel = 8.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 26,
-                            CurrentStock = 30.00m,
-                            IngredientName = "Pepperoni",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 27,
-                            CurrentStock = 25.00m,
-                            IngredientName = "Ham",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 28,
-                            CurrentStock = 20.00m,
-                            IngredientName = "Bacon",
-                            ReorderLevel = 4.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 29,
-                            CurrentStock = 4000.00m,
-                            IngredientName = "Black Pepper",
-                            ReorderLevel = 500.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "G"
-                        },
-                        new
-                        {
-                            IngredientId = 30,
-                            CurrentStock = 5000.00m,
-                            IngredientName = "Red Chili Flakes",
-                            ReorderLevel = 500.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "G"
-                        },
-                        new
-                        {
-                            IngredientId = 31,
-                            CurrentStock = 3000.00m,
-                            IngredientName = "Italian Seasoning",
-                            ReorderLevel = 500.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "G"
-                        },
-                        new
-                        {
-                            IngredientId = 32,
-                            CurrentStock = 20.00m,
-                            IngredientName = "Mayonnaise",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 33,
-                            CurrentStock = 15.00m,
-                            IngredientName = "Barbecue Sauce",
-                            ReorderLevel = 3.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 34,
-                            CurrentStock = 10.00m,
-                            IngredientName = "Hot Sauce",
-                            ReorderLevel = 2.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 35,
-                            CurrentStock = 10.00m,
-                            IngredientName = "Ranch Dressing",
-                            ReorderLevel = 2.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 36,
-                            CurrentStock = 15.00m,
-                            IngredientName = "Chocolate Syrup",
-                            ReorderLevel = 3.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 37,
-                            CurrentStock = 5.00m,
-                            IngredientName = "Vanilla Essence",
-                            ReorderLevel = 1.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 38,
-                            CurrentStock = 500.00m,
-                            IngredientName = "Carbonated Water",
-                            ReorderLevel = 100.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 39,
-                            CurrentStock = 80.00m,
-                            IngredientName = "Cola Syrup",
-                            ReorderLevel = 15.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 40,
-                            CurrentStock = 50.00m,
-                            IngredientName = "Lemon Syrup",
-                            ReorderLevel = 10.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 41,
-                            CurrentStock = 50.00m,
-                            IngredientName = "Orange Syrup",
-                            ReorderLevel = 10.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 42,
-                            CurrentStock = 100.00m,
-                            IngredientName = "Soda Base",
-                            ReorderLevel = 20.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "L"
-                        },
-                        new
-                        {
-                            IngredientId = 43,
-                            CurrentStock = 200.00m,
-                            IngredientName = "Ice Cubes",
-                            ReorderLevel = 25.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 44,
-                            CurrentStock = 25.00m,
-                            IngredientName = "Lemon",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 45,
-                            CurrentStock = 10.00m,
-                            IngredientName = "Mint Leaves",
-                            ReorderLevel = 2.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 46,
-                            CurrentStock = 500.00m,
-                            IngredientName = "Pizza Box Small",
-                            ReorderLevel = 100.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "P"
-                        },
-                        new
-                        {
-                            IngredientId = 47,
-                            CurrentStock = 500.00m,
-                            IngredientName = "Pizza Box Medium",
-                            ReorderLevel = 100.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "P"
-                        },
-                        new
-                        {
-                            IngredientId = 48,
-                            CurrentStock = 500.00m,
-                            IngredientName = "Pizza Box Large",
-                            ReorderLevel = 100.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "P"
-                        },
-                        new
-                        {
-                            IngredientId = 49,
-                            CurrentStock = 1000.00m,
-                            IngredientName = "Cold Drink Cup",
-                            ReorderLevel = 200.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "P"
-                        },
-                        new
-                        {
-                            IngredientId = 50,
-                            CurrentStock = 1000.00m,
-                            IngredientName = "Plastic Lid",
-                            ReorderLevel = 200.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "P"
-                        },
-                        new
-                        {
-                            IngredientId = 51,
-                            CurrentStock = 1500.00m,
-                            IngredientName = "Paper Straw",
-                            ReorderLevel = 300.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "P"
-                        },
-                        new
-                        {
-                            IngredientId = 52,
-                            CurrentStock = 3000.00m,
-                            IngredientName = "Napkins",
-                            ReorderLevel = 500.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "P"
-                        },
-                        new
-                        {
-                            IngredientId = 53,
-                            CurrentStock = 25.00m,
-                            IngredientName = "Cheese Dip",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 54,
-                            CurrentStock = 20.00m,
-                            IngredientName = "Garlic Dip",
-                            ReorderLevel = 5.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "KG"
-                        },
-                        new
-                        {
-                            IngredientId = 55,
-                            CurrentStock = 3000.00m,
-                            IngredientName = "Peri Peri Seasoning",
-                            ReorderLevel = 500.00m,
-                            StockStatus = "AVAILABLE",
-                            UnitOfMeasure = "G"
                         });
                 });
 

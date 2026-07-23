@@ -73,7 +73,6 @@
                     <th>Menu Item</th>
                     <th>Category</th>
                     <th>Preparation Time</th>
-                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -87,12 +86,12 @@
                             <td>@item.ItemName</td>
                             <td>@item.Category</td>
                             <td>@item.PreparationTime min</td>
-                            <td>Recipe Added</td>
                             <td>
                                  <a asp-action="ViewRecipe"
                                        asp-route-menuItemId="@item.MenuItemId"
-                                       class="btn btn-sm btn-info">
-                                        View
+                                       class="btn  btn-info btn-sm rounded-circle" title="View">
+                                       <i class="bi-eye bi-eye-fill"></i
+                                     
                                     </a>
  
                                     <a asp-action="EditRecipe"
@@ -113,7 +112,6 @@
                             <td>@item.ItemName</td>
                             <td>@item.Category</td>
                             <td>@item.PreparationTime min</td>
-                            <td>Pending</td>
                             <td>
                                 <a asp-action="AddRecipe"
                                    asp-route-id="@item.MenuItemId"

@@ -1,7 +1,11 @@
-﻿@{
+﻿@model Restaurant_Management_System.Models.MenuItem
+@using Restaurant_Management_System.ENUM
+
+@{
     ViewData["Title"] = "View Menu Item";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
+
 <div class="menu-container">
 
     <div class="page-header">
@@ -10,43 +14,48 @@
             <p>View menu item information</p>
         </div>
 
-        <a asp-action="MenuEdit" class="add-btn">
-            Edit Recipe
+        <a asp-action="MenuEdit" asp-route-id="@Model.MenuItemId" class="add-btn">
+            Edit Item
         </a>
     </div>
 
     <div class="view-card">
 
         <div class="image-section">
-            <img src="~/manager/farmhouse.jpg" class="food-image" />
+            @{
+                var displayImage = !string.IsNullOrEmpty(Model.ImagePath)
+                                   ? Model.ImagePath
+                                   : Url.Content("~/images/default-food.png");
+            }
+            <img src="@displayImage" alt="@Model.ItemName" class="food-image" />
         </div>
 
         <div class="details-section">
 
-            <h2>Farm House Pizza</h2>
+            <h2>@Model.ItemName</h2>
 
             <table class="details-table">
-
                 <tr>
                     <td><b>Category</b></td>
-                    <td>Veg Pizza</td>
+                    <td>@Model.Category</td>
                 </tr>
 
                 <tr>
                     <td><b>Price</b></td>
-                    <td>₹299</td>
+                    <td>₹@Model.Price.ToString("F2")</td>
                 </tr>
 
                 <tr>
                     <td><b>Status</b></td>
                     <td>
-                        <span class="status available">
-                            Available
+                        @{
+                            var statusCss = Model.ItemStatus == ItemStatus.AVAILABLE ? "available" : "unavailable";
+                        }
+                        <span class="status @statusCss">
+                            @Model.ItemStatus
                         </span>
                     </td>
                 </tr>
-
-   
             </table>
 
         </div>
@@ -56,49 +65,37 @@
     <h3 style="margin-top:35px;">Ingredients</h3>
 
     <table class="menu-table">
-
         <thead>
             <tr>
                 <th>Ingredient</th>
-                <th>Quantity</th>
+                <th>Quantity Required</th>
             </tr>
         </thead>
-
         <tbody>
-
-            <tr>
-                <td>Cheese</td>
-                <td>200 g</td>
-            </tr>
-
-            <tr>
-                <td>Capsicum</td>
-                <td>100 g</td>
-            </tr>
-
-            <tr>
-                <td>Onion</td>
-                <td>80 g</td>
-            </tr>
-
-            <tr>
-                <td>Tomato</td>
-                <td>100 g</td>
-            </tr>
-
+            @if (Model.ItemRecipes != null && Model.ItemRecipes.Any())
+            {
+                @foreach (var recipe in Model.ItemRecipes)
+                {
+                    <tr>
+                        <td>@(recipe.Ingredient?.IngredientName ?? "N/A")</td>
+                        <td>@recipe.Quantity @(recipe.Ingredient?.UnitOfMeasure.ToString() ?? "")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2" style="text-align:center; color:#64748b; padding:15px;">
+                        No ingredients linked to this item.
+                    </td>
+                </tr>
+            }
         </tbody>
-
     </table>
 
     <div class="button-group">
-
-        <a asp-action="MenuManagement"
-           class="cancel-btn">
+        <a asp-action="MenuManagement" class="cancel-btn">
             Back
         </a>
-
     </div>
-
 </div>
-
- 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Restaurant_Management_System.Models.Ingredient>
+﻿@model Restaurant_Management_System.ViewModel.InventoryListViewModel
 @using Restaurant_Management_System.ENUM
 
 @{
@@ -14,9 +14,14 @@
 
             <i class="bi bi-search inventory-search-icon"></i>
 
-            <input type="text"
-                   placeholder="Search inventory items..."
-                   class="inventory-search" />
+            <!-- Connected search input to form/controller query -->
+            <form method="get" asp-action="Inventory">
+                <input type="text"
+                       name="search"
+                       value="@Model.SearchTerm"
+                       placeholder="Search inventory items..."
+                       class="inventory-search" />
+            </form>
 
         </div>
 
@@ -38,7 +43,7 @@
 
             <tbody>
 
-                @foreach (var item in Model)
+                @foreach (var item in Model.Items)
                 {
                     <tr>
 
@@ -81,17 +86,9 @@
 
                         <td class="inventory-actions">
 
-                            
-                                <i class="bi bi-eye"></i>
-                           
-
-                          
-                                <i class="bi bi-pencil"></i>
-                           
-
-                 
-                                <i class="bi bi-trash"></i>
-                            
+                            <i class="bi bi-eye"></i>
+                            <i class="bi bi-pencil"></i>
+                            <i class="bi bi-trash"></i>
 
                         </td>
 
@@ -103,5 +100,4 @@
         </table>
 
     </div>
-
 </div>

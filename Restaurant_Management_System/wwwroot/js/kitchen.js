@@ -1,105 +1,79 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    // ==========================
+    // Ingredient Section
+    // ==========================
     const addIngredientBtn = document.getElementById("addIngredientBtn");
     const ingredientBody = document.getElementById("ingredientBody");
 
-    if (!addIngredientBtn || !ingredientBody) {
-        return;
+    if (addIngredientBtn && ingredientBody) {
+
+        // Add Ingredient Row
+        addIngredientBtn.addEventListener("click", function () {
+
+            const firstRow = ingredientBody.querySelector("tr");
+
+            if (!firstRow) return;
+
+            const newRow = firstRow.cloneNode(true);
+
+            // Clear input values
+            newRow.querySelectorAll("input").forEach(input => {
+                input.value = "";
+            });
+
+            // Reset dropdowns
+            newRow.querySelectorAll("select").forEach(select => {
+                select.selectedIndex = 0;
+            });
+
+            ingredientBody.appendChild(newRow);
+
+        });
+
+        // Remove Ingredient Row
+        ingredientBody.addEventListener("click", function (e) {
+
+            if (e.target.classList.contains("removeIngredient")) {
+
+                const rows = ingredientBody.querySelectorAll("tr");
+
+                if (rows.length > 1) {
+                    e.target.closest("tr").remove();
+                } else {
+                    alert("At least one ingredient is required.");
+                }
+            }
+
+        });
+
     }
 
-    // Add Ingredient Row
-    addIngredientBtn.addEventListener("click", function () {
+    // ==========================
+    // Recipe Steps Section
+    // ==========================
+    const addStepBtn = document.getElementById("addStepBtn");
+    const removeStepBtn = document.getElementById("removeStepBtn");
+    const stepsContainer = document.getElementById("stepsContainer");
+    const recipeTextArea = document.querySelector("textarea[name='RecipeSteps']");
 
-        const firstRow = ingredientBody.querySelector("tr");
+    if (addStepBtn && stepsContainer) {
 
-        if (!firstRow) {
-            return;
-        }
-
-        // Clone the first row
-        const newRow = firstRow.cloneNode(true);
-
-        // Clear all input fields
-        newRow.querySelectorAll("input").forEach(input => {
-            input.value = "";
+        addStepBtn.addEventListener("click", function () {
+            stepsContainer.style.display = "block";
+            addStepBtn.style.display = "none";
         });
 
-        // Reset all dropdowns
-        newRow.querySelectorAll("select").forEach(select => {
-            select.selectedIndex = 0;
+    }
+
+    if (removeStepBtn && stepsContainer && recipeTextArea) {
+
+        removeStepBtn.addEventListener("click", function () {
+            recipeTextArea.value = "";
+            stepsContainer.style.display = "none";
+            addStepBtn.style.display = "inline-block";
         });
 
-        ingredientBody.appendChild(newRow);
-
-    });
-
-    // Remove Ingredient Row
-    ingredientBody.addEventListener("click", function (e) {
-
-        if (e.target.classList.contains("removeIngredient")) {
-
-            const rows = ingredientBody.querySelectorAll("tr");
-
-            if (rows.length > 1) {
-                e.target.closest("tr").remove();
-            }
-            else {
-                alert("At least one ingredient is required.");
-            }
-        }
-
-    });
+    }
 
 });
-
-// Add Recipe Step
-const addStepBtn = document.getElementById("addStepBtn");
-const stepsContainer = document.getElementById("stepsContainer");
-
-if (addStepBtn && stepsContainer) {
-
-    addStepBtn.addEventListener("click", function () {
-
-        const stepCount = stepsContainer.querySelectorAll(".step").length + 1;
-
-        const firstStep = stepsContainer.querySelector(".step");
-
-        const newStep = firstStep.cloneNode(true);
-
-        // Update label
-        newStep.querySelector("label").textContent = "Step " + stepCount;
-
-        // Clear textarea
-        newStep.querySelector("textarea").value = "";
-
-        stepsContainer.appendChild(newStep);
-
-    });
-
-    // Remove Step
-    stepsContainer.addEventListener("click", function (e) {
-
-        if (e.target.classList.contains("removeStep")) {
-
-            const steps = stepsContainer.querySelectorAll(".step");
-
-            if (steps.length > 1) {
-
-                e.target.closest(".step").remove();
-
-                // Renumber steps
-                const remainingSteps = stepsContainer.querySelectorAll(".step");
-
-                remainingSteps.forEach((step, index) => {
-                    step.querySelector("label").textContent = "Step " + (index + 1);
-                });
-
-            }
-            else {
-                alert("At least one step is required.");
-            }
-        }
-
-    });
-
-}

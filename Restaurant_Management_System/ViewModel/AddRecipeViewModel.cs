@@ -9,11 +9,12 @@ namespace Restaurant_Management_System.Models.ViewModels
 
         public string ItemName { get; set; } = string.Empty;
 
-        public string Category { get; set; } = string.Empty;
+        public MenuCategory Category { get; set; }
 
         public int PreparationTime { get; set; }
 
-        public string? RecipeSteps { get; set; }
+        [Required(ErrorMessage = "Recipe steps are required.")]
+        public string RecipeSteps { get; set; }= string.Empty;
 
         public List<int> IngredientIds { get; set; } = new();
 
