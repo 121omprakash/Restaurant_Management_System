@@ -68,15 +68,13 @@
 
                 <div class="sidebar-nav-container">
                     <ul class="sidebar-nav">
-                       <li data-menu="OrderManagement">
-                                    <a asp-controller="Kitchen" asp-action="OrderManagement">
-                                        <i class="fa-solid fa-list-check"></i>
+                        <li class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "OrderManagement" ? "active" : "")">
+                            <a asp-controller="Kitchen" asp-action="OrderManagement">
                                         <span class="sidebar-text">Order Management</span>
                                      </a>
                         </li>
-                           <li data-menu="RecipeManagement">
+                        <li class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "RecipeManagement" ? "active" : "")">
                             <a asp-controller="Kitchen" asp-action="RecipeManagement">
-                             <i class="fa-solid fa-book-open"></i>
                              <span class="sidebar-text">Recipe Management</span>
                             </a>
                         </li>

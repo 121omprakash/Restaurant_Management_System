@@ -41,14 +41,10 @@
                    placeholder="Search Pizza, Burger, Pasta..." 
                    oninput="searchRecipes()" />
 
-            <select class="filter-box">
+            <select class="filter-box" id="categoryFilter" onchange="filterRecipes()">
                 <option>All Categories</option>
                 <option>Pizza</option>
-                <option>Burger</option>
-                <option>Pasta</option>
-                <option>Sides</option>
-                <option>Beverages</option>
-                <option>Desserts</option>
+                <option>Beverage</option>
             </select>
 
         </div>
@@ -131,19 +127,12 @@
 
  
 </div>
-<script>
-    function searchRecipes() {
-        const search = document.querySelector(".search-box").value.toLowerCase();
-        const rows = document.querySelectorAll(".recipe-table tbody tr");
 
-        rows.forEach(row => {
-            const rowText = row.innerText.toLowerCase();
-
-            if (rowText.includes(search)) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        });
+    
+    @section Scripts
+    {
+            <partial name="_ValidationScriptsPartial" />
+            <script src = "~/js/kitchen.js" asp - append - version="true" ></script>
     }
-</script>
+
+
