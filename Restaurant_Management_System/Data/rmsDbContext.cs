@@ -108,12 +108,12 @@ namespace Restaurant_Management_System.Data
 
             // Seed Menu Items
             modelBuilder.Entity<MenuItem>().HasData(
-                new MenuItem { MenuItemId = 1, ItemName = "BBQ Chicken Pizza", Category = MenuCategory.NonVeg, Price = 550.00m, PreparationTime = 20, ItemStatus = ItemStatus.AVAILABLE },
-                new MenuItem { MenuItemId = 2, ItemName = "Farm House Pizza", Category = MenuCategory.Veg, Price = 500.00m, PreparationTime = 18, ItemStatus = ItemStatus.AVAILABLE },
-                new MenuItem { MenuItemId = 3, ItemName = "Margherita", Category = MenuCategory.Veg, Price = 350.00m, PreparationTime = 15, ItemStatus = ItemStatus.AVAILABLE },
-                new MenuItem { MenuItemId = 4, ItemName = "Fries", Category = MenuCategory.Veg, Price = 120.00m, PreparationTime = 8, ItemStatus = ItemStatus.AVAILABLE },
-                new MenuItem { MenuItemId = 5, ItemName = "Coke", Category = MenuCategory.Beverage, Price = 50.00m, PreparationTime = 1, ItemStatus = ItemStatus.AVAILABLE },
-                new MenuItem { MenuItemId = 6, ItemName = "Garlic Bread", Category = MenuCategory.Veg, Price = 90.00m, PreparationTime = 7, ItemStatus = ItemStatus.AVAILABLE }
+                new MenuItem { MenuItemId = 1, ItemName = "BBQ Chicken Pizza", Category = MenuCategory.NonVeg, Price = 550.00m, PreparationTime = 20, ItemStatus = ItemStatus.AVAILABLE, ImagePath = "/images/menu/bbq_chicken.jpg" },
+                new MenuItem { MenuItemId = 2, ItemName = "Farm House Pizza", Category = MenuCategory.Veg, Price = 500.00m, PreparationTime = 18, ItemStatus = ItemStatus.AVAILABLE, ImagePath = "/images/menu/farmhouse.jpg" },
+                new MenuItem { MenuItemId = 3, ItemName = "Margherita", Category = MenuCategory.Veg, Price = 350.00m, PreparationTime = 15, ItemStatus = ItemStatus.AVAILABLE, ImagePath = "/images/menu/margherita.jpg" },
+                new MenuItem { MenuItemId = 4, ItemName = "Fries", Category = MenuCategory.Veg, Price = 120.00m, PreparationTime = 8, ItemStatus = ItemStatus.AVAILABLE, ImagePath = "/images/menu/fries.jpg" },
+                new MenuItem { MenuItemId = 5, ItemName = "Coke", Category = MenuCategory.Beverage, Price = 50.00m, PreparationTime = 1, ItemStatus = ItemStatus.AVAILABLE, ImagePath = "/images/menu/coke.jpg" },
+                new MenuItem { MenuItemId = 6, ItemName = "Garlic Bread", Category = MenuCategory.Veg, Price = 90.00m, PreparationTime = 7, ItemStatus = ItemStatus.AVAILABLE, ImagePath = "/images/menu/garlic_bread.jpg" }
             );
 
             // Seed Ingredients
