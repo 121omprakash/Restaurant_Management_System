@@ -150,3 +150,18 @@ footer.custom-footer {
     padding: 0.4rem 0.75rem;
     font-size: 0.9rem;
 }
+
+
+/* Restaurant Branding */
+.brand-title {
+    font-family: 'Cinzel', serif !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    color: var(--accent-color) !important;
+    line-height: 1.1;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+

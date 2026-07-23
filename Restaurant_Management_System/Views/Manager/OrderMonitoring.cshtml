@@ -1,23 +1,43 @@
 ﻿@model IEnumerable<Restaurant_Management_System.ViewModel.OrderMonitoringViewModel>
+@using Restaurant_Management_System.ENUM
 
 @{
     ViewData["Title"] = "Order Monitoring";
     Layout = "_ManagerLayout";
+
+    // Read current status from Query String to set the active tab class
+    var currentStatus = Context.Request.Query["status"].ToString();
 }
 
 <div class="order-monitor-container">
 
-    <!-- Status Tabs -->
     <div class="order-tabs">
-        <a asp-controller="Manager" asp-action="OrderMonitoring" class="order-tab @(!Context.Request.Query.ContainsKey("status") ? "active" : "")">All</a>
-        <a asp-controller="Manager" asp-action="OrderMonitoring" asp-route-status="@Restaurant_Management_System.ENUM.OrderStatus.PREPARING" class="order-tab @(Context.Request.Query["status"] == "PREPARING" ? "active" : "")">Preparing</a>
-        <a asp-controller="Manager" asp-action="OrderMonitoring" asp-route-status="@Restaurant_Management_System.ENUM.OrderStatus.READY" class="order-tab @(Context.Request.Query["status"] == "READY" ? "active" : "")">Ready</a>
-        <a asp-controller="Manager" asp-action="OrderMonitoring" asp-route-status="@Restaurant_Management_System.ENUM.OrderStatus.SERVED" class="order-tab @(Context.Request.Query["status"] == "SERVED" ? "active" : "")">Served</a>
+        <a asp-action="OrderMonitoring"
+           class="order-tab @(string.IsNullOrEmpty(currentStatus) ? "active" : "")">
+            All
+        </a>
+
+        <a asp-action="OrderMonitoring"
+           asp-route-status="@OrderStatus.PREPARING"
+           class="order-tab @(currentStatus == OrderStatus.PREPARING.ToString() ? "active" : "")">
+            Preparing
+        </a>
+
+        <a asp-action="OrderMonitoring"
+           asp-route-status="@OrderStatus.READY"
+           class="order-tab @(currentStatus == OrderStatus.READY.ToString() ? "active" : "")">
+            Ready
+        </a>
+
+        <a asp-action="OrderMonitoring"
+           asp-route-status="@OrderStatus.SERVED"
+           class="order-tab @(currentStatus == OrderStatus.SERVED.ToString() ? "active" : "")">
+            Served
+        </a>
     </div>
 
-    <!-- Orders Table -->
     <div class="order-table-wrapper">
-        <table class="order-table" id="ordersTable">
+        <table class="order-table">
             <thead>
                 <tr>
                     <th>Order ID</th>
@@ -28,28 +48,19 @@
                     <th>Total</th>
                 </tr>
             </thead>
-            <tbody id="ordersTableBody">
+
+            <tbody>
                 @if (Model != null && Model.Any())
                 {
                     @foreach (var order in Model)
                     {
-                        var statusClass = order.OrderStatus switch
-                        {
-                            Restaurant_Management_System.ENUM.OrderStatus.NEW => "status-new",
-                            Restaurant_Management_System.ENUM.OrderStatus.PREPARING => "status-preparing",
-                            Restaurant_Management_System.ENUM.OrderStatus.READY => "status-ready",
-                            Restaurant_Management_System.ENUM.OrderStatus.SERVED => "status-served",
-                            Restaurant_Management_System.ENUM.OrderStatus.CANCEL => "status-cancel",
-                            _ => ""
-                        };
-
                         <tr>
                             <td class="order-id">#@order.OrderId</td>
                             <td>@order.CustomerName</td>
                             <td>@order.TableNumber</td>
                             <td class="order-time">@order.OrderTime.ToString("hh:mm tt")</td>
                             <td>
-                                <span class="status-badge @statusClass">
+                                <span class="status-badge">
                                     @order.OrderStatus
                                 </span>
                             </td>
@@ -60,8 +71,8 @@
                 else
                 {
                     <tr>
-                        <td colspan="6" style="text-align:center; padding:25px; color: var(--text-muted);">
-                            No orders available.
+                        <td colspan="6" style="text-align:center; padding:25px; color:#64748b;">
+                            No orders found for this status.
                         </td>
                     </tr>
                 }
@@ -69,30 +80,3 @@
         </table>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        // Auto-refresh order data every 5 seconds to sync kitchen updates live
-        setInterval(async function() {
-            try {
-                const currentUrl = window.location.href;
-                const response = await fetch(currentUrl, {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                });
-
-                if (response.ok) {
-                    const htmlText = await response.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(htmlText, 'text/html');
-
-                    const newTableBody = doc.getElementById('ordersTableBody');
-                    if (newTableBody) {
-                        document.getElementById('ordersTableBody').innerHTML = newTableBody.innerHTML;
-                    }
-                }
-            } catch (error) {
-                console.error("Auto-sync error:", error);
-            }
-        }, 5000);
-    </script>
-}

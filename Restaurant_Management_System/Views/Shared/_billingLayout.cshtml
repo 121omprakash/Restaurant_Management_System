@@ -9,14 +9,21 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/billing.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Restaurant_Management_System.styles.css" asp-append-version="true" />
+    <!-- Google Font: Cinzel for Italian/Artisanal Branding -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
+
+
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-md custom-navbar box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand">
-                    <img src="~/download_logo.png" />
-                </a>
+                <div class="navbar-brand d-flex align-items-center gap-2">
+                    <img src="~/download_logo.png" style="height: 40px; width: auto;" alt="Logo" />
+                    <span class="brand-title">Cheesey Corner</span>
+                </div>
                 <button class="navbar-toggler text-light" type="button" style="filter: invert(1);">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -49,7 +56,7 @@
 
     <footer class="custom-footer text-muted">
         <div class="w-100 text-center py-2">
-            &copy; 2026 - RMSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - Cheesey Corner - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

@@ -13,13 +13,13 @@ namespace Restaurant_Management_System.Models
         public string ItemName { get; set; } = null!;
 
         [Required]
-        public string Category { get; set; } = null!;
+        public MenuCategory Category { get; set; }
 
         [Column(TypeName = "decimal(10,2)")]
         public decimal Price { get; set; }
 
+        // PreparationTime removed from create form; property retained on model for compatibility
         public int PreparationTime { get; set; }
-
         public ItemStatus ItemStatus { get; set; }
 
         public string? RecipeSteps { get; set; }
