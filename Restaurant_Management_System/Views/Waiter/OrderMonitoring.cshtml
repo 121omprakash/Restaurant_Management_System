@@ -1,0 +1,119 @@
+﻿@model Restaurant_Management_System.ViewModel.WaiterOrderMonitoringViewModel
+
+@{
+    ViewData["Title"] = "Order Monitoring";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+
+<div class="container-fluid">
+
+    <h3 class="mb-4">Order Monitoring</h3>
+
+    <!-- Cards -->
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <button class="card w-100 shadow-sm border-0 order-card"
+                    onclick="showDeployedOrders()">
+                <div class="card-body text-center">
+                    <h5>Delayed Orders</h5>
+                    <h2>@Model.DeployedOrderCount</h2>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-md-4">
+            <button class="card w-100 shadow-sm border-0 order-card"
+                    onclick="showDelayedOrders()">
+                <div class="card-body text-center">
+                    <h5>Ready Orders</h5>
+                    <h2>@Model.DelayedOrderCount</h2>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-md-4">
+            <button class="card w-100 shadow-sm border-0 order-card"
+                    onclick="showServedOrders()">
+                <div class="card-body text-center">
+                    <h5>Today's Served</h5>
+                    <h2>@Model.ServedOrderCount</h2>
+                </div>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Table -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header">
+            <h5 class="mb-0">Orders</h5>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Table No</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="ordersTableBody">
+                    @{
+                        var all = Model.DeployedOrders.Concat(Model.DelayedOrders);
+                    }
+                    @foreach (var o in all)
+                    {
+                        <tr>
+                            <td>@o.OrderId</td>
+                            <td>@o.TableNumber</td>
+                            <td>@o.CustomerName</td>
+                            <td>@o.Status</td>
+                            <td>
+                                @if (o.Status == "READY")
+                                {
+                                    <form asp-action="MarkServed" method="post" style="display:inline">
+                                        <input type="hidden" name="ticketId" value="@o.KitchenTicketId" />
+                                        <button type="submit" class="btn btn-sm btn-success">Mark Served</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+    function showDeployedOrders() {
+        document.getElementById("ordersSection").style.display = "block";
+    }
+
+    function showDelayedOrders() {
+        document.getElementById("ordersSection").style.display = "block";
+    }
+
+    function showServedOrders() {
+        document.getElementById("ordersSection").style.display = "block";
+    }
+</script>
