@@ -13,6 +13,15 @@ namespace Restaurant_Management_System.Controllers
         {
             _context = context;
         }
+        public async Task<IActionResult> Menu()
+        {
+            var menuItems = _context.MenuItems.Where(x => x.ItemStatus == ItemStatus.AVAILABLE ||
+            x.ItemStatus == ItemStatus.OUT_OF_STOCK)
+                .OrderBy(x => Guid.NewGuid())
+                .ToList();
+            return View(menuItems);
+        }
+
         public IActionResult Dashboard()
         {
             return View();

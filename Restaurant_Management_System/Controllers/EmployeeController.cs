@@ -61,7 +61,7 @@ public class EmployeeController : Controller
         }
         else if (role == "Waiter" && user.IsActive)
         {
-            return RedirectToAction("Dashboard", "Waiter");
+            return RedirectToAction("Menu", "Waiter");
         }
         else if (role == "Cashier" && user.IsActive)
         {
