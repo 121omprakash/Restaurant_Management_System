@@ -1,60 +1,72 @@
-﻿@model Restaurant_Management_System.Models.MenuItem
+﻿@model Restaurant_Management_System.ViewModel.MenuItemCreateViewModel
 @using Restaurant_Management_System.ENUM
 
 @{
+    ViewData["Title"] = "Edit Menu Item";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-
-MenuEdit
-
-    <input type="hidden"
-           asp-for="MenuItemId" />
-
-    <div class="form-group">
-
-        <label>Item Name</label>
-
-        <input asp-for="ItemName"
-               class="form-control" />
-
+<div class="menu-container">
+    <div class="page-header">
+        <div>
+            <h2>Edit Menu Item</h2>
+            <p>Update item details for <strong>@Model.ItemName</strong></p>
+        </div>
     </div>
 
-    <div class="form-group">
+    <div class="menu-form">
+        <form asp-action="MenuEdit" method="post" enctype="multipart/form-data">
+            <!-- Hidden fields to retain the Item ID and ImagePath -->
+            <input type="hidden" asp-for="MenuItemId" />
+            <input type="hidden" asp-for="ImagePath" />
 
-        <label>Category</label>
+            <div class="form-group">
+                <label asp-for="ItemName"></label>
+                <input asp-for="ItemName" class="form-control" />
+                <span asp-validation-for="ItemName" class="text-danger"></span>
+            </div>
 
-        <input asp-for="Category"
-               class="form-control" />
+            <div class="form-group">
+                <label asp-for="Category"></label>
+                <select asp-for="Category" class="form-control" asp-items="Html.GetEnumSelectList<MenuCategory>()">
+                </select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
 
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ItemStatus"></label>
+                <select asp-for="ItemStatus" class="form-control" asp-items="Html.GetEnumSelectList<ItemStatus>()">
+                </select>
+                <span asp-validation-for="ItemStatus" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Current Image</label>
+                <div class="mb-2">
+                    @{
+                        var previewImg = !string.IsNullOrEmpty(Model.ImagePath)
+                                         ? Model.ImagePath
+                                         : Url.Content("~/images/default-food.png");
+                    }
+                    <img src="@previewImg" alt="@Model.ItemName" class="food-image" style="max-width: 180px; border-radius: 8px; border: 1px solid #cbd5e1;" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageFile">Change Image</label>
+                <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+            </div>
+
+            <div class="button-group mt-4">
+                <a asp-action="MenuManagement" class="cancel-btn">Cancel</a>
+                <button type="submit" class="save-btn">Update Item</button>
+            </div>
+        </form>
     </div>
-
-    <div class="form-group">
-
-        <label>Price</label>
-
-        <input asp-for="Price"
-               class="form-control" />
-
-    </div>
-
-    <div class="form-group">
-
-        <label>Status</label>
-
-        <select asp-for="ItemStatus"
-                asp-items="Html.GetEnumSelectList<ItemStatus>()"
-                class="form-control">
-        </select>
-
-    </div>
-                            
-    <button type="submit"
-            class="btn btn-primary">
-        Update Item
-    </button>
-
-    MenuManagement
-        Cancel
-    </a>
-
+</div>

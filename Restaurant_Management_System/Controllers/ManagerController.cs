@@ -4,17 +4,21 @@ using Restaurant_Management_System.Data;
 using Restaurant_Management_System.ENUM;
 using Restaurant_Management_System.Models;
 using Restaurant_Management_System.ViewModel;
+using System.IO;
 
 namespace Restaurant_Management_System.Controllers
 {
     public class ManagerController : Controller
     {
         private readonly rmsDbContext _context;
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
 
-        public ManagerController(rmsDbContext context)
+        public ManagerController(rmsDbContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
+
 
         public IActionResult Dashboard()
         {
@@ -28,23 +32,13 @@ namespace Restaurant_Management_System.Controllers
 
             vm.TotalTables = _context.RestaurantTables.Count();
 
-            vm.OccupiedTables = _context.RestaurantTables
-                .Count(x => x.IsOccupied);
+            vm.OccupiedTables = _context.RestaurantTables.Count(x => x.IsOccupied);
 
-            vm.PendingOrders = _context.CustomerOrders
-                .Count(x => x.OrderStatus == OrderStatus.NEW);
-
-            vm.PreparingOrders = _context.CustomerOrders
-                .Count(x => x.OrderStatus == OrderStatus.PREPARING);
-
-            vm.ReadyOrders = _context.CustomerOrders
-                .Count(x => x.OrderStatus == OrderStatus.READY);
-
-            vm.ServedOrders = _context.CustomerOrders
-                .Count(x => x.OrderStatus == OrderStatus.SERVED);
-
-            vm.CancelledOrders = _context.CustomerOrders
-                .Count(x => x.OrderStatus == OrderStatus.CANCEL);
+            vm.PendingOrders = _context.CustomerOrders.Count(x => x.OrderStatus == OrderStatus.NEW);
+            vm.PreparingOrders = _context.CustomerOrders.Count(x => x.OrderStatus == OrderStatus.PREPARING);
+            vm.ReadyOrders = _context.CustomerOrders.Count(x => x.OrderStatus == OrderStatus.READY);
+            vm.ServedOrders = _context.CustomerOrders.Count(x => x.OrderStatus == OrderStatus.SERVED);
+            vm.CancelledOrders = _context.CustomerOrders.Count(x => x.OrderStatus == OrderStatus.CANCEL);
 
             vm.DelayedOrders = _context.CustomerOrders
                 .Count(x => x.OrderStatus == OrderStatus.PREPARING
@@ -59,86 +53,165 @@ namespace Restaurant_Management_System.Controllers
 
         public IActionResult MenuManagement()
         {
-            var menuItems = _context.MenuItems.ToList();
+            var menuItems = _context.MenuItems
+                .AsNoTracking()
+                .ToList();
 
             return View(menuItems);
         }
 
+        public IActionResult MenuView(int id)
+        {
+            var menuItem = _context.MenuItems
+                .Include(m => m.ItemRecipes)
+                    .ThenInclude(r => r.Ingredient)
+                .FirstOrDefault(m => m.MenuItemId == id);
+
+            if (menuItem == null)
+            {
+                return NotFound();
+            }
+
+            return View(menuItem);
+        }
 
         [HttpGet]
         public IActionResult MenuAdd()
         {
-            return View();
+            var vm = new MenuItemCreateViewModel();
+            return View(vm);
         }
 
         [HttpPost]
-        public IActionResult MenuAdd(MenuItem item)
+        [ValidateAntiForgeryToken]
+        public IActionResult MenuAdd(MenuItemCreateViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.MenuItems.Add(item);
-                _context.SaveChanges();
-
-                return RedirectToAction(nameof(MenuManagement));
+                return View(vm);
             }
 
-            return View(item);
-        }
-
-        public IActionResult MenuView()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult MenuEdit(int id)
-        {
-            var item = _context.MenuItems.Find(id);
-
-            if (item == null)
-                return NotFound();
-
-            return View(item);
-        }
-
-        [HttpPost]
-        public IActionResult MenuEdit(MenuItem item)
-        {
-            if (ModelState.IsValid)
+            string? savedImagePath = null;
+            if (vm.ImageFile != null && vm.ImageFile.Length > 0)
             {
-                _context.MenuItems.Update(item);
-                _context.SaveChanges();
+                var uploadsRoot = Path.Combine(_env.WebRootPath ?? "wwwroot", "images", "menu");
+                if (!Directory.Exists(uploadsRoot)) Directory.CreateDirectory(uploadsRoot);
 
-                return RedirectToAction(nameof(MenuManagement));
+                var fileExt = Path.GetExtension(vm.ImageFile.FileName);
+                var fileName = $"menu_{Guid.NewGuid():N}{fileExt}";
+                var fullPath = Path.Combine(uploadsRoot, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    vm.ImageFile.CopyTo(stream);
+                }
+
+                savedImagePath = $"/images/menu/{fileName}";
             }
 
-            return View(item);
-        }
-        [HttpPost]
-        public IActionResult ToggleStatus(int id)
-        {
-            var item = _context.MenuItems.Find(id);
-
-            if (item == null)
+            var menuItem = new MenuItem
             {
-                return NotFound();
-            }
+                ItemName = vm.ItemName,
+                Category = vm.Category,
+                Price = vm.Price,
+                ItemStatus = vm.ItemStatus,
+                RecipeSteps = null,
+                ImagePath = savedImagePath
+            };
 
-            // Toggle between AVAILABLE and UNAVAILABLE (or RETIRED based on your ENUM)
-            if (item.ItemStatus == ItemStatus.AVAILABLE)
-            {
-                item.ItemStatus = ItemStatus.RETIRED; // Change to ItemStatus.RETIRED if UNAVAILABLE isn't in your enum
-            }
-            else
-            {
-                item.ItemStatus = ItemStatus.AVAILABLE;
-            }
-
+            _context.MenuItems.Add(menuItem);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(MenuManagement));
         }
 
+        [HttpGet]
+        public IActionResult MenuEdit(int id)
+        {
+            var menuItem = _context.MenuItems.Find(id);
+
+            if (menuItem == null)
+            {
+                return NotFound();
+            }
+
+            var vm = new MenuItemCreateViewModel
+            {
+                MenuItemId = menuItem.MenuItemId,
+                ItemName = menuItem.ItemName,
+                Category = menuItem.Category,
+                Price = menuItem.Price,
+                ItemStatus = menuItem.ItemStatus,
+                ImagePath = menuItem.ImagePath
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MenuEdit(MenuItemCreateViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            var menuItem = _context.MenuItems.Find(vm.MenuItemId);
+
+            if (menuItem == null)
+            {
+                return NotFound();
+            }
+
+            string? savedImagePath = vm.ImagePath;
+
+            if (vm.ImageFile != null && vm.ImageFile.Length > 0)
+            {
+                var uploadsRoot = Path.Combine(_env.WebRootPath ?? "wwwroot", "images", "menu");
+                if (!Directory.Exists(uploadsRoot)) Directory.CreateDirectory(uploadsRoot);
+
+                var fileExt = Path.GetExtension(vm.ImageFile.FileName);
+                var fileName = $"menu_{Guid.NewGuid():N}{fileExt}";
+                var fullPath = Path.Combine(uploadsRoot, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    vm.ImageFile.CopyTo(stream);
+                }
+
+                savedImagePath = $"/images/menu/{fileName}";
+            }
+
+            menuItem.ItemName = vm.ItemName;
+            menuItem.Category = vm.Category;
+            menuItem.Price = vm.Price;
+            menuItem.ItemStatus = vm.ItemStatus;
+            menuItem.ImagePath = savedImagePath;
+
+            _context.MenuItems.Update(menuItem);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(MenuManagement));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MenuDelete(int id)
+        {
+            var menuItem = _context.MenuItems.Find(id);
+
+            if (menuItem == null)
+            {
+                return NotFound();
+            }
+
+            _context.MenuItems.Remove(menuItem);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(MenuManagement));
+        }
+        
         public IActionResult OrderMonitoring(OrderStatus? status)
         {
             var query = _context.CustomerOrders
@@ -157,13 +230,12 @@ namespace Restaurant_Management_System.Controllers
                 TableNumber = o.TableNumber,
                 OrderTime = o.OrderTime,
                 OrderStatus = o.OrderStatus,
-                TotalAmount = o.BillInvoice != null
-                    ? o.BillInvoice.TotalAmount
-                    : 0
+                TotalAmount = o.BillInvoice != null ? o.BillInvoice.TotalAmount : 0
             }).ToList();
 
             return View(orders);
         }
+
         public IActionResult TableManagement()
         {
             var tables = _context.RestaurantTables
@@ -178,41 +250,33 @@ namespace Restaurant_Management_System.Controllers
 
             return View(vm);
         }
+        
 
         public IActionResult Inventory(string search)
         {
-            var ingredients = _context.Ingredients.AsQueryable();
+            var query = _context.Ingredients.AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
             {
-                ingredients = ingredients.Where(x =>
-                    x.IngredientName.Contains(search));
+                query = query.Where(x => x.IngredientName.Contains(search));
             }
 
-            // Maps DB Entities to ManagerInventoryViewModel
-            var inventoryList = ingredients.Select(i => new ManagerInventoryViewModel
+            var vm = new InventoryListViewModel
             {
-                Id = i.IngredientId,
-                ItemName = i.IngredientName,
+                Items = query.ToList(),
+                SearchTerm = search ?? string.Empty,
+                UserRole = "Manager" // Sets role context for view controls
+            };
 
-                // Convert the UnitOfMeasure Enum to a readable string (e.g., "KG", "Liters", "Pcs")
-                Unit = i.UnitOfMeasure.ToString(),
-
-                CurrentStock = i.CurrentStock,
-
-                // Use your existing StockStatus enum string, or calculate dynamic status
-                Status = i.StockStatus.ToString()
-            }).ToList();
-
-            return View(inventoryList);
+            return View(vm);
         }
+       
+        
         public IActionResult Reports()
         {
             var vm = new ReportsViewModel();
-
             var today = DateTime.Today;
 
-            // Ensure related CustomerOrder is available for date filtering
             var invoices = _context.BillInvoices
                 .Include(b => b.CustomerOrder)
                 .AsQueryable();
@@ -233,7 +297,6 @@ namespace Restaurant_Management_System.Controllers
                 ? Math.Round(_context.BillInvoices.Average(b => b.TotalAmount), 2)
                 : 0m;
 
-            // Revenue trend: last 7 days totals
             for (int i = 6; i >= 0; i--)
             {
                 var day = today.AddDays(-i);
@@ -243,7 +306,6 @@ namespace Restaurant_Management_System.Controllers
                 vm.RevenueTrend.Add(dayTotal);
             }
 
-            // Top selling items by quantity
             var topItems = _context.OrderItems
                 .Include(oi => oi.MenuItem)
                 .GroupBy(oi => oi.MenuItem.ItemName)
@@ -263,7 +325,6 @@ namespace Restaurant_Management_System.Controllers
                 });
             }
 
-            // Recent invoices (latest 5)
             var recent = invoices
                 .OrderByDescending(b => b.CustomerOrder != null ? b.CustomerOrder.OrderTime : DateTime.MinValue)
                 .Take(5)
@@ -284,5 +345,6 @@ namespace Restaurant_Management_System.Controllers
 
             return View(vm);
         }
+       
     }
 }

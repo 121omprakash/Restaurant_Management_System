@@ -1,114 +1,118 @@
 ﻿@model IEnumerable<Restaurant_Management_System.Models.MenuItem>
+@using Restaurant_Management_System.ENUM
 
 @{
     ViewData["Title"] = "Menu Management";
-    Layout = "_ManagerLayout";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
+<style>
+    .menu-item-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+    }
+</style>
+
 <div class="menu-container">
+
     <div class="page-header">
         <div>
             <h2>Menu Management</h2>
             <p>Manage restaurant menu items.</p>
         </div>
-        <a asp-controller="Manager" asp-action="MenuAdd" class="add-btn">
-            <i class="fa-solid fa-plus"></i> Add Item
+
+        <a asp-action="MenuAdd" asp-controller="Manager" class="add-btn">
+            + Add Item
         </a>
     </div>
 
-    <!-- Filters & Search Toolbar -->
     <div class="filter-section">
-        <input type="text" id="menuSearch" class="search-box" placeholder="Search menu item..." onkeyup="filterMenuTable()" />
+        <input type="text"
+               id="menuSearchInput"
+               class="search-box"
+               placeholder="Search menu item..." />
 
-        <select id="categoryFilter" class="category-dropdown" onchange="filterMenuTable()">
+        <select id="categoryFilter" class="category-dropdown">
             <option value="">All Categories</option>
-            <option value="Veg Pizza">Veg Pizza</option>
-            <option value="Non-Veg Pizza">Non-Veg Pizza</option>
+            @foreach (var category in Enum.GetValues(typeof(MenuCategory)))
+            {
+                <option value="@category">@category</option>
+            }
         </select>
     </div>
 
-    <!-- Menu Table -->
-    <div class="order-table-wrapper">
-        <table class="menu-table" id="menuTable">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Item Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    @foreach (var item in Model)
-                    {
-                        var isAvailable = item.ItemStatus == Restaurant_Management_System.ENUM.ItemStatus.AVAILABLE;
+    <table class="menu-table" id="menuTable">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
 
-                        <tr>
-                            <td>
-                                <img src="@(string.IsNullOrEmpty(item.ImagePath) ? "/images/default-pizza.png" : item.ImagePath)"
-                                     alt="@item.ItemName"
-                                     class="food-img" />
-                            </td>
-                            <td><strong>@item.ItemName</strong></td>
-                            <td>@item.Category</td>
-                            <td>₹@item.Price.ToString("F0")</td>
-                            <td>
-                                <!-- Status Toggle Form -->
-                                <form asp-controller="Manager" asp-action="ToggleStatus" asp-route-id="@item.MenuItemId" method="post" class="status-toggle-form">
-                                    <label class="status-toggle-wrapper">
-                                        <input type="checkbox"
-                                               class="status-toggle-checkbox"
-                                        @(isAvailable ? "checked" : "")
-                                               onchange="this.form.submit()">
-                                        <span class="status-pill @(isAvailable ? "available" : "status-out")">
-                                            @(isAvailable ? "Available" : "Unavailable")
-                                        </span>
-                                    </label>
-                                </form>
-                            </td>
-                            <td>
-                                <a asp-controller="Manager" asp-action="MenuEdit" asp-route-id="@item.MenuItemId" class="view-btn" title="View Details">
-                                    View
-                                </a>
-                                <a asp-controller="Manager" asp-action="MenuEdit" asp-route-id="@item.MenuItemId" class="edit-btn" title="Edit Item">
-                                    Edit
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
                 {
-                    <tr>
-                        <td colspan="6" style="text-align:center; padding: 30px;">
-                            No items found. Click "+ Add Item" to create one.
+                    var statusCss = item.ItemStatus == ItemStatus.AVAILABLE ? "available" : "unavailable";
+                    var displayImage = !string.IsNullOrEmpty(item.ImagePath) 
+                                       ? item.ImagePath 
+                                       : Url.Content("~/images/default-food.png");
+
+                    <tr data-category="@item.Category">
+                        <td>
+                            <img src="@displayImage" alt="@item.ItemName" class="menu-item-icon" />
+                        </td>
+                        <td class="item-name"><strong>@item.ItemName</strong></td>
+                        <td>@item.Category</td>
+                        <td>₹@item.Price.ToString("F2")</td>
+                        <td>
+                            <span class="status @statusCss">@item.ItemStatus</span>
+                        </td>
+                        <td>
+                            <a asp-action="MenuView" asp-route-id="@item.MenuItemId" class="view-btn">View</a>
+                            <a asp-action="MenuEdit" asp-route-id="@item.MenuItemId" class="edit-btn">Edit</a>
                         </td>
                     </tr>
                 }
-            </tbody>
-        </table>
-    </div>
+            }
+            else
+            {
+                <tr id="noResultsRow">
+                    <td colspan="6" style="text-align: center; padding: 30px; color: #64748b;">
+                        No menu items found.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 @section Scripts {
     <script>
-        function filterMenuTable() {
-            const searchInput = document.getElementById('menuSearch').value.trim().toLowerCase();
-            const categoryFilter = document.getElementById('categoryFilter').value.trim().toLowerCase();
-            const tableRows = document.querySelectorAll('#menuTable tbody tr');
+        const searchInput = document.getElementById('menuSearchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
 
-            tableRows.forEach(row => {
-                if (row.children.length < 3) return;
+        function filterMenu() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const selectedCategory = categoryFilter.value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#menuTable tbody tr');
 
-                const nameText = row.children[1].textContent.trim().toLowerCase();
-                const categoryText = row.children[2].textContent.trim().toLowerCase();
+            rows.forEach(row => {
+                if (row.id === 'noResultsRow') return;
 
-                const matchesSearch = nameText.includes(searchInput);
-                const matchesCategory = categoryFilter === '' || categoryText === categoryFilter;
+                const nameText = (row.querySelector('.item-name')?.textContent || '').toLowerCase();
+                const rowCategory = (row.getAttribute('data-category') || '').toLowerCase();
+
+                const matchesSearch = nameText.includes(searchTerm);
+                const matchesCategory = !selectedCategory || rowCategory === selectedCategory;
 
                 if (matchesSearch && matchesCategory) {
                     row.style.display = '';
@@ -117,5 +121,8 @@
                 }
             });
         }
+
+        searchInput.addEventListener('keyup', filterMenu);
+        categoryFilter.addEventListener('change', filterMenu);
     </script>
 }

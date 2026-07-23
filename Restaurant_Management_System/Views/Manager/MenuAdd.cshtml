@@ -1,55 +1,67 @@
-﻿@using Restaurant_Management_System.ENUM 
-@model Restaurant_Management_System.Models.MenuItem
-
+﻿@model Restaurant_Management_System.ViewModel.MenuItemCreateViewModel
 @{
+    ViewData["Title"] = "Add Menu Item";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
+<div class="menu-container">
 
-MenuAdd
+    <div class="page-header">
+        <div>
+            <h2>Add Menu Item</h2>
+            <p>Add a new menu item </p>
+        </div>
+    </div>
 
-    <div class="form-group">
+    <div class="menu-form">
 
-        <label>Item Name</label>
+        <form asp-action="MenuAdd" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="ItemName"></label>
+                <input asp-for="ItemName" class="form-control" />
+            </div>
 
-        <input asp-for="ItemName" class="form-control" />
+            <div class="form-group">
+                <label asp-for="Category"></label>
+                <select asp-for="Category" class="form-control">
+                    @foreach (var val in Enum.GetValues(typeof(Restaurant_Management_System.ENUM.MenuCategory)))
+                    {
+                        <option value="@val">@val</option>
+                    }
+                </select>
+            </div>
 
-        <span asp-validation-for="ItemName"></span>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" />
+            </div>
+
+            <!-- PreparationTime removed from create form per request -->
+
+            <div class="form-group">
+                <label asp-for="ItemStatus"></label>
+                <select asp-for="ItemStatus" class="form-control">
+                    @foreach (var val in Enum.GetValues(typeof(Restaurant_Management_System.ENUM.ItemStatus)))
+                    {
+                        <option value="@val">@val</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageFile">Upload Image</label>
+                <input asp-for="ImageFile" type="file" class="form-control" />
+            </div>
+
+            
+
+            <div class="button-group">
+                <a asp-action="MenuManagement" class="cancel-btn">Cancel</a>
+                <button type="submit" class="save-btn">Save Item</button>
+            </div>
+        </form>
 
     </div>
 
-    <div class="form-group">
-
-        <label>Category</label>
-
-        <input asp-for="Category" class="form-control" />
-
-    </div>
-
-    <div class="form-group">
-
-        <label>Price</label>
-
-        <input asp-for="Price" class="form-control" />
-
-    </div>
-
-    <div class="form-group">
-
-        <label>Status</label>
-
-        <select asp-for="ItemStatus"
-                asp-items="Html.GetEnumSelectList<ItemStatus>()"
-                class="form-control">
-        </select>
-
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        Save Item
-    </button>
-
-    MenuManagement
-        Cancel
-    </a>
+</div>
 

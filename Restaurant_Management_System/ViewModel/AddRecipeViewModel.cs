@@ -9,7 +9,7 @@ namespace Restaurant_Management_System.Models.ViewModels
 
         public string ItemName { get; set; } = string.Empty;
 
-        public string Category { get; set; } = string.Empty;
+        public MenuCategory Category { get; set; }
 
         public int PreparationTime { get; set; }
 

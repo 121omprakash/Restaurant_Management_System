@@ -1,93 +1,103 @@
-﻿@model IEnumerable<Restaurant_Management_System.ViewModel.ManagerInventoryViewModel>
+﻿@model Restaurant_Management_System.ViewModel.InventoryListViewModel
+@using Restaurant_Management_System.ENUM
 
 @{
     ViewData["Title"] = "Inventory";
-    Layout = "_ManagerLayout"; // Adjust if your layout file has a different name
+    Layout = "_ManagerLayout";
 }
 
 <div class="inventory-container">
-    <div class="page-header">
-        <div>
-            <h2>Inventory Monitoring</h2>
-            <p>Monitor and track current stock levels</p>
-        </div>
-        <!-- Removed + Add Item button -->
-    </div>
 
-    <!-- Search Toolbar -->
     <div class="inventory-toolbar">
+
         <div class="inventory-search-wrapper">
+
             <i class="bi bi-search inventory-search-icon"></i>
-            <input type="text" id="inventorySearchInput" class="inventory-search" placeholder="Search inventory items..." />
+
+            <!-- Connected search input to form/controller query -->
+            <form method="get" asp-action="Inventory">
+                <input type="text"
+                       name="search"
+                       value="@Model.SearchTerm"
+                       placeholder="Search inventory items..."
+                       class="inventory-search" />
+            </form>
+
         </div>
+
     </div>
 
-    <!-- Inventory Table -->
     <div class="inventory-table-wrapper">
-        <table class="inventory-table" id="inventoryTable">
+
+        <table class="inventory-table">
+
             <thead>
                 <tr>
-                    <th>Item ID</th>
                     <th>Item Name</th>
                     <th>Unit</th>
                     <th>Current Stock</th>
                     <th>Status</th>
-                    <!-- Removed Actions <th> -->
+                    <th></th>
                 </tr>
             </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    @foreach (var item in Model)
-                    {
-                        var statusClass = item.Status?.ToLower().Contains("low") == true ? "status-low" : "status-available";
 
-                        <tr>
-                            <td>#@item.Id</td>
-                            <td class="item-name"><strong>@item.ItemName</strong></td>
-                            <td>@item.Unit</td>
-                            <td>@item.CurrentStock.ToString("F2")</td>
-                            <td>
-                                <span class="status-badge @statusClass">
-                                    @item.Status
-                                </span>
-                            </td>
-                            <!-- Removed Actions <td> -->
-                        </tr>
-                    }
-                }
-                else
+            <tbody>
+
+                @foreach (var item in Model.Items)
                 {
-                    <tr id="noResultsRow">
-                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">
-                            No inventory items found.
+                    <tr>
+
+                        <td>
+                            <div class="inventory-item-name">
+                                @item.IngredientName
+                            </div>
                         </td>
+
+                        <td>
+                            @item.UnitOfMeasure
+                        </td>
+
+                        <td>
+                            @item.CurrentStock
+                        </td>
+
+                        <td>
+
+                            @if (item.StockStatus == StockStatus.LOW)
+                            {
+                                <span class="inventory-status status-low">
+                                    Low Stock
+                                </span>
+                            }
+                            else if (item.StockStatus == StockStatus.OUT_OF_STOCK)
+                            {
+                                <span class="inventory-status status-out">
+                                    Out Of Stock
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inventory-status status-available">
+                                    Available
+                                </span>
+                            }
+
+                        </td>
+
+                        <td class="inventory-actions">
+
+                            <i class="bi bi-eye"></i>
+                            <i class="bi bi-pencil"></i>
+                            <i class="bi bi-trash"></i>
+
+                        </td>
+
                     </tr>
                 }
+
             </tbody>
+
         </table>
+
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        document.getElementById('inventorySearchInput').addEventListener('keyup', function() {
-            const filter = this.value.toLowerCase().trim();
-            const rows = document.querySelectorAll('#inventoryTable tbody tr');
-
-            rows.forEach(row => {
-                if (row.id === 'noResultsRow') return;
-
-                const itemNameCell = row.querySelector('.item-name') || row.cells[1];
-                if (itemNameCell) {
-                    const textValue = itemNameCell.textContent || itemNameCell.innerText;
-                    if (textValue.toLowerCase().indexOf(filter) > -1) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                }
-            });
-        });
-    </script>
-}
