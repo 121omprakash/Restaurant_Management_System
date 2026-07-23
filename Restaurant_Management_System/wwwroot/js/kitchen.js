@@ -77,3 +77,125 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+function searchRecipes() {
+    const search = document.querySelector(".search-box").value.toLowerCase();
+    const rows = document.querySelectorAll(".recipe-table tbody tr");
+
+    rows.forEach(row => {
+        const rowText = row.innerText.toLowerCase();
+
+        if (rowText.includes(search)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+
+
+function filterRecipes() {
+
+    const selectedCategory = document.getElementById("categoryFilter").value;
+    const rows = document.querySelectorAll(".recipe-table tbody tr");
+
+    rows.forEach(function (row) {
+
+        const category = row.cells[2].innerText.trim();
+
+        if (selectedCategory === "All" || category === selectedCategory) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+
+    });
+
+}
+
+function showOrders(type) {
+
+    let orders = [];
+
+    if (type === "pending")
+        orders = pendingOrders;
+    else if (type === "preparing")
+        orders = preparingOrders;
+    else if (type === "completed")
+        orders = completedOrders;
+    else
+        orders = delayedOrders;
+
+    const body = document.getElementById("orderTableBody");
+    body.innerHTML = "";
+
+    orders.forEach(order => {
+
+        let statusClass = "";
+
+        if (order.status === "Pending")
+            statusClass = "pending";
+        else if (order.status === "Preparing")
+            statusClass = "preparing";
+        else if (order.status === "Completed")
+            statusClass = "completed";
+        else
+            statusClass = "delayed";
+
+        body.innerHTML += `
+            <tr>
+                <td>${order.id}</td>
+                <td>${order.item}</td>
+                <td><span class="status ${statusClass}">${order.status}</span></td>
+                <td>${order.date}</td>
+                    <td>
+                       
+                    <div class="action-buttons">
+
+                        <button class="action-btn view-btn">
+                            <i class="fa-solid fa-eye"></i>
+                            View
+                        </button>
+
+                        ${order.status === "Pending"
+                ? `<button class="action-btn start-btn">
+                                    <i class="fa-solid fa-play"></i>
+                                    Start Preparing
+                               </button>`
+
+                : order.status === "Preparing"
+
+                    ? `<button class="action-btn complete-btn">
+                                    <i class="fa-solid fa-check"></i>
+                                    Complete
+                               </button>`
+
+                    : ""
+            }
+
+                    </div>
+                </td>
+            </tr>`;
+    });
+
+}
+
+window.onload = function () {
+    showOrders("pending");
+
+
+}
+function searchOrders() {
+    const search = document.querySelector(".search-box").value.toLowerCase();
+    const rows = document.querySelectorAll(".order-table tbody tr");
+
+    rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+
+        if (text.includes(search)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
