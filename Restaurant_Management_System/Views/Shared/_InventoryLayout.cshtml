@@ -4,21 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Restaurant Management System</title>
+
+    <!-- Google Font for Cinzel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Restaurant_Management_System.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Inventory.css" />
 </head>
-
 <body>
 
     <header>
         <div class="topbar d-flex justify-content-between align-items-center">
             <div>
-                <a class="navbar-brand me-3">
-                    <img src="~/download_logo.png" alt="Logo" style="height:44px;" />
-                </a>
+                <!-- Brand Logo + Styled Restaurant Name (Non-clickable) -->
+                <div class="navbar-brand me-3 d-flex align-items-center gap-2">
+                    <img src="~/download_logo.png" alt="Logo" style="height:44px; width: auto;" />
+                    <span class="brand-title">Cheesey Corner</span>
+                </div>
             </div>
 
             <div>
@@ -31,17 +38,13 @@
                         <i class="fa-solid fa-right-from-bracket"></i>
                         <span class="sidebar-text">Logout</span>
                     </a>
-
                 </div>
-
             </div>
         </div>
-        
     </header>
 
     <div class="inventory-wrapper container-fluid px-4">
         <!-- Sidebar-->
-   
         <aside class="sidebar">
             <div class="chef-profile text-center py-3">
                 <div class="profile-image rounded-circle mx-auto d-flex align-items-center justify-content-center"
@@ -49,7 +52,8 @@
                     <i class="fa-solid fa-user-tie" style="font-size: 32px;"></i>
                 </div>
                 <div class="profile-details mt-2">
-                    <h5 class="mb-0">RestaurantMS</h5>
+                    <!-- Updated Profile Name -->
+                    <h5 class="mb-0" style="color: var(--text-main);">Rishabh</h5>
                     <small class="text-warning fw-medium">Inventory Clerk</small>
                 </div>
             </div>
@@ -69,16 +73,15 @@
                         <i class="fa-solid fa-boxes-stacked"></i> Stock Management
                     </a>
                 </li>
-                
                 <li class="mb-1">
                     <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "LowStock" ? "active" : "")"
                        asp-controller="Inventory" asp-action="LowStock">
                         <i class="fa-solid fa-triangle-exclamation"></i> Low Stock
                     </a>
                 </li>
-                
             </ul>
         </aside>
+
         <!-- Main content area -->
         <div class="main-content p-4">
             <div class="container">
@@ -94,9 +97,10 @@
         </div>
     </div>
 
-    <footer class="custom-footer text-muted">
+    <!-- Updated Footer -->
+    <footer class="custom-footer border-top">
         <div class="w-100 text-center py-2">
-            &copy; 2026 - RMSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - Cheesey Corner - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 
@@ -105,45 +109,44 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
-        (function () {
-            var themeToggle = document.getElementById('themeToggle');
-            var themeIcon = document.getElementById('themeIcon');
-            var themeText = document.getElementById('themeText');
-            var refreshBtn = document.getElementById('refreshBtnMain');
+            (function() {
+                var themeToggle = document.getElementById('themeToggle');
+                var themeIcon = document.getElementById('themeIcon');
+                var themeText = document.getElementById('themeText');
+                var refreshBtn = document.getElementById('refreshBtnMain');
 
-            function applyTheme(isNight) {
-                if (isNight) {
-                    document.body.classList.add('night-mode');
-                    themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon');
-                    themeText.textContent = 'Night Mode';
-                } else {
-                    document.body.classList.remove('night-mode');
-                    themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun');
-                    themeText.textContent = 'Day Mode';
+                function applyTheme(isNight) {
+                    if (isNight) {
+                        document.body.classList.add('night-mode');
+                        themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon');
+                        themeText.textContent = 'Night Mode';
+                    } else {
+                        document.body.classList.remove('night-mode');
+                        themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun');
+                        themeText.textContent = 'Day Mode';
+                    }
                 }
-            }
 
-            try {
-                var saved = localStorage.getItem('rm_theme');
-                applyTheme(saved === 'night');
+                try {
+                    var saved = localStorage.getItem('rm_theme');
+                    applyTheme(saved === 'night');
 
-                themeToggle.addEventListener('click', function (e) {
-                    var isNight = document.body.classList.toggle('night-mode');
-                    applyTheme(isNight);
-                    localStorage.setItem('rm_theme', isNight ? 'night' : 'day');
-                });
+                    themeToggle.addEventListener('click', function(e) {
+                        var isNight = document.body.classList.toggle('night-mode');
+                        applyTheme(isNight);
+                        localStorage.setItem('rm_theme', isNight ? 'night' : 'day');
+                    });
 
-                refreshBtn.addEventListener('click', function () {
-                    refreshBtn.disabled = true;
-                    var orig = refreshBtn.innerHTML;
-                    refreshBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span class="ms-2">Refreshing...</span>';
-                    // For now refresh reloads the page.
-                    setTimeout(function () { location.reload(); }, 700);
-                });
-            } catch (ex) {
-                console && console.warn && console.warn('Theme script error', ex);
-            }
-        })();
+                    refreshBtn.addEventListener('click', function() {
+                        refreshBtn.disabled = true;
+                        var orig = refreshBtn.innerHTML;
+                        refreshBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span class="ms-2">Refreshing...</span>';
+                        setTimeout(function() { location.reload(); }, 700);
+                    });
+                } catch (ex) {
+                    console && console.warn && console.warn('Theme script error', ex);
+                }
+            })();
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

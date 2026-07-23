@@ -1,29 +1,32 @@
- /* 1. CORE ADMINISTRATIVE LAYOUT (Full Screen & Adaptive Scaling) */
+ 
+:root {
+    --header-height: 71px;
+    --footer-height: 45px;
+}
 
 html, body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: hidden; /* Prevents the entire window/body from scrolling */
+    overflow: hidden;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     display: flex;
     flex-direction: column;
 }
 
 header {
-    height: 71px; /* Matches your navigation height */
+    height: var(--header-height);
     flex-shrink: 0;
 }
 
-/* The wrapper holds the sidebar and main area, taking up remaining vertical space */
 .wrapper {
     display: flex;
-    height: calc(100vh - 71px - 45px); /* Subtracts Header (71px) and Footer (45px) */
+    height: calc(100vh - var(--header-height) - var(--footer-height));
     width: 100vw;
     overflow: hidden;
 }
 
-/* Sidebar is locked to the height of the wrapper, independently scrollable if items overflow */
+/* Sidebar locked to wrapper height */
 .sidebar {
     width: 260px;
     height: 100%;
@@ -32,13 +35,12 @@ header {
     background-color: var(--bg-card);
     border-right: 1px solid var(--border-color);
     color: var(--text-main);
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-/* The workspace container takes remaining horizontal space and handles internal scrolling */
 .main-content-wrapper {
     display: flex;
     flex-direction: column;
@@ -47,7 +49,6 @@ header {
     min-width: 0;
 }
 
-/* Only this element will show a scrollbar if you have a long list of employees */
 .main-content {
     flex: 1;
     overflow-y: auto;
@@ -56,9 +57,8 @@ header {
     transition: background-color 0.3s ease;
 }
 
-/* Full Width Global Footer pinned perfectly below the wrapper */
 .custom-footer {
-    height: 45px;
+    height: var(--footer-height);
     width: 100vw;
     background-color: var(--bg-card);
     border-top: 1px solid var(--border-color) !important;
@@ -69,9 +69,9 @@ header {
     z-index: 10;
 }
 
-
-/* 2. SIDEBAR PROFILE & NAVIGATION MENU (With Bottom Pins) */
-
+/* ==========================================================================
+   2. SIDEBAR PROFILE & NAVIGATION MENU
+   ========================================================================== */
 .profile {
     text-align: center;
     padding: 25px 20px;
@@ -83,7 +83,7 @@ header {
     height: 80px;
     margin: 0 auto 12px auto;
     border-radius: 50%;
-    border: 2px solid var(--accent-color); /* Elegant brand-colored ring */
+    border: 2px solid var(--accent-color);
     padding: 3px;
     display: flex;
     align-items: center;
@@ -143,9 +143,9 @@ header {
                 display: inline-block !important;
                 width: 20px;
                 text-align: center;
+                flex-shrink: 0;
             }
 
-            /* Navigation Hover Interactions */
             .sidebar ul li a:hover {
                 background-color: var(--border-color);
                 color: var(--text-main) !important;
@@ -155,24 +155,16 @@ header {
                     color: var(--accent-color) !important;
                 }
 
-.logout-item a:hover i {
-    color: #ef4444 !important; /* Crimson Red indicator on quit */
-}
-
-/*  3. GLOBAL THEMED ELEMENTS & VISIBILITY BADGE */
-
-.page-title {
+/* ==========================================================================
+   3. DATA TABLES & INTERACTIVE UI COMPONENTS
+   ========================================================================== */
+.page-title, .card h4 {
     color: var(--text-main) !important;
     font-weight: 600;
 }
 
 .page-subtitle {
     color: var(--text-muted) !important;
-}
-
-/* Fixes title visibility above your table */
-.card h4 {
-    color: var(--text-main) !important;
 }
 
 .avatar-circle {
@@ -195,87 +187,56 @@ header {
     color: var(--text-main);
     letter-spacing: 0.5px;
 }
- /* 4. DATA TABLES (Clean Outer Borders & Proper Visual Hierarchy) */
 
-
-.table {
+/* Clean Unified Table Styling */
+.table, .table td, .table td span {
     color: var(--text-main) !important;
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
-    /* FIXED: Increased Table Header styling to visually dominate data cells */
     .table thead tr th {
         color: var(--text-main) !important;
         background-color: rgba(125, 125, 125, 0.08) !important;
         border-bottom: 2px solid var(--border-color) !important;
         font-weight: 700 !important;
         text-transform: uppercase;
-        font-size: 0.95rem !important; /* Increased font-size slightly over data cells */
+        font-size: 0.95rem !important;
         letter-spacing: 0.7px;
-        padding-top: 14px;
-        padding-bottom: 14px;
+        padding: 14px 12px;
     }
 
     .table td {
         background: transparent !important;
         border-bottom: 1px solid var(--border-color) !important;
-        padding-top: 12px;
-        padding-bottom: 12px;
+        padding: 12px;
     }
 
-/* Unified text color variables inside data cells across both themes */
-#userTableBody td,
-#userTableBody td span {
-    color: var(--text-main) !important;
-    font-size: 0.95rem !important; /* Scaled down beautifully below headers */
-    font-weight: 500;
-}
-
-/* Removes inner vertical column separator lines */
 .table-bordered.border-secondary th,
 .table-bordered.border-secondary td {
     border-left: none !important;
     border-right: none !important;
 }
 
-/* 5. FILTER TOOLBARS & SEARCH INPUTS*/
-   
-
-#roleFilterDropdown {
+/* Toolbars & Form Control Fixes */
+#roleFilterDropdown, #userSearch {
     color: var(--text-main) !important;
     border-color: var(--border-color) !important;
 }
 
-    #roleFilterDropdown i.fa-filter {
-        color: var(--text-main) !important;
-        opacity: 0.9;
-    }
-
-.search-box i {
-    color: var(--text-muted) !important;
-}
-
-/* Force the typeable text inside your input box to follow your theme color variables */
-#userSearch {
-    color: var(--text-main) !important;
-}
-
-/*  DYNAMIC FIX FOR DROPDOWN ITEM VISIBILITY IN BOTH THEMES */
 .dropdown-menu .dropdown-item {
-    color: var(--text-main) !important; 
+    color: var(--text-main) !important;
     background: transparent !important;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
-
 
     .dropdown-menu .dropdown-item:hover {
         background-color: var(--border-color) !important;
         color: var(--text-main) !important;
     }
 
-/* 6. INTERACTIVE MODALS & CRUD FORMS */
-
-.modal-content .form-control,
-.modal-content .form-select {
+/* Modal Controls */
+.modal-content .form-control, .modal-content .form-select {
     color: var(--text-main) !important;
     background-color: transparent !important;
     border: 1px solid var(--border-color) !important;
@@ -286,18 +247,11 @@ header {
     opacity: 0.7;
 }
 
-.modal-theme-title,
-.modal-body .form-label {
-    color: var(--text-main) !important;
-    font-weight: 600;
-}
-
 .modal-content select option {
     background-color: var(--bg-card) !important;
     color: var(--text-main) !important;
 }
 
-/* Close button layout overrides for dark/light consistency */
 [data-theme="light"] .modal-content .btn-close {
     filter: none !important;
 }
@@ -306,36 +260,23 @@ body:not([data-theme="light"]) .modal-content .btn-close {
     filter: invert(1) !important;
 }
 
-.modal-btn-discard {
-    color: var(--text-main) !important;
-    border-color: var(--border-color) !important;
-}
-
-    .modal-btn-discard:hover {
-        background-color: var(--border-color) !important;
-    }
-
-
-
-/* Sidebar sizing changes when collapsed state turns active */
+/* Sidebar Collapsed State Overrides */
 .sidebar.collapsed {
     width: 75px !important;
     padding: 15px 0 !important;
 }
 
-    /* Hide text labels entirely in compressed viewport */
     .sidebar.collapsed .sidebar-text,
     .sidebar.collapsed .profile h4,
     .sidebar.collapsed .profile small {
         display: none !important;
     }
 
-    /* Center icons inside menus when collapsed */
     .sidebar.collapsed ul li a {
         justify-content: center !important;
-        width: 50px; /* Forces a uniform circular/square clickable zone */
+        width: 50px;
         height: 50px;
-        padding: 0 !important; /* Clears any internal padding pushing icons right */
+        padding: 0 !important;
         margin: 0 auto !important;
     }
 
@@ -345,11 +286,8 @@ body:not([data-theme="light"]) .modal-content .btn-close {
             display: flex !important;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            height: 100%;
         }
 
-    /* Reposition toggle icon when layout collapses */
     .sidebar.collapsed #sidebarToggle {
         position: static !important;
         margin: 0 auto 15px auto !important;
@@ -363,6 +301,14 @@ body:not([data-theme="light"]) .modal-content .btn-close {
         margin-bottom: 15px;
     }
 
+/* Active Navigation Link Highlighting */
+.sidebar ul li a.active {
+    background-color: var(--accent-color) !important;
+    color: #000000 !important; /* High-contrast text on accent color */
+    font-weight: 600 !important;
+    white-space: nowrap;
+}
 
-
-
+    .sidebar ul li a.active i {
+        color: #000000 !important; /* Darkens icon so it stands out */
+    }
