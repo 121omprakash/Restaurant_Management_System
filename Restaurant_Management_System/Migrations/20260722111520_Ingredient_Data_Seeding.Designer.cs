@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant_Management_System.Data;
 
@@ -11,9 +12,11 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-    partial class rmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260722111520_Ingredient_Data_Seeding")]
+    partial class Ingredient_Data_Seeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -999,7 +1002,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             MenuItemId = 1,
-                            Category = "NonVeg",
+                            Category = "Pizza",
                             ItemName = "BBQ Chicken Pizza",
                             ItemStatus = 0,
                             PreparationTime = 20,
@@ -1008,7 +1011,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             MenuItemId = 2,
-                            Category = "Veg",
+                            Category = "Pizza",
                             ItemName = "Farm House Pizza",
                             ItemStatus = 0,
                             PreparationTime = 18,
@@ -1017,7 +1020,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             MenuItemId = 3,
-                            Category = "Veg",
+                            Category = "Pizza",
                             ItemName = "Margherita",
                             ItemStatus = 0,
                             PreparationTime = 15,
@@ -1026,7 +1029,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             MenuItemId = 4,
-                            Category = "Veg",
+                            Category = "Sides",
                             ItemName = "Fries",
                             ItemStatus = 0,
                             PreparationTime = 8,
@@ -1044,7 +1047,7 @@ namespace Restaurant_Management_System.Migrations
                         new
                         {
                             MenuItemId = 6,
-                            Category = "Veg",
+                            Category = "Sides",
                             ItemName = "Garlic Bread",
                             ItemStatus = 0,
                             PreparationTime = 7,

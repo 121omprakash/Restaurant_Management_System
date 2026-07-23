@@ -118,15 +118,124 @@ namespace Restaurant_Management_System.Data
 
             // Seed Ingredients
             modelBuilder.Entity<Ingredient>().HasData(
-                new Ingredient { IngredientId = 1, IngredientName = "Flour", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 100.00m, ReorderLevel = 20.00m, StockStatus = StockStatus.AVAILABLE },
-                new Ingredient { IngredientId = 2, IngredientName = "Chicken", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 50.00m, ReorderLevel = 10.00m, StockStatus = StockStatus.AVAILABLE },
-                new Ingredient { IngredientId = 3, IngredientName = "Cheese", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 40.00m, ReorderLevel = 10.00m, StockStatus = StockStatus.AVAILABLE },
-                new Ingredient { IngredientId = 4, IngredientName = "Potato", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 60.00m, ReorderLevel = 15.00m, StockStatus = StockStatus.AVAILABLE },
-                new Ingredient { IngredientId = 5, IngredientName = "Tomato", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 30.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.LOW },
-                new Ingredient { IngredientId = 6, IngredientName = "Garlic", UnitOfMeasure = UnitOfMeasure.G, CurrentStock = 500.00m, ReorderLevel = 100.00m, StockStatus = StockStatus.AVAILABLE },
-                new Ingredient { IngredientId = 7, IngredientName = "Oil", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 10.00m, ReorderLevel = 2.00m, StockStatus = StockStatus.AVAILABLE },
-                new Ingredient { IngredientId = 8, IngredientName = "Sugar", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 20.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE }
-            );
+                new Ingredient { IngredientId = 1, IngredientName = "Pizza Flour", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 200.00m, ReorderLevel = 40.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 2, IngredientName = "Yeast", UnitOfMeasure = UnitOfMeasure.G, CurrentStock = 5000.00m, ReorderLevel = 1000.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 3, IngredientName = "Sugar", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 25.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 4, IngredientName = "Salt", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 20.00m, ReorderLevel = 4.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 5, IngredientName = "Olive Oil", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 30.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 6, IngredientName = "Tomato Puree", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 80.00m, ReorderLevel = 15.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 7, IngredientName = "Tomato Paste", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 30.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 8, IngredientName = "Garlic", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 15.00m, ReorderLevel = 3.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 9, IngredientName = "Oregano", UnitOfMeasure = UnitOfMeasure.G, CurrentStock = 4000.00m, ReorderLevel = 500.00m, StockStatus = StockStatus.AVAILABLE },
+                new Ingredient { IngredientId = 10, IngredientName = "Basil", UnitOfMeasure = UnitOfMeasure.G, CurrentStock = 3000.00m, ReorderLevel = 500.00m, StockStatus = StockStatus.AVAILABLE },
+                
+                new Ingredient { IngredientId = 11, IngredientName = "Mozzarella Cheese", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 100.00m, ReorderLevel = 20.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 12, IngredientName = "Cheddar Cheese", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 50.00m, ReorderLevel = 10.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 13, IngredientName = "Parmesan Cheese", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 20.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                // Vegetables
+
+                new Ingredient { IngredientId = 14, IngredientName = "Onion", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 40.00m, ReorderLevel = 10.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 15, IngredientName = "Capsicum", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 35.00m, ReorderLevel = 8.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 16, IngredientName = "Tomato", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 30.00m, ReorderLevel = 8.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 17, IngredientName = "Mushroom", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 20.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 18, IngredientName = "Black Olive", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 15.00m, ReorderLevel = 3.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 19, IngredientName = "Green Olive", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 15.00m, ReorderLevel = 3.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 20, IngredientName = "Jalapeno", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 12.00m, ReorderLevel = 2.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 21, IngredientName = "Sweet Corn", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 30.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 22, IngredientName = "Pineapple", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 10.00m, ReorderLevel = 2.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 23, IngredientName = "Spinach", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 12.00m, ReorderLevel = 2.00m, StockStatus = StockStatus.AVAILABLE },
+
+                // Chicken & Meat Toppings
+
+                new Ingredient { IngredientId = 24, IngredientName = "Chicken Breast", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 80.00m, ReorderLevel = 15.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 25, IngredientName = "Chicken Sausage", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 40.00m, ReorderLevel = 8.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 26, IngredientName = "Pepperoni", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 30.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 27, IngredientName = "Ham", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 25.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 28, IngredientName = "Bacon", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 20.00m, ReorderLevel = 4.00m, StockStatus = StockStatus.AVAILABLE },
+
+                // Seasonings
+
+                new Ingredient { IngredientId = 29, IngredientName = "Black Pepper", UnitOfMeasure = UnitOfMeasure.G, CurrentStock = 4000.00m, ReorderLevel = 500.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 30, IngredientName = "Red Chili Flakes", UnitOfMeasure = UnitOfMeasure.G, CurrentStock = 5000.00m, ReorderLevel = 500.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 31, IngredientName = "Italian Seasoning", UnitOfMeasure = UnitOfMeasure.G, CurrentStock = 3000.00m, ReorderLevel = 500.00m, StockStatus = StockStatus.AVAILABLE },
+
+                // Sauces
+
+                new Ingredient { IngredientId = 32, IngredientName = "Mayonnaise", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 20.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 33, IngredientName = "Barbecue Sauce", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 15.00m, ReorderLevel = 3.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 34, IngredientName = "Hot Sauce", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 10.00m, ReorderLevel = 2.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 35, IngredientName = "Ranch Dressing", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 10.00m, ReorderLevel = 2.00m, StockStatus = StockStatus.AVAILABLE },
+
+                // Dessert Ingredients
+
+                new Ingredient { IngredientId = 36, IngredientName = "Chocolate Syrup", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 15.00m, ReorderLevel = 3.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 37, IngredientName = "Vanilla Essence", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 5.00m, ReorderLevel = 1.00m, StockStatus = StockStatus.AVAILABLE },
+
+                // Cold Drink Ingredients
+
+                new Ingredient { IngredientId = 38, IngredientName = "Carbonated Water", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 500.00m, ReorderLevel = 100.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 39, IngredientName = "Cola Syrup", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 80.00m, ReorderLevel = 15.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 40, IngredientName = "Lemon Syrup", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 50.00m, ReorderLevel = 10.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 41, IngredientName = "Orange Syrup", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 50.00m, ReorderLevel = 10.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 42, IngredientName = "Soda Base", UnitOfMeasure = UnitOfMeasure.L, CurrentStock = 100.00m, ReorderLevel = 20.00m, StockStatus = StockStatus.AVAILABLE },
+
+                // Beverage Add-ons
+
+                new Ingredient { IngredientId = 43, IngredientName = "Ice Cubes", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 200.00m, ReorderLevel = 25.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 44, IngredientName = "Lemon", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 25.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 45, IngredientName = "Mint Leaves", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 10.00m, ReorderLevel = 2.00m, StockStatus = StockStatus.AVAILABLE },
+
+                // Packaging Inventory
+
+                new Ingredient { IngredientId = 46, IngredientName = "Pizza Box Small", UnitOfMeasure = UnitOfMeasure.P, CurrentStock = 500.00m, ReorderLevel = 100.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 47, IngredientName = "Pizza Box Medium", UnitOfMeasure = UnitOfMeasure.P, CurrentStock = 500.00m, ReorderLevel = 100.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 48, IngredientName = "Pizza Box Large", UnitOfMeasure = UnitOfMeasure.P, CurrentStock = 500.00m, ReorderLevel = 100.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 49, IngredientName = "Cold Drink Cup", UnitOfMeasure = UnitOfMeasure.P, CurrentStock = 1000.00m, ReorderLevel = 200.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 50, IngredientName = "Plastic Lid", UnitOfMeasure = UnitOfMeasure.P, CurrentStock = 1000.00m, ReorderLevel = 200.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 51, IngredientName = "Paper Straw", UnitOfMeasure = UnitOfMeasure.P, CurrentStock = 1500.00m, ReorderLevel = 300.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 52, IngredientName = "Napkins", UnitOfMeasure = UnitOfMeasure.P, CurrentStock = 3000.00m, ReorderLevel = 500.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 53, IngredientName = "Cheese Dip", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 25.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 54, IngredientName = "Garlic Dip", UnitOfMeasure = UnitOfMeasure.KG, CurrentStock = 20.00m, ReorderLevel = 5.00m, StockStatus = StockStatus.AVAILABLE },
+
+                new Ingredient { IngredientId = 55, IngredientName = "Peri Peri Seasoning", UnitOfMeasure = UnitOfMeasure.G, CurrentStock = 3000.00m, ReorderLevel = 500.00m, StockStatus = StockStatus.AVAILABLE }
+
+                        );  
 
             // Seed Item Recipes (map menu items to ingredients)
             modelBuilder.Entity<ItemRecipe>().HasData(
