@@ -88,46 +88,91 @@
                                 </tr>
                             }
                         }
-                        else
-                        {
-                            <tr>
-                                <td>
-                                    <select name="IngredientIds" class="form-select">
-                                        <option value="">Select Ingredient</option>
-
-                                        @foreach (var ingredient in ViewBag.Ingredients)
-                                        {
-                                            <option value="@ingredient.IngredientId">
-                                                @ingredient.IngredientName
-                                            </option>
-                                        }
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <input type="number"
-                                           name="Quantities"
-                                           class="form-control"
-                                           placeholder="Enter Quantity"
-                                           min="0" />
-                                </td>
-
-                                <td>
-                                    <select name="Units" class="form-select">
-                                        @foreach (UnitOfMeasure unit in ViewBag.Units)
-                                        {
-                                            <option value="@unit">@unit</option>
-                                        }
-                                    </select>
-                                </td>
-
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-danger removeIngredient">
-                                        Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        }
+                           else if (Model.IsEdit)
+{
+    @for (int i = 0; i < Model.IngredientIds.Count; i++)
+    {
+        <tr>
+            <td>
+                <select name="IngredientIds" class="form-select">
+                    @foreach (var ingredient in ViewBag.Ingredients)
+                    {
+                        <option value="@ingredient.IngredientId"
+                                selected="@(ingredient.IngredientId == Model.IngredientIds[i])">
+                            @ingredient.IngredientName
+                        </option>
+                    }
+                </select>
+            </td>
+ 
+            <td>
+                <input type="number"
+                       name="Quantities"
+                       class="form-control"
+                       value="@Model.Quantities[i]"
+                       min="0" />
+            </td>
+ 
+            <td>
+                <select name="Units" class="form-select">
+                    @foreach (UnitOfMeasure unit in ViewBag.Units)
+                    {
+                        <option value="@unit"
+                                selected="@(unit == Model.Units[i])">
+                            @unit
+                        </option>
+                    }
+                </select>
+            </td>
+ 
+            <td class="text-center">
+                <button type="button" class="btn btn-danger removeIngredient">
+                    Remove
+                </button>
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td>
+            <select name="IngredientIds" class="form-select">
+                <option value="">Select Ingredient</option>
+ 
+                @foreach (var ingredient in ViewBag.Ingredients)
+                {
+                    <option value="@ingredient.IngredientId">
+                        @ingredient.IngredientName
+                    </option>
+                }
+            </select>
+        </td>
+ 
+        <td>
+            <input type="number"
+                   name="Quantities"
+                   class="form-control"
+                   placeholder="Enter Quantity"
+                   min="0" />
+        </td>
+ 
+        <td>
+            <select name="Units" class="form-select">
+                @foreach (UnitOfMeasure unit in ViewBag.Units)
+                {
+                    <option value="@unit">@unit</option>
+                }
+            </select>
+        </td>
+ 
+        <td class="text-center">
+            <button type="button" class="btn btn-danger removeIngredient">
+                Remove
+            </button>
+        </td>
+    </tr>
+}
 
                     </tbody>
             </table>
@@ -151,6 +196,7 @@
                     </button>
                 }
              <div id="stepsContainer"
+             style="display:@((!Model.IsReadOnly && !string.IsNullOrWhiteSpace(Model.RecipeSteps)) || Model.IsReadOnly ? "block" : "none")">
             
 
                 <div class=" step mb-3">
@@ -173,7 +219,7 @@
             <hr class="my-4" />
 
 
-            <div class="text-end">
+            <div class="d-flex justify-content-end gap-2 mt-4">
                         @if (!Model.IsReadOnly)
                         {
                             <button type="submit" class="btn btn-primary">
