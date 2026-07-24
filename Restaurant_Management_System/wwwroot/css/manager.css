@@ -12,179 +12,17 @@ body {
 }
 
 /* =========================================
-   MANAGER LAYOUT
-========================================= */
-.manager-wrapper {
-    display: flex;
-    width: 100%;
-    min-height: calc(100vh - 85px);
-    overflow: hidden;
-    position: relative;
-}
-
-.manager-sidebar {
-    width: 260px;
-    flex-shrink: 0;
-    height: calc(100vh - 85px);
-    position: sticky;
-    top: 0;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: var(--bg-card);
-    border-right: 1px solid var(--border-color);
-    color: var(--text-main);
-    transition: all 0.3s ease;
-    overflow:hidden;
-}
-
-.manager-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 30px;
-    background-color: var(--bg-card)
-    transition: background-color 0.3s ease;
-}
-
-/* =========================================
-   PROFILE SECTION
-========================================= */
-.profile {
-    text-align: center;
-    padding: 25px 20px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.logo-container {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 12px;
-    border-radius: 50%;
-    border: 2px solid var(--accent-color);
-    padding: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-primary);
-    transition: all 0.3s ease;
-}
-
-.logo {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.profile h4 {
-    margin: 0;
-    color: var(--text-main);
-    font-size: 1.15rem;
-}
-
-.profile small {
-    color: var(--text-muted);
-}
-
-/* =========================================
-   SIDEBAR NAVIGATION
-========================================= */
-.sidebar-nav-container {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.manager-sidebar ul {
-    list-style: none;
-    padding: 15px 0;
-    margin: 0;
-}
-
-    .manager-sidebar ul li {
-        margin: 6px 15px;
-    }
-
-        .manager-sidebar ul li a {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 18px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 15px;
-            transition: all 0.2s ease;
-        }
-
-            .manager-sidebar ul li a i {
-                width: 20px;
-                text-align: center;
-            }
-
-            .manager-sidebar ul li a:hover,
-            .manager-sidebar ul li.active a {
-                background-color: var(--accent-color, #f59e0b);
-            color: var(--text-main);
-                font-weight: 600;
-            }
-
-                .manager-sidebar ul li a:hover i,
-                .manager-sidebar ul li.active a i {
-                color: var(--text-main);
-                }
-
-.logout-item a:hover i {
-    color: #ef4444 !important;
-}
-
-/* =========================================
-   COLLAPSED SIDEBAR
-========================================= */
-.manager-sidebar.collapsed {
-    width: 75px;
-}
-
-    .manager-sidebar.collapsed .sidebar-text,
-    .manager-sidebar.collapsed .profile h4,
-    .manager-sidebar.collapsed .profile small {
-        display: none;
-    }
-
-    .manager-sidebar.collapsed .logo-container {
-        width: 45px;
-        height: 45px;
-        margin-bottom: 15px;
-    }
-
-    .manager-sidebar.collapsed ul li a {
-        width: 50px;
-        height: 50px;
-        padding: 0;
-        margin: auto;
-        justify-content: center;
-    }
-
-        .manager-sidebar.collapsed ul li a i {
-            font-size: 1.25rem;
-            margin: 0;
-        }
-
-/* =========================================
    MENU MANAGEMENT
 ========================================= */
 .menu-container {
     width: 94%;
-    margin: 25px auto;
+    margin: 10px auto 25px;
     padding: 30px;
     border-radius: 14px;
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     color: var(--text-main);
     box-shadow: 0 4px 15px rgba(0,0,0,.08);
-    margin-top: 10px;
 }
 
 .page-header {
@@ -246,48 +84,6 @@ body {
 }
 
 /* =========================================
-   FILTERS
-========================================= */
-.filter-section {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
-    align-items: center;
-}
-
-.search-box,
-.category-dropdown,
-.form-group input,
-.form-group select,
-.form-group textarea {
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-main);
-    background: transparent;
-    outline: none;
-}
-
-.search-box {
-    flex: 1;
-    height: 45px;
-    padding: 0 15px;
-}
-
-.category-dropdown {
-    width: 220px;
-    height: 45px;
-    padding: 0 12px;
-}
-
-    .search-box:focus,
-    .category-dropdown:focus,
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        border-color: #f97316;
-    }
-
-/* =========================================
    TABLES
 ========================================= */
 .menu-table,
@@ -320,22 +116,6 @@ body {
     }
 
 /* =========================================
-   IMAGES
-========================================= */
-.food-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.food-image {
-    width: 250px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-}
-
-/* =========================================
    STATUS
 ========================================= */
 .status {
@@ -351,7 +131,14 @@ body {
     background: #dff5df;
     color: #1b7a28;
 }
-
+.out-of-stock {
+    background-color: yellow;
+    color: var(--text-main);
+}
+.retired {
+    background-color:red;
+    color: var(--text-main);
+}
 /* =========================================
    ACTION BUTTONS
 ========================================= */
@@ -430,152 +217,50 @@ body {
 }
 
 /* =========================================
-   DELETE PAGE
-========================================= */
-.delete-card {
-    width: 600px;
-    margin: 40px auto;
-    padding: 30px;
-    text-align: center;
-    border-radius: 12px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-}
-
-    .delete-card h2 {
-        color: #d63031;
-    }
-
-    .delete-card p {
-        color: var(--text-muted);
-    }
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-/*@media (max-width: 991.98px) {
-
-    .manager-sidebar {
-        width: 80px;
-    }
-
-    .manager-content {
-        padding: 20px;
-    }
-
-    .sidebar-text,
-    .profile h4,
-    .profile small {
-        display: none;
-    }
-
-    .manager-sidebar ul li a {
-        justify-content: center;
-    }
-}
-
-@media (max-width: 900px) {
-
-    .page-header,
-    .filter-section {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .search-box,
-    .category-dropdown,
-    .add-btn {
-        width: 100%;
-    }
-
-    .menu-table {
-        display: block;
-        overflow-x: auto;
-    }
-}
-
-@media (max-width: 768px) {
-
-    .manager-wrapper {
-        flex-direction: column;
-    }
-
-    .manager-sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-
-    .manager-content {
-        padding: 16px;
-    }
-
-    .menu-form,
-    .delete-card {
-        width: 100%;
-    }
-
-    .view-card {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 480px) {
-
-    .manager-content {
-        padding: 12px;
-    }
-
-    .page-header h2 {
-        font-size: 24px;
-    }
-}*/
-/* =========================================
    ORDER MONITORING
 ========================================= */
-
 .order-monitor-container {
     background-color: var(--bg-card);
     padding: 24px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
     margin-top: 10px;
 }
 
 .order-tabs {
     display: flex;
     gap: 10px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 16px;
     margin-bottom: 24px;
     overflow-x: auto;
 }
 
-    .order-tab.active {
-        background: #0f172a;
-        color: white;
-    }
+.order-tab.active {
+    background: #0f172a;
+    color: white;
+}
 
-    .order-tab:not(.active) {
-        background: #f1f5f9;
-        color: #475569;
-    }
+.order-tab:not(.active) {
+    background: #f1f5f9;
+    color: #475569;
+}
 
-    .order-tab {
-        display: inline-block;
-        border: none;
-        padding: 10px 20px;
-        background: #e2e8f0;
-        color: #334155;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: 500;
-        cursor: pointer;
-    }
+.order-tab {
+    display: inline-block;
+    border: none;
+    padding: 10px 20px;
+    background: #e2e8f0;
+    color: #334155;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
 
-        .order-tab:hover {
-            background: #cbd5e1;
-        }
+    .order-tab:hover {
+        background: #cbd5e1;
+    }
 
 /* =========================================
    MANAGER DASHBOARD SPECIFIC
@@ -585,7 +270,7 @@ body {
     gap: 20px;
     flex-wrap: wrap;
     margin-bottom: 30px;
-    margin-top:10px;
+    margin-top: 10px;
 }
 
 .stat-card {
@@ -594,19 +279,18 @@ body {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     color: var(--text-main);
-    padding: 20px;
+    padding: 24px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 130px;
 }
 
-.stat-card h2 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 700;
-}
+    .stat-card h2 {
+        margin: 8px 0 0 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
 
     .stat-card p {
         margin: 4px 0 0 0;
@@ -621,7 +305,7 @@ body {
 
 .muted {
     font-size: 0.8rem;
-    color: var(--text-main);;/
+    color: var(--text-main);
 }
 
 .charts-row {
@@ -637,7 +321,6 @@ body {
     color: var(--text-main);
     padding: 24px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
 }
 
 .orders-status-card h5,
@@ -669,12 +352,12 @@ body {
     justify-content: center;
 }
 
-.donut-mock .small,
-.donut-mock .muted {
-    font-size: 0.75rem;
-    color: var(--text-main);;
-    font-weight: 500;
-}
+    .donut-mock .small,
+    .donut-mock .muted {
+        font-size: 0.75rem;
+        color: var(--text-main);
+        font-weight: 500;
+    }
 
 .donut-value {
     font-size: 1.1rem;
@@ -685,9 +368,9 @@ body {
 .status-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     font-size: 0.85rem;
-    color: #334155;
+    color: var(--text-main);
 }
 
 .status-row {
@@ -697,15 +380,26 @@ body {
     justify-content: space-between;
 }
 
-.status-row i {
-    font-size: 0.6rem;
-    margin-right: 6px;
+    .status-row i {
+        font-size: 0.6rem;
+        margin-right: 6px;
+    }
+
+.status-dot--blue {
+    color: #3b82f6;
 }
 
-.status-dot--blue { color: #3b82f6; }
-.status-dot--green { color: #10b981; }
-.status-dot--muted { color: var(--text-main);; }
-.status-dot--red { color: #ef4444; }
+.status-dot--green {
+    color: #10b981;
+}
+
+.status-dot--muted {
+    color: var(--text-main);
+}
+
+.status-dot--red {
+    color: #ef4444;
+}
 
 .revenue-card {
     flex: 1.5;
@@ -718,9 +412,9 @@ body {
 .revenue-chart {
     position: relative;
     height: 140px;
-    margin-top: 20px;
-    border-bottom: 1px solid #e2e8f0;
-    border-left: 1px solid #e2e8f0;
+    margin: 20px 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
 }
 
 .revenue-svg {
@@ -742,10 +436,14 @@ body {
     background-color: var(--bg-card);
     padding: 24px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
 }
 
-.alerts-list { display: flex; flex-direction: column; gap: 12px; }
+.alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
 .alert-item {
     display: flex;
@@ -755,23 +453,44 @@ body {
     border-radius: 8px;
 }
 
-.alert-left { display:flex; align-items:center; gap:12px; }
+.alert-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-.alert-left i { font-size: 1.1rem; }
+    .alert-left i {
+        font-size: 1.1rem;
+    }
 
-.alert-title { font-weight: 600; font-size: 0.9rem; }
-.alert-sub { margin: 2px 0 0 0; font-size: 0.8rem; }
+.alert-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
 
-.alert-item--lowstock { background-color: #fff7ed; border: 1px solid #ffedd5; }
+.alert-sub {
+    margin: 2px 0 0 0;
+    font-size: 0.8rem;
+}
+
+.alert-item--lowstock {
+    background-color: #fff7ed;
+    border: 1px solid #ffedd5;
+}
+
 .alert-item--delayed {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     color: var(--text-main);
 }
-.alert-item--reserved { background-color: #fff9db; border: 1px solid #fff3bf; }
+
+.alert-item--reserved {
+    background-color: #fff9db;
+    border: 1px solid #fff3bf;
+}
 
 .alert-btn {
-background-color: var(--bg-card);
+    background-color: var(--bg-card);
     padding: 6px 14px;
     border-radius: 6px;
     font-size: 0.8rem;
@@ -780,17 +499,28 @@ background-color: var(--bg-card);
     border: 1px solid transparent;
 }
 
-.btn-amber { border-color: #fed7aa; color: #9a3412; }
-.btn-red { border-color: #fecaca; color: #991b1b; }
-.btn-brown { border-color: #ffe3e3; color: #664d03; }
+.btn-amber {
+    border-color: #fed7aa;
+    color: #9a3412;
+}
 
+.btn-red {
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+.btn-brown {
+    border-color: #ffe3e3;
+    color: #664d03;
+}
 
 .order-table-wrapper {
     overflow-x: auto;
 }
 
-/* ===================== MIGRATED FROM _ManagerLayout.cshtml ===================== */
-/* 1. LAYOUT RESTRUCTURE FOR FULL-WIDTH FOOTER */
+/* =========================================
+   LAYOUT & FOOTER
+========================================= */
 html, body {
     height: 100%;
     margin: 0;
@@ -813,7 +543,6 @@ html, body {
     overflow: hidden;
 }
 
-/* Anti-flicker fine-tuning for layout components */
 .sidebar, .main-content {
     transition: background-color 0.08s ease-out, border-color 0.3s ease, color 0.2s ease;
 }
@@ -847,73 +576,77 @@ html, body {
     z-index: 10;
 }
 
-/* 2. DYNAMIC ACTIVE HIGHLIGHT THEME ENGINE */
 .sidebar-nav-container ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.sidebar-nav-container ul li a {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-decoration: none;
-    color: var(--text-muted);
-    padding: 12px 18px;
-    border-radius: 12px;
-    transition: all 0.2s ease;
-    font-size: 15px;
-}
+    .sidebar-nav-container ul li a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+        color: var(--text-muted);
+        padding: 12px 18px;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+        font-size: 15px;
+    }
 
-/* Active highlight state following theme accent variables */
-.sidebar-nav-container ul li.active a {
-    background-color: var(--accent-color, #f59e0b) !important;
-    color: #1e293b !important; /* High contrast text for active state */
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
-}
+    .sidebar-nav-container ul li.active a {
+        background-color: var(--accent-color, #f59e0b) !important;
+        color: #1e293b !important;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    }
 
-.sidebar-nav-container ul li.active a i {
-    color: #1e293b !important;
-}
+        .sidebar-nav-container ul li.active a i {
+            color: #1e293b !important;
+        }
 
-/* Hover fallbacks for non-active links */
-.sidebar-nav-container ul li:not(.active) a:hover {
-    background-color: var(--border-color);
-    color: var(--text-main) !important;
-}
+    .sidebar-nav-container ul li:not(.active) a:hover {
+        background-color: var(--border-color);
+        color: var(--text-main) !important;
+    }
 
-.sidebar-nav-container ul li:not(.active) a:hover i {
-    color: var(--accent-color, #f59e0b) !important;
-}
+        .sidebar-nav-container ul li:not(.active) a:hover i {
+            color: var(--accent-color, #f59e0b) !important;
+        }
 
-/* End migrated styles */
-
-.order-table {
+.order-table,
+.inventory-table {
+    /* Consolidated shared table base for order and inventory tables.
+       Kept in one place to avoid duplicate rules while preserving behavior.
+    */
     width: 100%;
     border-collapse: collapse;
     text-align: left;
     font-size: 0.95rem;
+    color: var(--text-main);
 }
 
-    .order-table thead tr {
+    .order-table thead tr,
+    .inventory-table thead tr {
         border-bottom: 2px solid #f1f5f9;
-    }
-
-    .order-table th {
-        padding: 14px 16px;
-        color: var(--text-main);;
+        color: var(--text-main);
         font-weight: 600;
     }
 
-    .order-table td {
-        padding: 16px;
-        color: #334155;
-        font-weight: 500;
+    .order-table th,
+    .inventory-table th {
+        padding: 14px 16px;
+        color: var(--text-main);
+        font-weight: 600;
     }
 
-    .order-table tbody tr {
+    .order-table td,
+    .inventory-table td {
+        padding: 16px;
+    }
+
+    .order-table tbody tr,
+    .inventory-table tbody tr {
         border-bottom: 1px solid #f1f5f9;
     }
 
@@ -923,7 +656,7 @@ html, body {
 }
 
 .order-time {
-    color: var(--text-main);;
+    color: var(--text-main);
 }
 
 .status-badge {
@@ -963,13 +696,15 @@ footer.custom-footer {
         text-decoration: none;
     }
 
+/* =========================================
+   INVENTORY MANAGEMENT
+========================================= */
 .inventory-container {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     color: var(--text-main);
     padding: 24px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     margin-top: 10px;
 }
@@ -1012,33 +747,15 @@ footer.custom-footer {
 
 .inventory-table-wrapper {
     overflow-x: auto;
-    overflow-y:auto;
+    overflow-y: auto;
 }
 
 .inventory-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.95rem;
+    /* Duplicate block commented out: consolidated with .order-table earlier to avoid redundant rules
+       (keeps identical behavior while reducing repetition). If you want to restore this block,
+       remove this comment and the consolidated block above will need adjusting.
+    */
 }
-
-    .inventory-table thead tr {
-        border-bottom: 2px solid #f1f5f9;
-        color: var(--text-main);;
-        font-weight: 600;
-    }
-
-    .inventory-table th {
-        padding: 14px 16px;
-    }
-
-    .inventory-table td {
-        padding: 16px;
-    }
-
-    .inventory-table tbody tr {
-        border-bottom: 1px solid #f1f5f9;
-    }
 
 .inventory-item-name {
     display: flex;
@@ -1079,14 +796,20 @@ footer.custom-footer {
     }
 
     .inventory-actions .bi-eye {
-        color: var(--text-main);;
+        color: var(--text-main);
     }
 
     .inventory-actions .bi-pencil {
         color: #2563eb;
     }
 
-/* Reports specific styles */
+    .inventory-actions .bi-trash {
+        color: #ef4444;
+    }
+
+/* =========================================
+   REPORTS & BADGES
+========================================= */
 .badge {
     display: inline-block;
     padding: 4px 10px;
@@ -1105,40 +828,14 @@ footer.custom-footer {
     color: #ef4444;
 }
 
-.stats-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-    margin-top: 10px;
-}
-
-.stat-card {
-    flex: 1;
-    min-width: 200px;
-    padding: 24px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-card);
+.font-weight-600 {
+    font-weight: 600;
     color: var(--text-main);
 }
 
-.stat-card h2 { margin: 8px 0 0 0; font-size: 1.8rem; font-weight: 700; }
-
-.revenue-chart { position: relative; height: 160px; border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color); margin: 0 10px; }
-.revenue-svg { width: 100%; height: 100%; overflow: visible; }
-
-.charts-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 30px; }
-
-.status-list { display: flex; flex-direction: column; gap: 16px; font-size: 0.95rem; font-weight: 500; color: var(--text-main); }
-.status-row { display: flex; justify-content: space-between; align-items: center; }
-
-.order-table-wrapper { overflow-x: auto; }
-
-.font-weight-600 { font-weight: 600; color: var(--text-main); }
-
-
-/* Table Management styles */
+/* =========================================
+   TABLE MANAGEMENT
+========================================= */
 .table-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -1154,12 +851,12 @@ footer.custom-footer {
     background: var(--bg-card);
 }
 
-.table-card h4 {
-    margin: 0;
-    font-weight: 700;
-    color: var(--text-main);
-    font-size: 1.2rem;
-}
+    .table-card h4 {
+        margin: 0;
+        font-weight: 700;
+        color: var(--text-main);
+        font-size: 1.2rem;
+    }
 
 .status-text {
     display: block;
@@ -1179,7 +876,3 @@ footer.custom-footer {
     color: #7f1d1d;
     background: linear-gradient(180deg, rgba(239,68,68,0.03), transparent);
 }
-
-    .inventory-actions .bi-trash {
-        color: #ef4444;
-    }

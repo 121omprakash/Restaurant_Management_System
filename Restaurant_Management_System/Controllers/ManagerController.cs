@@ -250,28 +250,30 @@ namespace Restaurant_Management_System.Controllers
 
             return View(vm);
         }
-        
 
-        public IActionResult Inventory(string search)
+
+        public IActionResult Inventory(string? search)
         {
             var query = _context.Ingredients.AsQueryable();
 
-            if (!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                query = query.Where(x => x.IngredientName.Contains(search));
+                string term = search.Trim();
+                // Use EF.Functions.Like for native, case-insensitive database matching
+                query = query.Where(x => EF.Functions.Like(x.IngredientName, $"%{term}%"));
             }
 
             var vm = new InventoryListViewModel
             {
                 Items = query.ToList(),
                 SearchTerm = search ?? string.Empty,
-                UserRole = "Manager" // Sets role context for view controls
+                UserRole = "Manager"
             };
 
             return View(vm);
         }
-       
-        
+
+
         public IActionResult Reports()
         {
             var vm = new ReportsViewModel();
