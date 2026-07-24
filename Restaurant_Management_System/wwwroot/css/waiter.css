@@ -500,3 +500,18 @@ html, body {
 .filter-bar .btn:focus {
     box-shadow: none !important;
 }
+
+
+.menu-item-img {
+    height: 220px;
+    object-fit: cover;
+}
+
+.item-disabled {
+    opacity: 0.7;
+}
+
+    .item-disabled .menu-item-img {
+        filter: grayscale(100%);
+    }
+ 

@@ -38,16 +38,13 @@
 
             <input type="text"
                    class="search-box"
-                   placeholder="Search Pizza, Burger, Pasta..." />
+                   placeholder="Search Pizza, Burger, Pasta..." 
+                   oninput="searchRecipes()" />
 
-            <select class="filter-box">
+            <select class="filter-box" id="categoryFilter" onchange="filterRecipes()">
                 <option>All Categories</option>
                 <option>Pizza</option>
-                <option>Burger</option>
-                <option>Pasta</option>
-                <option>Sides</option>
-                <option>Beverages</option>
-                <option>Desserts</option>
+                <option>Beverage</option>
             </select>
 
         </div>
@@ -57,15 +54,6 @@
     <div class="table-responsive">
 
         <table class="recipe-table">
-
-            <colgroup>
-                <col style="width:10%">
-                <col style="width:28%">
-                <col style="width:15%">
-                <col style="width:15%">
-                <col style="width:17%">
-                <col style="width:15%">
-            </colgroup>
 
             <thead>
                 <tr>
@@ -87,18 +75,21 @@
                             <td>@item.Category</td>
                             <td>@item.PreparationTime min</td>
                             <td>
-                                 <a asp-action="ViewRecipe"
-                                       asp-route-menuItemId="@item.MenuItemId"
-                                       class="btn  btn-info btn-sm rounded-circle" title="View">
-                                       <i class="bi-eye bi-eye-fill"></i
-                                     
-                                    </a>
+                                     <div class="action-icons">
+                                        <a asp-action="ViewRecipe"
+                                           asp-route-menuItemId="@item.MenuItemId"
+                                           class="view-icon"
+                                           title="View">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
  
-                                    <a asp-action="EditRecipe"
-                                       asp-route-menuItemId="@item.MenuItemId"
-                                       class="btn btn-sm btn-warning">
-                                        Edit
-                                    </a>
+                                        <a asp-action="EditRecipe"
+                                           asp-route-menuItemId="@item.MenuItemId"
+                                           class="edit-icon"
+                                           title="Edit">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </a>
+                                    </div>
                             </td>
                         </tr>
                     }
@@ -136,3 +127,12 @@
 
  
 </div>
+
+    
+    @section Scripts
+    {
+            <partial name="_ValidationScriptsPartial" />
+            <script src = "~/js/kitchen.js" asp - append - version="true" ></script>
+    }
+
+

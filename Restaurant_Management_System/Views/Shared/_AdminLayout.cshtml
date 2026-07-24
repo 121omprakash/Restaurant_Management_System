@@ -24,14 +24,21 @@
     <link rel="stylesheet" href="/css/site.css" />
     <link rel="stylesheet" href="/css/admin.css" />
     <link rel="stylesheet" href="/Restaurant_Management_System.styles.css" />
+
+    <!-- Google Font: Cinzel for Italian/Artisanal Branding -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-md custom-navbar box-shadow">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                    <img src="/download_logo.png" alt="Logo" />
-                </a>
+                <div class="navbar-brand d-flex align-items-center gap-2">
+                    <img src="~/download_logo.png" style="height: 40px; width: auto;" alt="Logo" />
+                    <span class="brand-title">Cheesey Corner</span>
+                </div>
                 <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarThemeCollapse" style="filter: invert(1);">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -41,6 +48,15 @@
                             <i id="themeIcon" class="fa-solid fa-moon"></i>
                             <span id="themeText">Night Mode</span>
                         </button>
+
+                        <!-- Logout Button in Top Bar -->
+                        <form asp-controller="Home" asp-action="Logout" method="post" class="m-0 p-0">
+                            <button class="theme-toggle-btn" type="submit">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -57,7 +73,7 @@
                 <div class="logo-container">
                     <img src="/AdminLogo.png" class="logo" alt="Admin Logo" onerror="this.src='https://placehold.co/80?text=RMS';" />
                 </div>
-                <h4 class="sidebar-text">RestaurantMS</h4>
+                <h4 class="sidebar-text">Shaik</h4>
                 <small class="sidebar-text">Administrator</small>
             </div>
 
@@ -69,28 +85,23 @@
                     }
                     else
                     {
+                        string currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+
                         <li data-menu="Employees">
-                            <a asp-controller="Admin" asp-action="Employees">
+                            <a class="nav-link @(currentAction.Equals("Employees", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                               asp-controller="Admin" asp-action="Employees">
                                 <i class="fa-solid fa-users"></i>
                                 <span class="sidebar-text">Employee Management</span>
                             </a>
                         </li>
                         <li data-menu="RestaurantProfile">
-                            <a asp-controller="Admin" asp-action="RestaurantProfile">
+                            <a class="nav-link @(currentAction.Equals("RestaurantProfile", StringComparison.OrdinalIgnoreCase) ? "active" : "")"
+                               asp-controller="Admin" asp-action="RestaurantProfile">
                                 <i class="fa-solid fa-sliders"></i>
                                 <span class="sidebar-text">Restaurant Details</span>
                             </a>
                         </li>
                     }
-                </ul>
-
-                <ul>
-                    <li class="logout-item" style="border-top: 1px solid var(--border-color); padding-top: 15px;">
-                        <a asp-controller="Home" asp-action="Logout">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span class="sidebar-text">Logout</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </aside>
@@ -102,9 +113,9 @@
         </div>
     </div> 
 
-    <footer class="custom-footer text-muted border-top">
+    <footer class="custom-footer border-top">
         <div class="w-100 text-center py-2">
-            &copy; 2026 - RMSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - Cheesey Corner - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

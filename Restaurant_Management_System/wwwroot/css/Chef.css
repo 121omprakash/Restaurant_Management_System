@@ -422,6 +422,14 @@ html, body {
     .search-box::placeholder {
         color: var(--text-muted);
     }
+.filter-box {
+    color: var(--text-main);
+    border-radius: 8px;
+    border: 1px solid black;
+}
+
+
+
 
 
 .search-box {
@@ -581,6 +589,9 @@ html, body {
     transition: all 0.3s ease;
 }
 
+
+  
+
     .recipe-tab i {
         margin-right: 8px;
     }
@@ -623,13 +634,20 @@ html, body {
 }
 
 .table-responsive {
+    margin-top: 24px;
+    border-radius: 14px;
     width: 100%;
-    overflow-x: auto;
+    padding:20px;
+    overflow:hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border:1px solid;
 }
 
 .recipe-table {
-    width: 100%;
-    border-collapse: collapse;
+    width: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: auto;
 }
 
     .recipe-table th {
@@ -641,6 +659,13 @@ html, body {
         font-weight: 600;
     }
 
+    .recipe-table thead th:first-child {
+        border-top-left-radius: 12px;
+    }
+
+    .recipe-table thead th:last-child {
+        border-top-right-radius: 12px;
+    }
     .recipe-table td {
         border: 1px solid var(--border-color);
         color:var(--text-main);
@@ -649,6 +674,21 @@ html, body {
         vertical-align: middle;
     }
 
+        .recipe-table th:last-child,
+        .recipe-table td:last-child {
+            width: 1%;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .action-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+       }
+
+ 
 .action-btn {
     min-width: 120px;
     display: inline-flex;
@@ -663,7 +703,7 @@ html, body {
 
 .recipe-table-card {
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    border: 1px solid BLACK;
     border-radius: 16px;
     padding: 20px;
     color: var(--text-main);
@@ -790,6 +830,8 @@ search-filter-form {
 }
 
 .search-box {
+    border-radius: 10px;
+    border:1px solid black;
     width: 280px;
 }
 
@@ -1072,3 +1114,48 @@ html[data-theme="dark"] hr {
         font-size: 14px;
     }
 }
+.action-icons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+}
+ 
+.view-icon,
+.edit-icon{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    transition:all .25s ease;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+ 
+.view-icon{
+    background:#22c7f3;
+    color:#fff;
+}
+ 
+.edit-icon{
+    background:#fbbf24;
+    color:#fff;
+}
+ 
+.view-icon:hover{
+    background:#0ea5e9;
+    transform:translateY(-2px);
+}
+ 
+.edit-icon:hover{
+    background:#f59e0b;
+    transform:translateY(-2px);
+}
+ 
+.view-icon i,
+.edit-icon i{
+    font-size:15px;
+}
+ 

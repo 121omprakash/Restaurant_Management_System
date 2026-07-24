@@ -24,6 +24,12 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/waiter.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Restaurant_Management_System.styles.css" asp-append-version="true" />
+
+    <!-- Google Font: Cinzel for Italian/Artisanal Branding -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <div class="master-layout">
@@ -31,9 +37,10 @@
         <header>
             <nav class="navbar navbar-expand-md custom-navbar box-shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        <img src="~/download_logo.png" alt="Logo" />
-                    </a>
+                    <div class="navbar-brand d-flex align-items-center gap-2">
+                        <img src="~/download_logo.png" style="height: 40px; width: auto;" alt="Logo" />
+                        <span class="brand-title">Cheesey Corner</span>
+                    </div>
 
                     <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarThemeCollapse" style="filter: invert(1);">
                         <span class="navbar-toggler-icon"></span>
@@ -45,6 +52,15 @@
                                 <i id="themeIcon" class="fa-solid fa-moon"></i>
                                 <span id="themeText">Night Mode</span>
                             </button>
+
+                            <!-- Logout Button in Top Bar -->
+                            <form asp-controller="Home" asp-action="Logout" method="post" class="m-0 p-0">
+                                <button class="theme-toggle-btn" type="submit">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -71,49 +87,20 @@
 
                     <div class="sidebar-nav-container">
                         <ul id="waiterSidebarMenu">
-                            <li data-menu="Dashboard">
-                                <a href="/Waiter/Dashboard">
+                            <li data-menu="Menu">
+                                <a href="/Waiter/Menu">
                                     <i class="fa-solid fa-house"></i>
-                                    <span class="sidebar-text">Dashboard</span>
+                                    <span class="sidebar-text">Menu</span>
                                 </a>
                             </li>
                             <li data-menu="TableReservation">
-                                <a href="/Waiter/TableReservation">
+                                <a href="/Waiter/OrderMonitoring">
                                     <i class="fa-solid fa-chair"></i>
-                                    <span class="sidebar-text">Table Reservation</span>
-                                </a>
-                            </li>
-                            <li data-menu="TakeOrder">
-                                <a href="/Waiter/TakeOrder">
-                                    <i class="fa-solid fa-chair"></i>
-                                    <span class="sidebar-text">Take Order</span>
-                                </a>
-                            </li>
-                            <li data-menu="ManageOrders">
-                                <a href="/Waiter/ManageOrders">
-                                    <i class="fa-solid fa-clipboard-list"></i>
-                                    <span class="sidebar-text">Manage Orders</span>
-                                </a>
-                            </li>
-                            <li data-menu="OrderStatus">
-                                <a href="/Waiter/OrderStatus">
-                                    <i class="fa-solid fa-truck"></i>
-                                    <span class="sidebar-text">Order Status</span>
+                                    <span class="sidebar-text">Order Monitoring</span>
                                 </a>
                             </li>
                         </ul>
-                    </div>
-                </div>
-
-                <div class="sidebar-nav-container">
-                    <ul>
-                        <li class="logout-item" style="border-top: 1px solid var(--border-color); padding-top: 15px; margin: 6px 12px;">
-                            <a asp-controller="Employee" asp-action="Login">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                <span class="sidebar-text">Logout</span>
-                            </a>
-                        </li>
-                    </ul>
+                    </div>          
                 </div>
             </aside>
 
@@ -127,7 +114,7 @@
 
         <footer class="full-width-footer text-center">
             <div class="w-100 py-2">
-                &copy; 2026 - RMSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                &copy; 2026 - Cheesey Corner - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </div>
         </footer>
 

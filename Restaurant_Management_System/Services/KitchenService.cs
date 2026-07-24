@@ -18,9 +18,12 @@ namespace Restaurant_Management_System.Services
         {
             _context = context;
         }
+
+        // Get Recipe for Viewing in readonly mode
         public async Task<AddRecipeViewModel?> GetRecipeAsync(int menuItemId)
         {
             var menuItem = await _context.MenuItems
+                .AsNoTracking()
                 .Include(m => m.ItemRecipes)
                     .ThenInclude(ir => ir.Ingredient)
                 .FirstOrDefaultAsync(m => m.MenuItemId == menuItemId);
@@ -51,7 +54,7 @@ namespace Restaurant_Management_System.Services
                     .ToList(),
 
                 Units = menuItem.ItemRecipes
-                    .Select(r => r.Ingredient.UnitOfMeasure)
+                    .Select(r => r.UnitOfMeasure)
                     .ToList(),
 
                 IsReadOnly = true
@@ -59,6 +62,8 @@ namespace Restaurant_Management_System.Services
 
             return model;
         }
+
+        // Get Recipe for Editing
 
         public async Task<AddRecipeViewModel?> GetEditRecipeAsync(int menuItemId)
         {
@@ -93,7 +98,7 @@ namespace Restaurant_Management_System.Services
                     .ToList(),
 
                 Units = menuItem.ItemRecipes
-                    .Select(r => r.Ingredient.UnitOfMeasure)
+                    .Select(r => r.UnitOfMeasure)
                     .ToList(),
 
                 IsReadOnly = false,
@@ -103,6 +108,7 @@ namespace Restaurant_Management_System.Services
             return model;
         }
 
+        //Add recipe and saves ingredients
         public async Task<bool> AddRecipeAsync(AddRecipeViewModel model)
         {
             var menuItem = await _context.MenuItems.FindAsync(model.MenuItemId);
@@ -141,6 +147,8 @@ namespace Restaurant_Management_System.Services
             return true;
         }
 
+        //Retrieves existing and pending recipes for management view based on the provided tab parameter
+
         public async Task<RecipeManagementViewModel> GetRecipeManagementAsync(string tab)
         {
             var vm = new RecipeManagementViewModel();
@@ -157,6 +165,8 @@ namespace Restaurant_Management_System.Services
 
             return vm;
         }
+
+        //Retrives the menu Item to add the recipe
 
         public async Task<AddRecipeViewModel?> GetAddRecipeAsync(int id)
         {
@@ -180,11 +190,12 @@ namespace Restaurant_Management_System.Services
             return model;
         }
 
+        //Retrives order details ,counts and applies filters for order management
 
         public async Task<OrderManagementViewModel> GetOrderManagementAsync(
-    TicketStatus? status,
-    string? search,
-    bool delayed)
+                        TicketStatus? status,
+                        string? search,
+                        bool delayed)
         {
             var vm = new OrderManagementViewModel();
 
@@ -318,6 +329,7 @@ namespace Restaurant_Management_System.Services
 
                     if (ingredient == null)
                         continue;
+                    
 
                     decimal convertedQuantity = ConvertToIngredientUnit(
                         recipe.Quantity,
@@ -345,7 +357,9 @@ namespace Restaurant_Management_System.Services
             return true;
         }
 
+        //converts the recipe ingredient quantity to the ingredients stored unit
 
+        
         private decimal ConvertToIngredientUnit(decimal quantity, UnitOfMeasure recipeUnit, UnitOfMeasure ingredientUnit)
         {
             if (recipeUnit == ingredientUnit)
@@ -369,9 +383,11 @@ namespace Restaurant_Management_System.Services
             if (recipeUnit == UnitOfMeasure.P && ingredientUnit == UnitOfMeasure.P)
                 return quantity;
 
-            throw new Exception("Unsupported unit conversion.");
+            throw new Exception(
+    $"Unsupported conversion: Recipe={recipeUnit} ({(int)recipeUnit}), Ingredient={ingredientUnit} ({(int)ingredientUnit})");
         }
 
+        //retieves all items in th especific order
         public async Task<List<OrderItem>> GetViewItemsAsync(int orderId)
         {
             return await _context.OrderItems
