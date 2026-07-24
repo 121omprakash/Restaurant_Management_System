@@ -61,7 +61,7 @@
             {
                 @foreach (var item in Model)
                 {
-                    var statusCss = item.ItemStatus == ItemStatus.AVAILABLE ? "available" : "unavailable";
+                    var statusCss = item.ItemStatus == ItemStatus.AVAILABLE? "available": item.ItemStatus == ItemStatus.OUT_OF_STOCK? "out-of-stock": "retired";
                     var displayImage = !string.IsNullOrEmpty(item.ImagePath)
                                        ? item.ImagePath
                                        : Url.Content("~/images/default-food.png");

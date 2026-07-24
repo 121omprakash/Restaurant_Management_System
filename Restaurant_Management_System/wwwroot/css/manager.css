@@ -131,7 +131,14 @@ body {
     background: #dff5df;
     color: #1b7a28;
 }
-
+.out-of-stock {
+    background-color: yellow;
+    color: var(--text-main);
+}
+.retired {
+    background-color:red;
+    color: var(--text-main);
+}
 /* =========================================
    ACTION BUTTONS
 ========================================= */
