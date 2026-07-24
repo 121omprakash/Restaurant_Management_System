@@ -62,8 +62,8 @@
                 @foreach (var item in Model)
                 {
                     var statusCss = item.ItemStatus == ItemStatus.AVAILABLE ? "available" : "unavailable";
-                    var displayImage = !string.IsNullOrEmpty(item.ImagePath) 
-                                       ? item.ImagePath 
+                    var displayImage = !string.IsNullOrEmpty(item.ImagePath)
+                                       ? item.ImagePath
                                        : Url.Content("~/images/default-food.png");
 
                     <tr data-category="@item.Category">
@@ -76,7 +76,8 @@
                         <td>
                             <span class="status @statusCss">@item.ItemStatus</span>
                         </td>
-                        <td>
+                        <!-- Action buttons side-by-side using inline flex display -->
+                        <td style="display: flex; gap: 8px; align-items: center;">
                             <a asp-action="MenuView" asp-route-id="@item.MenuItemId" class="view-btn">View</a>
                             <a asp-action="MenuEdit" asp-route-id="@item.MenuItemId" class="edit-btn">Edit</a>
                         </td>
