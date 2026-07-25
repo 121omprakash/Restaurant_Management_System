@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Restaurant_Management_System.Data;
 using Restaurant_Management_System.Models;
 using Restaurant_Management_System.ViewModel;
@@ -9,11 +10,13 @@ namespace Restaurant_Management_System.Services
     {
         private readonly rmsDbContext _context;
         private readonly ILogger<AdminService> _logger;
+        private readonly IPasswordHasher<Employee> _passwordHasher;
 
-        public AdminService(rmsDbContext context, ILogger<AdminService> logger)
+        public AdminService(rmsDbContext context, ILogger<AdminService> logger, IPasswordHasher<Employee> passwordHasher)
         {
             _context = context;
             _logger = logger;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<AdminDashboardViewModel> GetEmployeeDashboardDataAsync()
@@ -35,13 +38,30 @@ namespace Restaurant_Management_System.Services
         {
             try
             {
-                // 1. Only one administrator account is allowed
+                // 1. Auto-create Admin if no Admin exists in the system yet
+                if (!await _context.Employees.AnyAsync(e => e.Role == "Admin" || e.EmpId == "AD01"))
+                {
+                    var defaultAdmin = new Employee
+                    {
+                        Name = "Shaik",
+                        EmpId = "AD01",
+                        Role = "Admin",
+                        IsActive = true
+                    };
+                    defaultAdmin.password = _passwordHasher.HashPassword(defaultAdmin, "AD01@123");
+
+                    _context.Employees.Add(defaultAdmin);
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Default Admin (AD01) created automatically.");
+                }
+
+                // 2. Prevent creating a SECOND Admin account
                 if (employee.Role == "Admin" && await _context.Employees.AnyAsync(e => e.Role == "Admin"))
                 {
                     return (false, "Error: An Administrator account already exists.");
                 }
 
-                // 2. Exact prefix mapping matching seed data
+                // 3. Exact prefix mapping matching seed data
                 string prefix = employee.Role switch
                 {
                     "Admin" => "AD",
@@ -53,13 +73,13 @@ namespace Restaurant_Management_System.Services
                     _ => "ST"
                 };
 
-                // 3. Get all existing IDs starting with this prefix
+                // 4. Get all existing IDs starting with this prefix
                 var existingEmpIds = await _context.Employees
                     .Where(e => e.EmpId.StartsWith(prefix))
                     .Select(e => e.EmpId)
                     .ToListAsync();
 
-                // 4. Find highest numeric value
+                // 5. Find highest numeric value
                 int maxNumber = 0;
                 foreach (var id in existingEmpIds)
                 {
@@ -76,17 +96,17 @@ namespace Restaurant_Management_System.Services
                     }
                 }
 
-                // 5. Generate next unique ID
+                // 6. Generate next unique ID
                 string empId = $"{prefix}{(maxNumber + 1):D2}";
 
                 var newEmployee = new Employee
                 {
                     Name = employee.Name,
-                    password = employee.Password,
                     Role = employee.Role,
                     EmpId = empId,
                     IsActive = true
                 };
+                newEmployee.password = _passwordHasher.HashPassword(newEmployee, employee.Password);
 
                 _context.Employees.Add(newEmployee);
                 await _context.SaveChangesAsync();
@@ -137,8 +157,9 @@ namespace Restaurant_Management_System.Services
 
                 if (!string.IsNullOrWhiteSpace(updatedEmployee.Password))
                 {
-                    employee.password = updatedEmployee.Password;
+                    employee.password = _passwordHasher.HashPassword(employee, updatedEmployee.Password);
                 }
+            
 
                 await _context.SaveChangesAsync();
                 return (true, "Employee updated successfully.");

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant_Management_System.Data;
 
@@ -11,9 +12,11 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-    partial class rmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260724165303_RemoveSeededEmp")]
+    partial class RemoveSeededEmp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("BillInvoices", (string)null);
+                    b.ToTable("BillInvoices");
 
                     b.HasData(
                         new
@@ -127,7 +130,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasIndex("TableNumber");
 
-                    b.ToTable("CustomerOrders", (string)null);
+                    b.ToTable("CustomerOrders");
 
                     b.HasData(
                         new
@@ -200,7 +203,7 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("EmpId")
                         .IsUnique();
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.Ingredient", b =>
@@ -235,7 +238,7 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("IngredientName")
                         .IsUnique();
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
 
                     b.HasData(
                         new
@@ -761,7 +764,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasIndex("MenuItemId");
 
-                    b.ToTable("ItemRecipes", (string)null);
+                    b.ToTable("ItemRecipes");
 
                     b.HasData(
                         new
@@ -863,7 +866,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("KitchenTickets", (string)null);
+                    b.ToTable("KitchenTickets");
 
                     b.HasData(
                         new
@@ -937,7 +940,7 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("ItemName")
                         .IsUnique();
 
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("MenuItems");
 
                     b.HasData(
                         new
@@ -1028,7 +1031,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
 
                     b.HasData(
                         new
@@ -1114,7 +1117,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RestaurantProfiles", (string)null);
+                    b.ToTable("RestaurantProfiles");
 
                     b.HasData(
                         new
@@ -1141,7 +1144,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasKey("TableNumber");
 
-                    b.ToTable("RestaurantTables", (string)null);
+                    b.ToTable("RestaurantTables");
 
                     b.HasData(
                         new

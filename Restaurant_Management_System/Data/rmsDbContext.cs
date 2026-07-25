@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Restaurant_Management_System.Models;
-using Restaurant_Management_System.ENUM;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Identity.Client;
+using Restaurant_Management_System.ENUM;
+using Restaurant_Management_System.Models;
 
 namespace Restaurant_Management_System.Data
 {
@@ -63,19 +64,7 @@ namespace Restaurant_Management_System.Data
             modelBuilder.Entity<MenuItem>()
                 .HasIndex(m => m.ItemName)
                 .IsUnique();
-
-
-
-            // Data Seeding for the User table using explicit primary keys (Id)
-            modelBuilder.Entity<Employee>().HasData(
-                new Employee { Id = 1, Name = "Shaik", EmpId = "AD01", password = "AD01@123", Role = "Admin", IsActive= true}, // Admin
-                new Employee { Id = 2, Name = "Sai", EmpId = "CH01", password = "CH01@123", Role = "Chef", IsActive = true }, // Chef
-                new Employee { Id = 3, Name = "Satya", EmpId = "MN01", password = "MN01@123", Role = "Manager", IsActive = true }, // Manager
-                new Employee { Id = 4, Name = "Anusha", EmpId = "WA01", password = "WA01@123", Role = "Waiter", IsActive = true }, // Waiter
-                new Employee { Id = 5, Name = "Om Prakash", EmpId = "CS01", password = "CS01@123", Role = "Cashier" , IsActive = true }, // Cashier
-                new Employee { Id = 6, Name = "Rishab", EmpId = "IC01", password = "IC01@123", Role = "Inventory Clerk" , IsActive = true }  // Inventory Clerk
-            );
-
+            
 
             // 2. Data Seeding for the Global System Settings Table
             modelBuilder.Entity<RestaurantProfile>().HasData(
@@ -284,5 +273,3 @@ namespace Restaurant_Management_System.Data
         }
     }
 }   
-
-      
