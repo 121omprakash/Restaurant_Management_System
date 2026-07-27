@@ -18,9 +18,9 @@ namespace Restaurant_Management_System.Models
         public decimal Price { get; set; }
 
         [ForeignKey(nameof(OrderId))]
-        public CustomerOrder CustomerOrder { get; set; } = null!;
+        public CustomerOrder? CustomerOrder { get; set; }
 
         [ForeignKey(nameof(MenuItemId))]
-        public MenuItem MenuItem { get; set; } = null!;
+        public MenuItem? MenuItem { get; set; }
     }
 }

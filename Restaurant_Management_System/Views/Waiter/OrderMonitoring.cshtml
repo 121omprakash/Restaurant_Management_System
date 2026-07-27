@@ -1,44 +1,50 @@
-﻿@model Restaurant_Management_System.ViewModel.WaiterOrderMonitoringViewModel
+﻿@using System.Linq
+@model Restaurant_Management_System.ViewModel.WaiterOrderMonitoringViewModel
 
 @{
     ViewData["Title"] = "Order Monitoring";
     Layout = "~/Views/Shared/_WaiterLayout.cshtml";
 }
 
-
 <div class="container-fluid">
 
     <h3 class="mb-4">Order Monitoring</h3>
 
-    <!-- Cards -->
+    <!-- Filter Cards -->
     <div class="row mb-4">
 
-        <div class="col-md-4">
-            <button class="card w-100 shadow-sm border-0 order-card"
-                    onclick="showDeployedOrders()">
+        <div class="col-md-3">
+            <button class="card w-100 shadow-sm border-0 order-card bg-light" onclick="filterOrders('ALL')">
                 <div class="card-body text-center">
-                    <h5>Delayed Orders</h5>
-                    <h2>@Model.DeployedOrderCount</h2>
+                    <h5>All Orders</h5>
+                    <h2>@((Model?.DeployedOrderCount ?? 0) + (Model?.DelayedOrderCount ?? 0) + (Model?.ServedOrderCount ?? 0))</h2>
                 </div>
             </button>
         </div>
 
-        <div class="col-md-4">
-            <button class="card w-100 shadow-sm border-0 order-card"
-                    onclick="showDelayedOrders()">
+        <div class="col-md-3">
+            <button class="card w-100 shadow-sm border-0 order-card" onclick="filterOrders('IN_PROGRESS')">
+                <div class="card-body text-center">
+                    <h5>In-Progress</h5>
+                    <h2>@(Model?.DeployedOrderCount ?? 0)</h2>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-md-3">
+            <button class="card w-100 shadow-sm border-0 order-card" onclick="filterOrders('READY')">
                 <div class="card-body text-center">
                     <h5>Ready Orders</h5>
-                    <h2>@Model.DelayedOrderCount</h2>
+                    <h2>@(Model?.DelayedOrderCount ?? 0)</h2>
                 </div>
             </button>
         </div>
 
-        <div class="col-md-4">
-            <button class="card w-100 shadow-sm border-0 order-card"
-                    onclick="showServedOrders()">
+        <div class="col-md-3">
+            <button class="card w-100 shadow-sm border-0 order-card" onclick="filterOrders('SERVED')">
                 <div class="card-body text-center">
                     <h5>Today's Served</h5>
-                    <h2>@Model.ServedOrderCount</h2>
+                    <h2>@(Model?.ServedOrderCount ?? 0)</h2>
                 </div>
             </button>
         </div>
@@ -49,7 +55,7 @@
     <div class="card shadow-sm border-0">
 
         <div class="card-header">
-            <h5 class="mb-0">Orders</h5>
+            <h5 class="mb-0">Orders List</h5>
         </div>
 
         <div class="card-body">
@@ -57,35 +63,63 @@
             <table class="table table-hover align-middle">
 
                 <thead class="table-dark">
-
                     <tr>
                         <th>Order ID</th>
                         <th>Table No</th>
                         <th>Customer</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
-
                 </thead>
 
                 <tbody id="ordersTableBody">
                     @{
-                        var all = Model.DeployedOrders.Concat(Model.DelayedOrders);
+                        var allOrders = new List<Restaurant_Management_System.ViewModel.WaiterOrderMonitoringItemViewModel>();
+
+                        if (Model?.DeployedOrders != null) { allOrders.AddRange(Model.DeployedOrders); }
+                        if (Model?.DelayedOrders != null) { allOrders.AddRange(Model.DelayedOrders); }
+                        if (Model?.ServedOrders != null) { allOrders.AddRange(Model.ServedOrders); }
                     }
-                    @foreach (var o in all)
+
+                    @foreach (var o in allOrders)
                     {
-                        <tr>
-                            <td>@o.OrderId</td>
-                            <td>@o.TableNumber</td>
-                            <td>@o.CustomerName</td>
-                            <td>@o.Status</td>
+                        <tr class="order-row" data-status="@(o?.Status ?? "")">
+                            <td>#@(o?.OrderId)</td>
+                            <td>@(string.IsNullOrEmpty(o?.TableNumber) ? "N/A" : o.TableNumber)</td>
+                            <td>@(string.IsNullOrEmpty(o?.CustomerName) ? "Guest" : o.CustomerName)</td>
                             <td>
-                                @if (o.Status == "READY")
+                                @if (o?.Status == "READY")
+                                {
+                                    <span class="badge bg-success">READY</span>
+                                }
+                                else if (o?.Status == "IN_PROGRESS")
+                                {
+                                    <span class="badge bg-warning text-dark">IN PROGRESS</span>
+                                }
+                                else if (o?.Status == "SERVED")
+                                {
+                                    <span class="badge bg-primary">SERVED</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info">@(o?.Status ?? "-")</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (o?.Status == "READY")
                                 {
                                     <form asp-action="MarkServed" method="post" style="display:inline">
                                         <input type="hidden" name="ticketId" value="@o.KitchenTicketId" />
                                         <button type="submit" class="btn btn-sm btn-success">Mark Served</button>
                                     </form>
+                                }
+                                else if (o?.Status == "IN_PROGRESS")
+                                {
+                                    <span class="badge bg-secondary">Cooking...</span>
+                                }
+                                else if (o?.Status == "SERVED")
+                                {
+                                    <span class="text-success fw-bold">✓ Completed</span>
                                 }
                                 else
                                 {
@@ -103,17 +137,17 @@
     </div>
 
 </div>
+
 <script>
+    function filterOrders(status) {
+        const rows = document.querySelectorAll('.order-row');
 
-    function showDeployedOrders() {
-        document.getElementById("ordersSection").style.display = "block";
-    }
-
-    function showDelayedOrders() {
-        document.getElementById("ordersSection").style.display = "block";
-    }
-
-    function showServedOrders() {
-        document.getElementById("ordersSection").style.display = "block";
+        rows.forEach(row => {
+            if (status === 'ALL' || row.getAttribute('data-status') === status) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
     }
 </script>
