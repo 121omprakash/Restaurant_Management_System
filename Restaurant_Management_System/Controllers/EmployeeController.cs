@@ -1,15 +1,18 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant_Management_System.Data;
+using Restaurant_Management_System.Models;
 using Restaurant_Management_System.ViewModel;
 using System.Linq;
 
 public class EmployeeController : Controller
 {
     private readonly rmsDbContext _context;
-
-    public EmployeeController(rmsDbContext context)
+    private readonly IPasswordHasher<Employee> _passwordHasher;
+    public EmployeeController(rmsDbContext context, IPasswordHasher<Employee> passwordHasher)
     {
         _context = context;
+        _passwordHasher = passwordHasher;
     }
 
     [HttpGet]
@@ -34,7 +37,7 @@ public class EmployeeController : Controller
         // 1. Fetch the user directly from the database safely
         // SQL handles string matching perfectly. Passwords remain case-sensitive here.
         var user = _context.Employees
-            .FirstOrDefault(u => u.EmpId.ToLower() == cleanUserId.ToLower() && u.password == cleanPassword);
+                    .FirstOrDefault(u => u.EmpId.ToLower() == cleanUserId.ToLower());
 
         // 2. If no matching user record is returned, throw the error banner
         if (user == null)
@@ -43,37 +46,49 @@ public class EmployeeController : Controller
             return View();
         }
 
-        // 3. Match against the User's Role property and route to the correct role controller
-        string role = user.Role;
+        // 3. Verify hashed password
+        var passwordResult = _passwordHasher.VerifyHashedPassword(user, user.password, cleanPassword);
 
-        if (role == "Admin" && user.IsActive)
+        if (passwordResult == PasswordVerificationResult.Failed)
         {
-            return RedirectToAction("Employees", "Admin");
-        }
-        else if (role == "Chef" && user.IsActive)
-        {
-            // Fixed: Routes to ChefController matching your role-based folder structure
-            return RedirectToAction("OrderManagement", "Kitchen");
-        }
-        else if (role == "Manager" && user.IsActive && user.IsActive)
-        {
-            return RedirectToAction("Dashboard", "Manager");
-        }
-        else if (role == "Waiter" && user.IsActive)
-        {
-            return RedirectToAction("Menu", "Waiter");
-        }
-        else if (role == "Cashier" && user.IsActive)
-        {
-            return RedirectToAction("Index", "Billing");
-        }
-        else if (role == "Inventory Clerk" && user.IsActive)
-        {
-            return RedirectToAction("Dashboard", "Inventory");
+            ViewBag.Error = "Invalid User ID or Password.";
+            return View();
         }
 
-        // Fallback safety route if a user role isn't recognized
-        ViewBag.Error = "Role not authorized on this terminal.";
-        return View();
+        // 4. Check if employee profile is active
+        if (!user.IsActive)
+        {
+            ViewBag.Error = "Your account is deactivated. Please contact your administrator.";
+            return View();
+        }
+
+        // 5. Route to correct controller based on Role
+        switch (user.Role)
+        {
+            case "Admin":
+                return RedirectToAction("Employees", "Admin");
+
+            case "Chef":
+                return RedirectToAction("OrderManagement", "Kitchen");
+
+            case "Manager":
+                return RedirectToAction("Dashboard", "Manager");
+
+            case "Waiter":
+                return RedirectToAction("Menu", "Waiter");
+
+            case "Cashier":
+                return RedirectToAction("Index", "Billing");
+
+            case "Inventory Clerk":
+                return RedirectToAction("Dashboard", "Inventory");
+
+            default:
+                ViewBag.Error = "Role not authorized on this terminal.";
+                return View();
+        }
+
+
+
     }
 }
