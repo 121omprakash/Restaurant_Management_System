@@ -27,7 +27,7 @@ namespace Restaurant_Management_System.ViewModel
         public decimal TotalAmount { get; set; }
     }
 
-    // ALIASES for legacy class references
-    public class OrderMonitoringViewModel : WaiterOrderMonitoringViewModel { }
-    public class OrderMonitoringItemViewModel : WaiterOrderMonitoringItemViewModel { }
+    //// ALIASES for legacy class references
+    //public class OrderMonitoringViewModel : WaiterOrderMonitoringViewModel { }
+    //public class OrderMonitoringItemViewModel : WaiterOrderMonitoringItemViewModel { }
 }
