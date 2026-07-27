@@ -7,8 +7,8 @@ namespace Restaurant_Management_System.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [StringLength(4)]
-        public string TableNumber { get; set; } = null!;
+        [StringLength(50)]
+        public string TableNumber { get; set; } = string.Empty;
 
         public bool IsOccupied { get; set; }
 

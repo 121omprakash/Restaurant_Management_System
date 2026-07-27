@@ -9,28 +9,27 @@ namespace Restaurant_Management_System.Models
         [Key]
         public int OrderId { get; set; }
 
-        public string TableNumber { get; set; } = null!;
+        [StringLength(50)]
+        public string? TableNumber { get; set; }
 
-        [Required]
-        public string CustomerName { get; set; } = null!;
+        [StringLength(100)]
+        public string? CustomerName { get; set; }
 
-        [Required]
         public OrderType OrderType { get; set; }
 
-        [Required]
         public DateTime OrderTime { get; set; }
 
         public OrderStatus OrderStatus { get; set; }
 
         [ForeignKey(nameof(TableNumber))]
-        public RestaurantTable TableStatus { get; set; } = null!;
+        public RestaurantTable? TableStatus { get; set; }
 
         public ICollection<OrderItem> OrderItems { get; set; }
             = new List<OrderItem>();
 
         public ICollection<KitchenTicket> KitchenTickets { get; set; }
             = new List<KitchenTicket>();
-         
+
         public BillInvoice? BillInvoice { get; set; }
     }
 }

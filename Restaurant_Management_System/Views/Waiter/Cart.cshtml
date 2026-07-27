@@ -1,0 +1,280 @@
+﻿@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<style>
+    /* Styling for Order Type & Table Cards */
+    .order-type-btn {
+        flex: 1;
+        padding: 10px;
+        border: 2px solid #ccc;
+        background-color: #fff;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+    }
+
+        .order-type-btn.active {
+            border-color: #e05326;
+            background-color: #e05326;
+            color: white;
+        }
+
+    .table-card {
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        border: 2px solid #ddd;
+        background-color: #fff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+        .table-card.available:hover {
+            border-color: #198754;
+        }
+
+        .table-card.selected {
+            border-color: #198754 !important;
+            background-color: #d1e7dd !important;
+        }
+
+        .table-card.occupied {
+            background-color: #f8d7da;
+            border-color: #f5c2c7;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+</style>
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0 p-4" style="background-color: #f7f3ed; border-radius: 12px;">
+        <h2 class="fw-bold mb-4">Order Cart</h2>
+
+        <div id="cartItemsContainer">
+            <p class="text-muted">No items added to cart yet.</p>
+        </div>
+
+        <hr />
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="fw-bold text-success">Total: ₹<span id="cartTotal">0</span></h3>
+        </div>
+
+        <button id="btnPlaceOrder" class="btn text-white w-100 mt-4 py-2 fw-bold" style="background-color: #e05326; font-size: 1.2rem;" onclick="openOrderModal()" disabled>
+            Place Order
+        </button>
+    </div>
+</div>
+
+<!-- COMPLETE ORDER MODAL POPUP -->
+<div class="modal fade" id="completeOrderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="background-color: #f7f3ed; border-radius: 15px;">
+            <div class="modal-header border-0 pb-0">
+                <h4 class="modal-title fw-bold">Complete Order</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Order Type Buttons -->
+                <label class="fw-bold mb-2">Order Type *</label>
+                <div class="d-flex gap-2 mb-3">
+                    <button class="order-type-btn active" id="btnDineIn" type="button" onclick="selectOrderType('DineIn')">Dine-In</button>
+                    <button class="order-type-btn" id="btnTakeaway" type="button" onclick="selectOrderType('Takeaway')">Takeaway</button>
+                    <button class="order-type-btn" id="btnDelivery" type="button" onclick="selectOrderType('Delivery')">Delivery</button>
+                </div>
+
+                <!-- Customer Name -->
+                <div class="mb-3">
+                    <label class="fw-bold mb-1">Customer Name *</label>
+                    <input type="text" id="custName" class="form-control" placeholder="Enter guest name" required />
+                </div>
+
+                <!-- Table Selection Grid -->
+                <div id="tableSelectionSection">
+                    <label class="fw-bold mb-2">Select Available Table *</label>
+                    <div id="dynamicTableGrid" class="row g-2" style="max-height: 280px; overflow-y: auto;">
+                        <!-- 12 tables will render here via JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background-color: #e05326;" onclick="submitOrder()">Confirm Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let cart = JSON.parse(localStorage.getItem('waiterCart')) || [];
+        let selectedOrderType = 'DineIn';
+        let selectedTableName = '';
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            const placeOrderBtn = document.getElementById('btnPlaceOrder');
+            const totalElement = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-muted">No items added to cart yet.</p>';
+                totalElement.innerText = '0';
+                placeOrderBtn.disabled = true;
+                return;
+            }
+
+            placeOrderBtn.disabled = false;
+            let total = 0;
+            let html = '<div class="table-responsive"><table class="table align-middle"><tbody>';
+
+            cart.forEach((item, index) => {
+                let subtotal = item.price * item.quantity;
+                total += subtotal;
+
+                html += `
+                            <tr>
+                                <td class="fw-bold">${item.name}</td>
+                                <td>₹${item.price}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button class="btn btn-sm btn-outline-secondary px-2" onclick="updateQuantity(${index}, -1)">-</button>
+                                        <span class="fw-bold">${item.quantity}</span>
+                                        <button class="btn btn-sm btn-outline-secondary px-2" onclick="updateQuantity(${index}, 1)">+</button>
+                                    </div>
+                                </td>
+                                <td class="fw-bold text-danger">₹${subtotal}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-danger border-0" onclick="removeItem(${index})">
+                                        🗑️ Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+            });
+
+            html += '</tbody></table></div>';
+            container.innerHTML = html;
+            totalElement.innerText = total;
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            localStorage.setItem('waiterCart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('waiterCart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function openOrderModal() {
+            if (cart.length === 0) return;
+            selectedTableName = ''; // Clear selection on reopen
+            fetchTables();
+
+            const modal = new bootstrap.Modal(document.getElementById('completeOrderModal'));
+            modal.show();
+        }
+
+        function fetchTables() {
+            fetch('/Waiter/GetTables')
+                .then(res => res.json())
+                .then(tables => {
+                    const grid = document.getElementById('dynamicTableGrid');
+                    grid.innerHTML = '';
+
+                    tables.forEach(table => {
+                        const isOccupied = table.status.toLowerCase() === 'occupied';
+                        const cardClass = isOccupied ? 'table-card occupied' : 'table-card available';
+                        const clickHandler = isOccupied ? '' : `onclick="selectTable('${table.name}', this)"`;
+
+                        grid.innerHTML += `
+                                    <div class="col-3">
+                                        <div class="${cardClass}" ${clickHandler}>
+                                            <div class="fw-bold">${table.name}</div>
+                                            <small>${table.status}</small>
+                                        </div>
+                                    </div>
+                                `;
+                    });
+                })
+                .catch(err => console.error('Error fetching tables:', err));
+        }
+
+        function selectOrderType(type) {
+            selectedOrderType = type;
+            document.querySelectorAll('.order-type-btn').forEach(btn => btn.classList.remove('active'));
+
+            if (type === 'DineIn') {
+                document.getElementById('btnDineIn').classList.add('active');
+                document.getElementById('tableSelectionSection').style.display = 'block';
+            } else {
+                if (type === 'Takeaway') document.getElementById('btnTakeaway').classList.add('active');
+                if (type === 'Delivery') document.getElementById('btnDelivery').classList.add('active');
+                document.getElementById('tableSelectionSection').style.display = 'none';
+                selectedTableName = '';
+            }
+        }
+
+        function selectTable(tableName, el) {
+            document.querySelectorAll('.table-card').forEach(card => card.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTableName = tableName;
+        }
+
+        function submitOrder() {
+            const customerName = document.getElementById('custName').value.trim();
+
+            if (!customerName) {
+                alert('Please enter customer name.');
+                return;
+            }
+
+            if (selectedOrderType === 'DineIn' && !selectedTableName) {
+                alert('Please select an available table for Dine-In order.');
+                return;
+            }
+
+            const orderPayload = {
+                CustomerName: customerName,
+                OrderType: selectedOrderType,
+                TableName: selectedTableName,
+                TotalAmount: parseFloat(document.getElementById('cartTotal').innerText),
+                Items: cart.map(item => ({
+                    MenuItemId: item.id,
+                    Quantity: item.quantity,
+                    UnitPrice: item.price
+                }))
+            };
+
+            fetch('/Waiter/PlaceOrder', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderPayload)
+            })
+                .then(async response => {
+                    const data = await response.json();
+                    if (response.ok && data.success) {
+                        alert(`Order placed successfully for ${selectedOrderType === 'DineIn' ? selectedTableName : 'Takeaway/Delivery'}!`);
+                        localStorage.removeItem('waiterCart');
+                        window.location.href = '/Waiter/Menu';
+                    } else {
+                        alert(`Failed to place order: ${data.message || 'Server error'}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while connecting to the server.');
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+}

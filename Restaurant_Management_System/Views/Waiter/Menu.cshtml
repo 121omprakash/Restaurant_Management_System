@@ -52,7 +52,7 @@
                             <button class="btn btn-outline-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#modal_@item.MenuItemId">
                                 View Details
                             </button>
-                            <button class="btn btn-warning w-100" disabled="@(!isAvailable)" onclick="addToCart(@item.MenuItemId,'@item.ItemName',@item.Price)">
+                            <button class="btn btn-warning w-100" disabled="@(!isAvailable)" onclick="addToCart(@item.MenuItemId, '@item.ItemName', @item.Price)">
                                 Add To Cart
                             </button>
                         </div>
@@ -114,7 +114,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-warning" disabled="@(!isAvailable)">
+                            <button class="btn btn-warning" disabled="@(!isAvailable)" onclick="addToCart(@item.MenuItemId, '@item.ItemName', @item.Price)">
                                 Add To Cart
                             </button>
                             <button class="btn btn-secondary" data-bs-dismiss="modal">
@@ -127,3 +127,45 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Load cart state from browser LocalStorage
+        let cart = JSON.parse(localStorage.getItem('waiterCart')) || [];
+
+        function addToCart(itemId, itemName, price) {
+            // Find existing item in local storage cart
+            let existingItem = cart.find(i => i.id === itemId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: itemId,
+                    name: itemName,
+                    price: price,
+                    quantity: 1
+                });
+            }
+
+            // Save updated cart back to LocalStorage
+            localStorage.setItem('waiterCart', JSON.stringify(cart));
+
+            // UI Feedback
+            alert(`${itemName} added to cart!`);
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            // Calculates total number of items across all quantities
+            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let badge = document.getElementById('cartBadgeCount');
+            if (badge) {
+                badge.innerText = totalItems;
+            }
+        }
+
+        // Initialize cart badge when page is loaded
+        document.addEventListener("DOMContentLoaded", updateCartBadge);
+    </script>
+}
