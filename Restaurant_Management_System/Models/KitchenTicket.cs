@@ -19,7 +19,7 @@ namespace Restaurant_Management_System.Models
         public string? AssignedChef { get; set; }
 
         public DateTime? StartTime { get; set; }
-
+           
         public DateTime? CompletionTime { get; set; }
 
         public TicketStatus TicketStatus { get; set; }

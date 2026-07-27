@@ -126,14 +126,16 @@ namespace Restaurant_Management_System.Controllers
 
 
 
-        public async Task<IActionResult> ViewRecipe(int menuItemId)
+        public async Task<IActionResult> ViewRecipe(int menuItemId, string? returnTo)
         {
             var model = await _kitchenService.GetRecipeAsync(menuItemId);
+           
 
             if (model == null)
             {
                 return NotFound();
             }
+            model.ReturnTo = returnTo;
 
             ViewBag.Ingredients = _context.Ingredients.ToList();
             ViewBag.Units = Enum.GetValues(typeof(UnitOfMeasure))

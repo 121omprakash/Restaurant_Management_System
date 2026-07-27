@@ -8,13 +8,12 @@
     ViewData["Title"] = "Add Recipe";
     Layout = "~/Views/Shared/_ChefLayout.cshtml";
 }    
-<form asp-action="AddRecipe" asp-controller="Kitchen" method="post">
+<form asp-action="AddRecipe" asp-controller="Kitchen" method="post">   
   <input asp-for="MenuItemId" type="hidden"/>
 <div class="container mt-4">
 
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">@(Model.IsReadOnly ? "View Recipe" :Model.IsEdit ? "Edit Recipe" : "Add Recipe")</h3>
+        <div class="card-header bg-primary text   <h3 class="mb-0">@(Model.IsReadOnly ? "View Recipe" :Model.IsEdit ? "Edit Recipe" : "Add Recipe")</h3>
         </div>
 
         <div class="card-body">
@@ -227,9 +226,22 @@ else
                 </button>
                 }
 
-                <a asp-action="RecipeManagement" class="btn btn-secondary">
-                   @(Model.IsReadOnly ? "Back" : "Cancel")
-                </a>
+                    @if (Model.IsReadOnly)
+                    {
+                        if (Model.ReturnTo == "OrderManagement")
+                        {
+                            <a asp-action="OrderManagement" class="btn btn-secondary">Back</a>
+                        }
+                        else
+                        {
+                            <a asp-action="RecipeManagement" class="btn btn-secondary">Back</a>
+                        }
+                    }
+                    else
+                    {
+                        <a asp-action="RecipeManagement" class="btn btn-secondary">Cancel</a>
+                    }
+
             </div>
 
         </div>
