@@ -160,6 +160,8 @@ namespace Restaurant_Management_System.Controllers
                 {
                     OrderId = order.OrderId,
                     TotalAmount = dto.TotalAmount,
+                    TaxAmount = dto.TotalAmount * 0.825m,
+                    TipAmount = 0,
                     PaymentStatus = PaymentStatus.PENDING
                 };
 
@@ -263,6 +265,7 @@ namespace Restaurant_Management_System.Controllers
         public string OrderType { get; set; } = string.Empty;
         public string TableName { get; set; } = string.Empty;
         public decimal TotalAmount { get; set; }
+
         public List<PlaceOrderItemDto> Items { get; set; } = new();
     }
 

@@ -3,16 +3,16 @@ using Restaurant_Management_System.Data;
 using Restaurant_Management_System.ENUM;
 using Restaurant_Management_System.Models;
 using Restaurant_Management_System.ViewModel;
-
+using Microsoft.AspNetCore.Hosting;
 namespace Restaurant_Management_System.Services
 {
     public class ManagerService : IManagerService
     {
         private readonly rmsDbContext _context;
-        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly ILogger<ManagerService> _logger;
 
-        public ManagerService(rmsDbContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, ILogger<ManagerService> logger)
+        public ManagerService(rmsDbContext context, IWebHostEnvironment env, ILogger<ManagerService> logger)
         {
             _context = context;
             _env = env;
