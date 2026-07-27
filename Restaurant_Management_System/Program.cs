@@ -26,10 +26,13 @@ builder.Services.AddScoped<IPasswordHasher<Employee>, PasswordHasher<Employee>>(
 //    });
 //builder.Services.AddAuthorization();
 
-////added for authentication and authorization
 builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IInventory, InventoryService>();
 builder.Services.AddScoped<IKitchenService, KitchenService>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -11,9 +11,8 @@ namespace Restaurant_Management_System.Models
 
         public int OrderId { get; set; }
 
-        [Required]
         [StringLength(50)]
-        public string Station { get; set; } = null!;
+        public string? Station { get; set; }
 
         [StringLength(100)]
         public string? AssignedChef { get; set; }
