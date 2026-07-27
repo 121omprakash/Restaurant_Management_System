@@ -11,7 +11,7 @@ namespace Restaurant_Management_System.ViewModel
         public decimal TotalRevenueToday { get; set; }
 
         public string ActiveTab { get; set; } = "ALL";
-        
+
         // This list will hold the orders we show in the dashboard table
         public List<CustomerOrder> ActiveOrders { get; set; } = new List<CustomerOrder>();
 
