@@ -27,5 +27,7 @@ namespace Restaurant_Management_System.Models.ViewModels
         public bool IsReadOnly { get; set; }
 
         public bool IsEdit {  get; set; }
+
+        public string? ReturnTo { get; set; }
     }
 }
