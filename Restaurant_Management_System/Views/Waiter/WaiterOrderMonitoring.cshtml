@@ -1,0 +1,264 @@
+﻿@model Restaurant_Management_System.ViewModel.WaiterOrderMonitoringViewModel
+
+@{
+    ViewData["Title"] = "Order Monitoring";
+    Layout = "~/Views/Shared/_WaiterLayout.cshtml";
+}
+
+<style>
+    :root {
+        --theme-orange: #d96226;
+        --theme-orange-light: #fbebe3;
+        --bg-cream: #fbf8f3;
+    }
+
+    body {
+        background-color: var(--bg-cream);
+    }
+
+    .order-card {
+        border-radius: 12px !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: #ffffff;
+        cursor: pointer;
+    }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.08) !important;
+        }
+
+        .order-card.active-card {
+            border: 2px solid var(--theme-orange) !important;
+        }
+
+    .badge-table {
+        background-color: var(--theme-orange-light);
+        color: var(--theme-orange);
+        font-weight: 700;
+        padding: 5px 10px;
+        border-radius: 6px;
+    }
+
+    .badge-status {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.82rem;
+    }
+
+    .btn-serve {
+        background-color: #28a745;
+        color: white;
+        font-weight: 600;
+        border-radius: 6px;
+        border: none;
+        padding: 5px 14px;
+        transition: background-color 0.2s;
+    }
+
+        .btn-serve:hover {
+            background-color: #218838;
+            color: white;
+        }
+</style>
+
+<div class="container-fluid px-4 py-3">
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h3 class="fw-bold m-0 text-dark">Order Monitoring</h3>
+            <p class="text-muted small mb-0">Click on any card to filter orders by status</p>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <button class="card w-100 shadow-sm border-0 order-card text-start p-3" id="cardInKitchen" onclick="filterOrders('IN_PROGRESS')">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-uppercase text-muted fw-semibold small">In Kitchen</span>
+                        <h2 class="fw-bold my-1 text-warning">@Model.DeployedOrderCount</h2>
+                        <span class="small text-muted"><i class="bi bi-clock-history"></i> Cooking in progress</span>
+                    </div>
+                    <div class="rounded-circle p-3 bg-warning bg-opacity-10 text-warning">
+                        <i class="bi bi-hourglass-split fs-3"></i>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-md-4">
+            <button class="card w-100 shadow-sm border-0 order-card text-start p-3 active-card" id="cardReady" onclick="filterOrders('READY')">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-uppercase text-muted fw-semibold small">Ready Orders</span>
+                        <h2 class="fw-bold my-1 text-primary">@Model.DelayedOrderCount</h2>
+                        <span class="small text-muted"><i class="bi bi-bell"></i> Waiting to be served</span>
+                    </div>
+                    <div class="rounded-circle p-3 bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-bag-check-fill fs-3"></i>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-md-4">
+            <button class="card w-100 shadow-sm border-0 order-card text-start p-3" id="cardServed" onclick="filterOrders('SERVED')">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-uppercase text-muted fw-semibold small">Today's Served</span>
+                        <h2 class="fw-bold my-1 text-success">@Model.ServedOrderCount</h2>
+                        <span class="small text-muted"><i class="bi bi-check2-circle"></i> Completed orders</span>
+                    </div>
+                    <div class="rounded-circle p-3 bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-check2-all fs-3"></i>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Table Container -->
+    <div class="card shadow-sm border-0 rounded-3" id="ordersSection">
+
+        <div class="card-header bg-white border-bottom py-3 d-flex align-items-center justify-content-between">
+            <h5 class="mb-0 fw-bold text-dark" id="tableHeaderTitle">Orders List</h5>
+            <button class="btn btn-sm btn-outline-secondary" onclick="filterOrders('ALL')">Show All</button>
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+                        <tr class="text-uppercase small text-muted">
+                            <th class="ps-4">Order ID</th>
+                            <th>Table No</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="ordersTableBody">
+                        @{
+                            var allOrders = Model.DeployedOrders
+                                .Concat(Model.DelayedOrders)
+                                .Concat(Model.ServedOrders ?? new List<Restaurant_Management_System.ViewModel.WaiterOrderMonitoringItemViewModel>());
+                        }
+
+                        @foreach (var o in allOrders)
+                        {
+                            <tr class="order-row" data-status="@o.Status">
+                                <td class="ps-4 fw-semibold text-dark">#@o.OrderId</td>
+                                <td><span class="badge-table">Table @o.TableNumber</span></td>
+                                <td class="fw-semibold">@o.CustomerName</td>
+                                <td>
+                                    @if (o.Status == "READY")
+                                    {
+                                        <span class="badge bg-primary bg-opacity-10 text-primary badge-status">
+                                            <i class="bi bi-bell-fill me-1"></i> READY
+                                        </span>
+                                    }
+                                    else if (o.Status == "IN_PROGRESS")
+                                    {
+                                        <span class="badge bg-warning bg-opacity-10 text-dark badge-status">
+                                            <i class="bi bi-hourglass-split me-1"></i> COOKING
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success bg-opacity-10 text-success badge-status">
+                                            <i class="bi bi-check-lg me-1"></i> SERVED
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    @if (o.Status == "READY")
+                                    {
+                                        <form asp-action="MarkServed" method="post" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="ticketId" value="@o.KitchenTicketId" />
+                                            <button type="submit" class="btn btn-serve shadow-sm">
+                                                <i class="bi bi-check-lg me-1"></i> Mark Served
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">-</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div id="noOrdersMessage" class="text-center py-4 text-muted d-none">
+                <i class="bi bi-inbox fs-3 d-block mb-1"></i>
+                <span>No orders found for this category.</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // Filtering logic when clicking top cards
+    function filterOrders(status) {
+        const rows = document.querySelectorAll('.order-row');
+        const cards = document.querySelectorAll('.order-card');
+        const noOrdersMsg = document.getElementById('noOrdersMessage');
+        const tableHeaderTitle = document.getElementById('tableHeaderTitle');
+        let visibleCount = 0;
+
+        // Remove active outline from cards
+        cards.forEach(c => c.classList.remove('active-card'));
+
+        // Highlight active card & set title
+        if (status === 'IN_PROGRESS') {
+            document.getElementById('cardInKitchen').classList.add('active-card');
+            tableHeaderTitle.innerText = "In Kitchen Orders";
+        } else if (status === 'READY') {
+            document.getElementById('cardReady').classList.add('active-card');
+            tableHeaderTitle.innerText = "Ready to Serve Orders";
+        } else if (status === 'SERVED') {
+            document.getElementById('cardServed').classList.add('active-card');
+            tableHeaderTitle.innerText = "Served Orders Today";
+        } else {
+            tableHeaderTitle.innerText = "All Orders";
+        }
+
+        // Show/Hide rows
+        rows.forEach(row => {
+            const rowStatus = row.getAttribute('data-status');
+            if (status === 'ALL' || rowStatus === status) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Show empty message if 0 rows matched
+        if (visibleCount === 0) {
+            noOrdersMsg.classList.remove('d-none');
+        } else {
+            noOrdersMsg.classList.add('d-none');
+        }
+    }
+
+    // Default filter to "READY" on load so waiters see actionable orders first
+    document.addEventListener("DOMContentLoaded", function () {
+        filterOrders('READY');
+    });
+</script>

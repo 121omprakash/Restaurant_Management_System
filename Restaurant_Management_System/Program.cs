@@ -12,6 +12,9 @@ builder.Services.AddDbContext<rmsDbContext>(options => options.UseSqlServer(conn
 
 
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IBillingService, BillingService>();
+builder.Services.AddScoped<IInventory, InventoryService>();
+builder.Services.AddScoped<IKitchenService, KitchenService>();
 
 //added for authentication and authorization
 
