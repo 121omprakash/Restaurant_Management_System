@@ -27,6 +27,7 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IInventory, InventoryService>();
 builder.Services.AddScoped<IKitchenService, KitchenService>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
