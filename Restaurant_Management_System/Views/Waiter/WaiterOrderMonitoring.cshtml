@@ -189,6 +189,16 @@
                                             </button>
                                         </form>
                                     }
+                                    else if (o.Status == "SERVED")
+                                    {
+                                        <form asp-action="DeleteOrder" method="post" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="ticketId" value="@o.KitchenTicketId" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm" onclick="return confirm('Are you sure you want to remove this order and free up the table?');">
+                                                <i class="bi bi-trash me-1"></i> Remove
+                                            </button>
+                                        </form>
+                                    }
                                     else
                                     {
                                         <span class="text-muted small">-</span>
@@ -258,7 +268,7 @@
     }
 
     // Default filter to "READY" on load so waiters see actionable orders first
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         filterOrders('READY');
     });
 </script>

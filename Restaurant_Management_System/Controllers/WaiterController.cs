@@ -73,27 +73,36 @@ namespace Restaurant_Management_System.Controllers
             // 1. Ensure Table 1 through Table 12 exist in the foreign key table
             SeedRestaurantTablesIfMissing();
 
-            // 2. Fetch occupied tables from active orders where kitchen tickets aren't SERVED yet
-            var occupiedTableNumbers = _context.CustomerOrders
-                .Where(o => !string.IsNullOrEmpty(o.TableNumber) &&
-                            o.KitchenTickets.Any(k => k.TicketStatus != TicketStatus.SERVED))
-                .Select(o => o.TableNumber!)
-                .Distinct()
+            // 2. Fetch occupied tables from active orders where kitchen tickets exist in DB
+            var activeOrdersWithTables = _context.CustomerOrders
+                .Where(o => !string.IsNullOrEmpty(o.TableNumber))
+                .Select(o => o.TableNumber)
                 .ToList();
+
+            // Extract table number digits reliably regardless of format (e.g. "Table 1", "Table T08", "Table Table 2")
+            int ExtractTableNum(string? input)
+            {
+                if (string.IsNullOrWhiteSpace(input)) return 0;
+                var digits = new string(input.Where(char.IsDigit).ToArray());
+                return int.TryParse(digits, out int num) ? num : 0;
+            }
+
+            var occupiedTableNumbers = activeOrdersWithTables
+                .Select(ExtractTableNum)
+                .Where(num => num > 0)
+                .ToHashSet();
 
             var tablesList = new List<object>();
 
             // 3. Generate status response for all 12 tables
             for (int i = 1; i <= 12; i++)
             {
-                string tableName = $"Table {i}";
-                bool isOccupied = occupiedTableNumbers.Any(t =>
-                    t.Equals(tableName, StringComparison.OrdinalIgnoreCase));
+                bool isOccupied = occupiedTableNumbers.Contains(i);
 
                 tablesList.Add(new
                 {
                     Id = i,
-                    Name = tableName,
+                    Name = $"Table {i}",
                     Status = isOccupied ? "Occupied" : "Available"
                 });
             }
@@ -124,7 +133,10 @@ namespace Restaurant_Management_System.Controllers
                     {
                         return Json(new { success = false, message = "Please select a table for Dine-In orders." });
                     }
-                    tableNumber = dto.TableName;
+
+                    // Format table name to standard "Table X" format
+                    var digits = new string(dto.TableName.Where(char.IsDigit).ToArray());
+                    tableNumber = !string.IsNullOrEmpty(digits) ? $"Table {digits}" : dto.TableName;
                 }
 
                 Enum.TryParse(dto.OrderType, true, out OrderType parsedOrderType);
@@ -219,6 +231,46 @@ namespace Restaurant_Management_System.Controllers
             if (ticket != null)
             {
                 ticket.TicketStatus = TicketStatus.SERVED;
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(OrderMonitoring));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteOrder(int ticketId)
+        {
+            var ticket = _context.KitchenTickets
+                .Include(t => t.CustomerOrder)
+                    .ThenInclude(o => o!.OrderItems)
+                .Include(t => t.CustomerOrder)
+                    .ThenInclude(o => o!.BillInvoice)
+                .FirstOrDefault(t => t.TicketId == ticketId);
+
+            if (ticket != null)
+            {
+                var customerOrder = ticket.CustomerOrder;
+
+                // 1. Remove Kitchen Ticket
+                _context.KitchenTickets.Remove(ticket);
+
+                // 2. Remove Order items, Bill, and Customer Order
+                if (customerOrder != null)
+                {
+                    if (customerOrder.BillInvoice != null)
+                    {
+                        _context.BillInvoices.Remove(customerOrder.BillInvoice);
+                    }
+
+                    if (customerOrder.OrderItems != null && customerOrder.OrderItems.Any())
+                    {
+                        _context.OrderItems.RemoveRange(customerOrder.OrderItems);
+                    }
+
+                    _context.CustomerOrders.Remove(customerOrder);
+                }
+
                 _context.SaveChanges();
             }
 
