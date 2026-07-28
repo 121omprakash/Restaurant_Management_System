@@ -15,7 +15,7 @@ namespace Restaurant_Management_System.Controllers
     {
         private readonly rmsDbContext _context;
 
-        public WaiterController(rmsDbContext context)
+        public WaiterController(rmsDbContext context) 
         {
             _context = context;
         }
@@ -151,7 +151,8 @@ namespace Restaurant_Management_System.Controllers
                     OrderItems = dto.Items.Select(item => new OrderItem
                     {
                         MenuItemId = item.MenuItemId,
-                        Quantity = item.Quantity
+                        Quantity = item.Quantity,
+                        Price = item.Price
                     }).ToList()
                 };
 
@@ -322,7 +323,7 @@ namespace Restaurant_Management_System.Controllers
     {
         public int MenuItemId { get; set; }
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
+        public decimal Price { get; set; }
     }
 
     #endregion
