@@ -1,6 +1,4 @@
-﻿/* ==========================================================================
-   1. CORE LAYOUT & THEME SETUP
-   ========================================================================== */
+﻿
 
 html, body {
     height: 100%;
@@ -35,9 +33,7 @@ html, body {
     border-bottom: 1px solid var(--border-color);
 }
 
-/* ==========================================================================
-   2. SIDEBAR CORE STRUCTURE & DYNAMIC HIGHLIGHTS
-   ========================================================================== */
+
 
 .sidebar {
     width: 260px;
@@ -172,9 +168,7 @@ html, body {
                 color: var(--accent-color, #e8611c) !important;
             }
 
-/* ==========================================================================
-   3. MAIN WORKSPACE, CARDS & CONTAINERS (THEME-AWARE)
-   ========================================================================== */
+
 
 .main-content {
     flex: 1;
@@ -261,9 +255,6 @@ html, body {
     color: var(--text-main);
 }
 
-/* ==========================================================================
-   4. PRODUCT GRID & MENU ITEMS
-   ========================================================================== */
 
 .product-grid {
     display: grid;
@@ -369,9 +360,7 @@ html, body {
         transform: translateY(-1px);
     }
 
-/* ==========================================================================
-   5. TABLES, METRICS & ORDER MONITORING (DAY/NIGHT SAFE)
-   ========================================================================== */
+
 
 .table {
     color: var(--text-main) !important;
@@ -520,9 +509,7 @@ html, body {
     box-shadow: 0 0 8px rgba(232, 97, 28, 0.5);
 }
 
-/* ==========================================================================
-   6. NIGHT MODE SPECIFIC OVERRIDES (FIXES INVISIBLE TEXT, BUTTONS & DIVIDERS)
-   ========================================================================== */
+
 
 [data-theme="dark"] .card,
 [data-theme="dark"] .card p,
@@ -583,9 +570,7 @@ html, body {
     color: #f1f5f9 !important;
 }
 
-/* ==========================================================================
-   7. FORM CONTROLS & FOOTER
-   ========================================================================== */
+
 
 .form-control-premium,
 .form-select-premium,
@@ -617,10 +602,6 @@ html, body {
         text-decoration: none;
     }
 
-
-/* ==========================
-   ORDER MONITORING DARK MODE FIX
-   ========================== */
 
 [data-theme="dark"] h3,
 [data-theme="dark"] h5,
