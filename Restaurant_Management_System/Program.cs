@@ -4,48 +4,61 @@ using Microsoft.EntityFrameworkCore;
 using Restaurant_Management_System.Data;
 using Restaurant_Management_System.Models;
 using Restaurant_Management_System.Services;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 string connectionString = builder.Configuration.GetSection("ConnectionStrings")["MyConn"];
 builder.Services.AddDbContext<rmsDbContext>(options => options.UseSqlServer(connectionString));
 
-
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IPasswordHasher<Employee>, PasswordHasher<Employee>>();
-
-//added for authentication and authorization
-
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.LoginPath = "/User/Login"; // Redirect to login page if not authenticated
-//        options.AccessDeniedPath = "/User/AccessDenied"; // Redirect to access denied page if not authorized
-//    });
-//builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IInventory, InventoryService>();
 builder.Services.AddScoped<IKitchenService, KitchenService>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 
+// Swagger Services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Restaurant Management System API",
+        Description = "Admin API endpoints"
+    });
+    // Load XML documentation comments for Swagger UI
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        options.IncludeXmlComments(xmlPath);
+    }
+    // FIX FOR 500 FETCH ERROR: Prevents Swagger from crashing on duplicate route actions
+    options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())       
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 // CLI Command: dotnet run --seed-admin <EmpId> <Password> <Name>
-// Example:     dotnet run --seed-admin AD01 AD01@123 Shaik
 if (args.Length >= 4 && args[0] == "--seed-admin")
 {
     string empId = args[1];
@@ -80,13 +93,9 @@ if (args.Length >= 4 && args[0] == "--seed-admin")
     return; // Stop app execution after creating user
 }
 
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -5,6 +5,9 @@ using Restaurant_Management_System.Models;
 using Restaurant_Management_System.ViewModel;
 using System.Linq;
 
+
+// Tell Swagger to ignore MVC Views so it doesn't crash on missing HTTP verbs
+[ApiExplorerSettings(IgnoreApi = true)]
 public class EmployeeController : Controller
 {
     private readonly rmsDbContext _context;
