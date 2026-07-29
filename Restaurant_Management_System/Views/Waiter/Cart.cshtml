@@ -4,50 +4,6 @@
 
 }
 
-<style>
-    /* Styling for Order Type & Table Cards */
-    .order-type-btn {
-        flex: 1;
-        padding: 10px;
-        border: 2px solid #ccc;
-        background-color: #fff;
-        border-radius: 8px;
-        font-weight: bold;
-        transition: all 0.2s ease;
-    }
-
-        .order-type-btn.active {
-            border-color: #e05326;
-            background-color: #e05326;
-            color: white;
-        }
-
-    .table-card {
-        padding: 12px;
-        border-radius: 8px;
-        text-align: center;
-        border: 2px solid #ddd;
-        background-color: #fff;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-        .table-card.available:hover {
-            border-color: #198754;
-        }
-
-        .table-card.selected {
-            border-color: #198754 !important;
-            background-color: #d1e7dd !important;
-        }
-
-        .table-card.occupied {
-            background-color: #f8d7da;
-            border-color: #f5c2c7;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-</style>
 
 <div class="container mt-4">
     <div class="card shadow-sm border-0 p-4" style="background-color: #f7f3ed; border-radius: 12px;">
@@ -135,24 +91,24 @@
                 total += subtotal;
 
                 html += `
-                            <tr>
-                                <td class="fw-bold">${item.name}</td>
-                                <td>₹${item.price}</td>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <button class="btn btn-sm btn-outline-secondary px-2" onclick="updateQuantity(${index}, -1)">-</button>
-                                        <span class="fw-bold">${item.quantity}</span>
-                                        <button class="btn btn-sm btn-outline-secondary px-2" onclick="updateQuantity(${index}, 1)">+</button>
-                                    </div>
-                                </td>
-                                <td class="fw-bold text-danger">₹${subtotal}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-danger border-0" onclick="removeItem(${index})">
-                                        🗑️ Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
+                                    <tr>
+                                        <td class="fw-bold">${item.name}</td>
+                                        <td>₹${item.price}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <button class="btn btn-sm btn-outline-secondary px-2" onclick="updateQuantity(${index}, -1)">-</button>
+                                                <span class="fw-bold">${item.quantity}</span>
+                                                <button class="btn btn-sm btn-outline-secondary px-2" onclick="updateQuantity(${index}, 1)">+</button>
+                                            </div>
+                                        </td>
+                                        <td class="fw-bold text-danger">₹${subtotal}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-danger border-0" onclick="removeItem(${index})">
+                                                🗑️ Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
             });
 
             html += '</tbody></table></div>';
@@ -197,13 +153,13 @@
                         const clickHandler = isOccupied ? '' : `onclick="selectTable('${table.name}', this)"`;
 
                         grid.innerHTML += `
-                                    <div class="col-3">
-                                        <div class="${cardClass}" ${clickHandler}>
-                                            <div class="fw-bold">${table.name}</div>
-                                            <small>${table.status}</small>
-                                        </div>
-                                    </div>
-                                `;
+                                            <div class="col-3">
+                                                <div class="${cardClass}" ${clickHandler}>
+                                                    <div class="fw-bold">${table.name}</div>
+                                                    <small>${table.status}</small>
+                                                </div>
+                                            </div>
+                                        `;
                     });
                 })
                 .catch(err => console.error('Error fetching tables:', err));
@@ -251,7 +207,7 @@
                 Items: cart.map(item => ({
                     MenuItemId: item.id,
                     Quantity: item.quantity,
-                    UnitPrice: item.price
+                     Price: item.price
                 }))
             };
 
