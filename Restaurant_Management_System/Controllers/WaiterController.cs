@@ -150,7 +150,7 @@ namespace Restaurant_Management_System.Controllers
                 var kitchenTicket = new KitchenTicket
                 {
                     OrderId = order.OrderId,
-                    TicketStatus = TicketStatus.IN_PROGRESS
+                    TicketStatus = TicketStatus.QUEUED
                 };
 
                 _context.KitchenTickets.Add(kitchenTicket);
