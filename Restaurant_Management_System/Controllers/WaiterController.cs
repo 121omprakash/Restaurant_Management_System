@@ -20,7 +20,7 @@ namespace Restaurant_Management_System.Controllers
             _context = context;
         }
 
-        #region Helper Method: Ensure 12 Tables Exist in DB
+  
 
         private void SeedRestaurantTablesIfMissing()
         {
@@ -42,9 +42,7 @@ namespace Restaurant_Management_System.Controllers
             _context.SaveChanges();
         }
 
-        #endregion
-
-        #region Navigation Actions
+        
 
         [HttpGet]
         public IActionResult Menu()
@@ -62,9 +60,6 @@ namespace Restaurant_Management_System.Controllers
             return View();
         }
 
-        #endregion
-
-        #region Table & Order API Actions
 
         // GET: /Waiter/GetTables
         [HttpGet]
@@ -173,8 +168,6 @@ namespace Restaurant_Management_System.Controllers
                 {
                     OrderId = order.OrderId,
                     TotalAmount = dto.TotalAmount,
-                    TaxAmount = dto.TotalAmount * 0.825m,
-                    TipAmount = 0,
                     PaymentStatus = PaymentStatus.PENDING
                 };
 
@@ -193,9 +186,7 @@ namespace Restaurant_Management_System.Controllers
             }
         }
 
-        #endregion
 
-        #region Order Monitoring Actions
 
         [HttpGet]
         public IActionResult OrderMonitoring()
@@ -278,9 +269,6 @@ namespace Restaurant_Management_System.Controllers
             return RedirectToAction(nameof(OrderMonitoring));
         }
 
-        #endregion
-
-        #region Helper Methods
 
         private List<WaiterOrderMonitoringItemViewModel> GetOrdersByStatus(TicketStatus ticketStatus, string statusString)
         {
@@ -307,10 +295,9 @@ namespace Restaurant_Management_System.Controllers
                 }).ToList();
         }
 
-        #endregion
     }
 
-    #region DTOs
+
 
     public class PlaceOrderDto
     {
@@ -318,7 +305,6 @@ namespace Restaurant_Management_System.Controllers
         public string OrderType { get; set; } = string.Empty;
         public string TableName { get; set; } = string.Empty;
         public decimal TotalAmount { get; set; }
-
         public List<PlaceOrderItemDto> Items { get; set; } = new();
     }
 
@@ -329,5 +315,5 @@ namespace Restaurant_Management_System.Controllers
         public decimal Price { get; set; }
     }
 
-    #endregion
+
 }
