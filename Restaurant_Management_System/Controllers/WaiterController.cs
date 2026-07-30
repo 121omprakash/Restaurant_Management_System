@@ -155,10 +155,15 @@ namespace Restaurant_Management_System.Controllers
                 _context.SaveChanges(); // Generates OrderId
 
                 // 3. Create Kitchen Ticket
+                var chef = _context.Employees.Where(e => e.Role == "Chef" & e.IsActive).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
                 var kitchenTicket = new KitchenTicket
                 {
                     OrderId = order.OrderId,
-                    TicketStatus = TicketStatus.QUEUED
+                    TicketStatus = TicketStatus.QUEUED,
+
+                    AssignedChef = chef?.Name,
+                    StartTime = DateTime.Now
+
                 };
 
                 _context.KitchenTickets.Add(kitchenTicket);
