@@ -168,6 +168,9 @@ namespace Restaurant_Management_System.Controllers
                 {
                     OrderId = order.OrderId,
                     TotalAmount = dto.TotalAmount,
+                    TaxAmount = dto.TotalAmount * 0.05m,
+                    TipAmount = 0,
+                    SubtotalAmount = dto.TotalAmount + dto.TotalAmount * 0.05m,
                     PaymentStatus = PaymentStatus.PENDING
                 };
 
