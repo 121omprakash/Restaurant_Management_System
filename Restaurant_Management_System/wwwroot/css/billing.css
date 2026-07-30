@@ -1,5 +1,5 @@
-﻿
-   /* 1. Core Unified Theme Architecture */
+﻿﻿
+/* 1. Core Unified Theme Architecture */
 :root {
     --bg-primary: #12141c;
     --bg-card: #1e2130;
@@ -149,7 +149,7 @@ body {
     min-width: 0;
 }
 
-.reset_filter{
+.reset_filter {
     color: var(--text-main);
     border: solid 1px red;
 }

@@ -11,15 +11,14 @@ namespace Restaurant_Management_System.Models
 
         public int OrderId { get; set; }
 
-        [Required]
         [StringLength(50)]
-        public string Station { get; set; } = null!;
+        public string? Station { get; set; }
 
         [StringLength(100)]
         public string? AssignedChef { get; set; }
 
         public DateTime? StartTime { get; set; }
-
+           
         public DateTime? CompletionTime { get; set; }
 
         public TicketStatus TicketStatus { get; set; }

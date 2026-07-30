@@ -78,6 +78,7 @@
                                      <div class="action-icons">
                                         <a asp-action="ViewRecipe"
                                            asp-route-menuItemId="@item.MenuItemId"
+                                             asp-route-returnTo="RecipeManagement"
                                            class="view-icon"
                                            title="View">
                                             <i class="bi bi-eye-fill"></i>
@@ -85,6 +86,7 @@
  
                                         <a asp-action="EditRecipe"
                                            asp-route-menuItemId="@item.MenuItemId"
+                                           asp-route-returnTo="RecipeManagement"
                                            class="edit-icon"
                                            title="Edit">
                                             <i class="bi bi-pencil-fill"></i>
@@ -132,7 +134,7 @@
     @section Scripts
     {
             <partial name="_ValidationScriptsPartial" />
-            <script src = "~/js/kitchen.js" asp - append - version="true" ></script>
+            <script src = "~/js/kitchen.js" asp - append -version="true" ></script>
     }
 
 

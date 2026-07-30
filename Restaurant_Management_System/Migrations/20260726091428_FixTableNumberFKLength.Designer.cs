@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant_Management_System.Data;
 
@@ -11,9 +12,11 @@ using Restaurant_Management_System.Data;
 namespace Restaurant_Management_System.Migrations
 {
     [DbContext(typeof(rmsDbContext))]
-    partial class rmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260726091428_FixTableNumberFKLength")]
+    partial class FixTableNumberFKLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("BillInvoices", (string)null);
+                    b.ToTable("BillInvoices");
 
                     b.HasData(
                         new
@@ -127,7 +130,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasIndex("TableNumber");
 
-                    b.ToTable("CustomerOrders", (string)null);
+                    b.ToTable("CustomerOrders");
 
                     b.HasData(
                         new
@@ -200,7 +203,63 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("EmpId")
                         .IsUnique();
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EmpId = "AD01",
+                            IsActive = true,
+                            Name = "Shaik",
+                            Role = "Admin",
+                            password = "AD01@123"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EmpId = "CH01",
+                            IsActive = true,
+                            Name = "Sai",
+                            Role = "Chef",
+                            password = "CH01@123"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EmpId = "MN01",
+                            IsActive = true,
+                            Name = "Satya",
+                            Role = "Manager",
+                            password = "MN01@123"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            EmpId = "WA01",
+                            IsActive = true,
+                            Name = "Anusha",
+                            Role = "Waiter",
+                            password = "WA01@123"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            EmpId = "CS01",
+                            IsActive = true,
+                            Name = "Om Prakash",
+                            Role = "Cashier",
+                            password = "CS01@123"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            EmpId = "IC01",
+                            IsActive = true,
+                            Name = "Rishab",
+                            Role = "Inventory Clerk",
+                            password = "IC01@123"
+                        });
                 });
 
             modelBuilder.Entity("Restaurant_Management_System.Models.Ingredient", b =>
@@ -235,7 +294,7 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("IngredientName")
                         .IsUnique();
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
 
                     b.HasData(
                         new
@@ -761,7 +820,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasIndex("MenuItemId");
 
-                    b.ToTable("ItemRecipes", (string)null);
+                    b.ToTable("ItemRecipes");
 
                     b.HasData(
                         new
@@ -862,7 +921,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("KitchenTickets", (string)null);
+                    b.ToTable("KitchenTickets");
 
                     b.HasData(
                         new
@@ -936,7 +995,7 @@ namespace Restaurant_Management_System.Migrations
                     b.HasIndex("ItemName")
                         .IsUnique();
 
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("MenuItems");
 
                     b.HasData(
                         new
@@ -1027,7 +1086,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
 
                     b.HasData(
                         new
@@ -1113,7 +1172,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RestaurantProfiles", (string)null);
+                    b.ToTable("RestaurantProfiles");
 
                     b.HasData(
                         new
@@ -1140,7 +1199,7 @@ namespace Restaurant_Management_System.Migrations
 
                     b.HasKey("TableNumber");
 
-                    b.ToTable("RestaurantTables", (string)null);
+                    b.ToTable("RestaurantTables");
 
                     b.HasData(
                         new

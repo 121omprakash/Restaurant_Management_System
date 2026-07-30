@@ -20,7 +20,7 @@ namespace Restaurant_Management_System.Services
         {
             CashierDashboardViewModel dashboardData = new CashierDashboardViewModel();
 
-            dashboardData.PendingBillsCount = 
+            dashboardData.PendingBillsCount =
                 _context.BillInvoices.Count(b =>
                  b.PaymentStatus == PaymentStatus.PENDING);
 

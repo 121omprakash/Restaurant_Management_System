@@ -8,22 +8,33 @@
 
 <div class="inventory-container">
 
+    <div class="inventory-header" style="margin-bottom: 20px;">
+        <h2 style="color: #fff; font-weight: 600;">Inventory Management</h2>
+    </div>
+
     <div class="inventory-toolbar">
 
-        <div class="inventory-search-wrapper">
+        <!-- Simplified Form using standard GET submission -->
+        <form method="get" asp-controller="Manager" asp-action="Inventory" class="inventory-search-wrapper" style="position: relative; display: flex; align-items: center;">
 
-            <i class="bi bi-search inventory-search-icon"></i>
+            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                <i class="bi bi-search inventory-search-icon"></i>
+            </button>
 
-            <!-- Connected search input to form/controller query -->
-            <form method="get" asp-action="Inventory">
-                <input type="text"
-                       name="search"
-                       value="@Model.SearchTerm"
-                       placeholder="Search inventory items..."
-                       class="inventory-search" />
-            </form>
+            <input type="text"
+                   name="search"
+                   value="@Model.SearchTerm"
+                   placeholder="Search inventory items..."
+                   class="inventory-search"
+                   autocomplete="off" />
 
-        </div>
+            @if (!string.IsNullOrEmpty(Model.SearchTerm))
+            {
+                <a asp-controller="Manager" asp-action="Inventory" style="color: #888; text-decoration: none; margin-left: -25px; z-index: 10;">
+                    <i class="bi bi-x-circle-fill"></i>
+                </a>
+            }
+        </form>
 
     </div>
 
@@ -42,59 +53,62 @@
             </thead>
 
             <tbody>
+                @if (Model.Items != null && Model.Items.Any())
+                {
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>
+                                <div class="inventory-item-name">
+                                    @item.IngredientName
+                                </div>
+                            </td>
 
-                @foreach (var item in Model.Items)
+                            <td>
+                                @item.UnitOfMeasure
+                            </td>
+
+                            <td>
+                                @item.CurrentStock
+                            </td>
+
+                            <td>
+                                @if (item.StockStatus == StockStatus.LOW)
+                                {
+                                    <span class="inventory-status status-low">
+                                        Low Stock
+                                    </span>
+                                }
+                                else if (item.StockStatus == StockStatus.OUT_OF_STOCK)
+                                {
+                                    <span class="inventory-status status-out">
+                                        Out Of Stock
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inventory-status status-available">
+                                        Available
+                                    </span>
+                                }
+                            </td>
+
+                            <td class="inventory-actions">
+                                <i class="bi bi-eye"></i>
+                                <i class="bi bi-pencil"></i>
+                                <i class="bi bi-trash"></i>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-
-                        <td>
-                            <div class="inventory-item-name">
-                                @item.IngredientName
-                            </div>
+                        <td colspan="5" style="text-align: center; padding: 20px; color: #888;">
+                            No inventory items found matching "@Model.SearchTerm".
                         </td>
-
-                        <td>
-                            @item.UnitOfMeasure
-                        </td>
-
-                        <td>
-                            @item.CurrentStock
-                        </td>
-
-                        <td>
-
-                            @if (item.StockStatus == StockStatus.LOW)
-                            {
-                                <span class="inventory-status status-low">
-                                    Low Stock
-                                </span>
-                            }
-                            else if (item.StockStatus == StockStatus.OUT_OF_STOCK)
-                            {
-                                <span class="inventory-status status-out">
-                                    Out Of Stock
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="inventory-status status-available">
-                                    Available
-                                </span>
-                            }
-
-                        </td>
-
-                        <td class="inventory-actions">
-
-                            <i class="bi bi-eye"></i>
-                            <i class="bi bi-pencil"></i>
-                            <i class="bi bi-trash"></i>
-
-                        </td>
-
                     </tr>
                 }
-
             </tbody>
 
         </table>

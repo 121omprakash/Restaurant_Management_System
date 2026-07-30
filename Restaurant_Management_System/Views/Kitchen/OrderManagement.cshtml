@@ -74,8 +74,8 @@
 <div   id="ordersTable" class="table-card">
 
     <div class="table-header">
-        <h4> Order History</h4>
-        
+        <h4 id="tableHeading"> Order History</h4>
+
             <div class="table-tools">
 
                 <input type="text"
@@ -190,4 +190,53 @@
 {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/kitchen.js" asp-append-version="true"></script>
+    <script>
+        (function(){
+            function setHeading(text){
+                var el = document.getElementById('tableHeading');
+                if(el) el.textContent = text;
+            }
+
+            function mapParamsToHeading(params){
+                if(params.has('delayed') && params.get('delayed') === 'true') return 'Delayed Orders';
+                if(params.has('status')){
+                    var s = params.get('status');
+                    switch(s){
+                        case 'QUEUED': return 'Pending Orders';
+                        case 'IN_PROGRESS': return 'Preparing Orders';
+                        case 'READY': return 'Completed Orders';
+                    }
+                }
+                return 'Order History';
+            }
+
+            // On page load, read query params and set heading accordingly
+            document.addEventListener('DOMContentLoaded', function(){
+                try{
+                    var params = new URLSearchParams(window.location.search);
+                    var heading = mapParamsToHeading(params);
+                    setHeading(heading);
+                }catch(e){ /* ignore */ }
+
+                // Also attach click handlers to update heading immediately when a card is clicked
+                var cards = document.querySelectorAll('.order-card');
+                cards.forEach(function(card){
+                    card.addEventListener('click', function(){
+                        var titleEl = card.querySelector('.card-content h6');
+                        if(titleEl){
+                            // Use the card title (e.g., PREPARING ORDERS) but convert to nicer form
+                            var txt = titleEl.textContent || titleEl.innerText || '';
+                            // Normalize common titles
+                            txt = txt.trim();
+                            if(/PREPARING/i.test(txt)) setHeading('Preparing Orders');
+                            else if(/PENDING/i.test(txt)) setHeading('Pending Orders');
+                            else if(/COMPLETED|READY/i.test(txt)) setHeading('Completed Orders');
+                            else if(/DELAYED/i.test(txt)) setHeading('Delayed Orders');
+                            else setHeading(txt);
+                        }
+                    }, {capture: true});
+                });
+            });
+        })();
+    </script>
 }
