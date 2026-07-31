@@ -69,9 +69,13 @@ namespace Restaurant_Management_System.Controllers
             SeedRestaurantTablesIfMissing();
 
             // 2. Fetch occupied tables from active orders where kitchen tickets exist in DB
-            var activeOrdersWithTables = _context.CustomerOrders
-                .Where(o => !string.IsNullOrEmpty(o.TableNumber))
-                .Select(o => o.TableNumber)
+
+            var activeOrdersWithTables = _context.KitchenTickets
+                .Include(k => k.CustomerOrder)
+                .Where(k =>
+                    k.TicketStatus == TicketStatus.IN_PROGRESS ||
+                    k.TicketStatus == TicketStatus.READY)
+                .Select(k => k.CustomerOrder!.TableNumber)
                 .ToList();
 
             // Extract table number digits reliably regardless of format (e.g. "Table 1", "Table T08", "Table Table 2")
